@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/infoButton"
+        android:title="Temperature and Humidity"
+        android:icon="@drawable/ic_baseline_ac_unit_24"
+        app:showAsAction="always"
+        />
+
+
+    <item
+        android:id="@+id/warnings"
+        android:title="Warnings"
+        android:icon="@drawable/ic_baseline_warnings"
+        app:showAsAction="always"
+        ></item>
+
+
+</menu>

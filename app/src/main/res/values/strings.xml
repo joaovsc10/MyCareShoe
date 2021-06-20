@@ -1,0 +1,41 @@
+<resources>
+    <string name="app_name">My Care Shoe</string>
+    <!-- Login -->
+    <string name="prompt_email">Username or e-mail</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Login</string>
+    <string name="action_sign_in_short">Login</string>
+    <string name="action_forgot_pass">Forgot password?</string>
+    <string name="action_create_account">Create a new account</string>
+    <string name="smarthealth_title">SMART-HEALTH-4-ALL</string>
+    <string name="smarthealth_subtitle">SMART MEDICAL TECHNOLOGIES FOR BETTER HEALTH AND CARE</string>
+    <string name="welcome">"Welcome "</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be not null</string>
+    <string name="login_failed">Login failed</string>
+
+    <!-- Sidebar -->
+    <string name="monitorization_en">Monitorization</string>
+    <string name="statistics_en">Statistics</string>
+    <string name="settings_en">Settings</string>
+    <string name="privacy_en">Privacy policy</string>
+    <string name="about_en">About</string>
+    <string name="logout_en">Log Out</string>
+    <string name="navigations_drawer_open">Open navigation drawer</string>
+    <string name="navigations_drawer_close">Close navigation drawer</string>
+
+    <!-- Monitorization -->
+    <string name="pace_en">Pace</string>
+    <string name="steps_en">Steps</string>
+    <string name="cadence_en">Cadence</string>
+    <string name="time_en">Time</string>
+    <string name="stanceTime_en">Stance Time</string>
+
+    <!-- Warnings -->
+    <string name="warningTitle_en">Warnings</string>
+    <string name="emptyMessage_en">There are no warnings to display.</string>
+
+    <!-- Settings -->
+
+    <string name="bluetooth_en">Bluetooth</string>
+</resources>
