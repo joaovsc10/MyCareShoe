@@ -43,7 +43,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button loginButton;
     private ProgressBar loadingProgressBar;
 
-    String URL= "http://192.168.0.106/mycareshoe/index.php";
+    String URL= "http://192.168.0.113/mycareshoe/index.php";
 
 
     @Override
