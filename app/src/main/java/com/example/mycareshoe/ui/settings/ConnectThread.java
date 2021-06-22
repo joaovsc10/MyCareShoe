@@ -33,6 +33,9 @@ public class ConnectThread extends Thread {
             } catch (IOException closeException) { }
             return;
         }
+
+        ConnectedThread mConnectedThread = new ConnectedThread(mmSocket);
+        mConnectedThread.start();
     }
 
     public void cancel() {
