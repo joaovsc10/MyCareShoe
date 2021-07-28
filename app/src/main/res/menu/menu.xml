@@ -14,6 +14,11 @@
         android:icon="@drawable/ic_baseline_stats"/>
 
     <item
+        android:title="@string/personalInfo_en"
+        android:id="@+id/personalInfo"
+        android:icon="@drawable/ic_baseline_account_box_24"/>
+
+        <item
         android:title="@string/settings_en"
         android:id="@+id/settings"
         android:icon="@drawable/ic_baseline_settings"/>

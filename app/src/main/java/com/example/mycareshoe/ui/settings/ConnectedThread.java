@@ -1,8 +1,12 @@
 package com.example.mycareshoe.ui.settings;
 
+import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothSocket;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
+import android.util.Log;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,6 +17,8 @@ public class ConnectedThread extends Thread {
     private final InputStream mmInStream;
     private final OutputStream mmOutStream;
     public ConnectedThread(BluetoothSocket socket) {
+
+        Log.d("String Key", "the value you want to see");
         mmSocket = socket;
         InputStream tmpIn = null;
         OutputStream tmpOut = null;
@@ -29,6 +35,7 @@ public class ConnectedThread extends Thread {
         int bytes = 0;
         while (true) {
             try {
+                Log.d("String Key", "the value you want to see");
                 bytes += mmInStream.read(buffer, bytes, buffer.length - bytes);
                 for(int i = begin; i < bytes; i++) {
                     if(buffer[i] == "#".getBytes()[0]) {
@@ -56,9 +63,10 @@ public class ConnectedThread extends Thread {
         } catch (IOException e) { }
     }
 
-    Handler mHandler = new Handler() {
+    Handler mHandler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(Message msg) {
+
             byte[] writeBuf = (byte[]) msg.obj;
             int begin = (int)msg.arg1;
             int end = (int)msg.arg2;
@@ -69,7 +77,10 @@ public class ConnectedThread extends Thread {
                     writeMessage = writeMessage.substring(begin, end);
                     break;
             }
+
         }
     };
+
+
 
 }

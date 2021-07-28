@@ -191,11 +191,10 @@ public class BluetoothFragment extends Fragment {
                 Toast.makeText(getActivity(), leftDevice, Toast.LENGTH_SHORT).show();
                 ConnectThread mConnectThread = new ConnectThread(leftFootDevice, bAdapter);
                 mConnectThread.start();
-
             }
         });
 
-   //
+
 
 
 

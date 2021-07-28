@@ -2,6 +2,7 @@ package com.example.mycareshoe.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -15,6 +16,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.example.mycareshoe.R;
 import com.example.mycareshoe.ui.login.LoginActivity;
 import com.example.mycareshoe.ui.monitoring.MonitoringFragment;
+import com.example.mycareshoe.ui.personalInfo.PersonalInfoFragment;
 import com.example.mycareshoe.ui.settings.SettingsFragment;
 import com.google.android.material.navigation.NavigationView;
 
@@ -69,6 +71,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.about:
                setTitle(R.string.about_en);
+                break;
+            case R.id.personalInfo:
+                getSupportFragmentManager().beginTransaction().hide(new MonitoringFragment()).replace(R.id.fragment_container, new PersonalInfoFragment()).commit();
+                setTitle(R.string.personalInfo_en);
                 break;
             case R.id.logout:
                 Intent intent = new Intent(this, LoginActivity.class);

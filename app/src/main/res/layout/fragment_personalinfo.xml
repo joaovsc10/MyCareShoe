@@ -1,0 +1,423 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#26957F">
+
+
+    <EditText
+        android:id="@+id/patientNumber"
+        android:layout_width="137dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:ems="10"
+        android:focusable="false"
+        android:hint="@string/patientNumber_en"
+        android:inputType="number"
+        android:longClickable="false"
+        android:maxLength="9"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/name" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:src="@drawable/ic_baseline_account_box_24"
+        app:layout_constraintBottom_toBottomOf="@+id/name"
+        app:layout_constraintEnd_toStartOf="@+id/name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/name" />
+
+    <EditText
+        android:id="@+id/name"
+        android:layout_width="305dp"
+        android:layout_height="43dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="64dp"
+        android:ems="10"
+        android:focusable="false"
+        android:hint="@string/name_en"
+        android:longClickable="false"
+        app:layout_constraintStart_toEndOf="@+id/imageView2"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/genderText"
+        android:layout_width="48dp"
+        android:layout_height="22dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="28dp"
+        android:gravity="center_horizontal"
+        android:text="@string/gender_en"
+        android:textAlignment="textStart"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/spinnerGender"
+        app:layout_constraintStart_toStartOf="@+id/spinnerGender"
+        app:layout_constraintTop_toBottomOf="@+id/name" />
+
+
+    <TextView
+        android:id="@+id/nameText"
+        android:layout_width="48dp"
+        android:layout_height="22dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="42dp"
+        android:gravity="center_horizontal"
+        android:text="@string/name_en"
+        android:textAlignment="textStart"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/name"
+        app:layout_constraintStart_toStartOf="@+id/name"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/patientNumberText"
+        android:layout_width="105dp"
+        android:layout_height="21dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="29dp"
+        android:gravity="center_horizontal"
+        android:text="@string/patientNumber_en"
+        android:textAlignment="textStart"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/patientNumber"
+        app:layout_constraintStart_toStartOf="@+id/patientNumber"
+        app:layout_constraintTop_toBottomOf="@+id/name" />
+
+    <TextView
+        android:id="@+id/diabetes"
+        android:layout_width="48dp"
+        android:layout_height="22dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="28dp"
+        android:gravity="center_horizontal"
+        android:text="@string/diabetes_en"
+        android:textAlignment="textStart"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/spinnerDiabetes"
+        app:layout_constraintStart_toStartOf="@+id/spinnerDiabetes"
+        app:layout_constraintTop_toBottomOf="@+id/height" />
+
+    <TextView
+        android:id="@+id/feetType"
+        android:layout_width="61dp"
+        android:layout_height="17dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="33dp"
+        android:gravity="center_horizontal"
+        android:text="@string/feetType_en"
+        android:textAlignment="textStart"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/spinnerFeetType"
+        app:layout_constraintStart_toStartOf="@+id/spinnerFeetType"
+        app:layout_constraintTop_toBottomOf="@+id/feetSize" />
+
+    <Spinner
+        android:id="@+id/spinnerGender"
+        android:layout_width="118dp"
+        android:layout_height="41dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="50dp"
+        android:background="@android:drawable/btn_dropdown"
+        android:spinnerMode="dropdown"
+        app:layout_constraintStart_toEndOf="@+id/imageView4"
+        app:layout_constraintTop_toBottomOf="@+id/name" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:src="@drawable/ic_baseline_wc_24"
+        app:layout_constraintBottom_toBottomOf="@+id/spinnerGender"
+        app:layout_constraintEnd_toStartOf="@+id/spinnerGender"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/spinnerGender" />
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="21dp"
+        android:layout_marginLeft="21dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:src="@drawable/ic_baseline_local_hospital_24"
+        app:layout_constraintBottom_toBottomOf="@+id/patientNumber"
+        app:layout_constraintEnd_toStartOf="@+id/patientNumber"
+        app:layout_constraintStart_toEndOf="@+id/spinnerGender"
+        app:layout_constraintTop_toTopOf="@+id/patientNumber" />
+
+    <EditText
+        android:id="@+id/birthdate"
+        android:layout_width="137dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="50dp"
+        android:ems="10"
+        android:focusable="false"
+        android:hint="@string/birth_en"
+        android:inputType="number"
+        android:longClickable="false"
+        android:maxLength="9"
+        app:layout_constraintStart_toEndOf="@+id/imageView10"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerFeetType" />
+
+    <ImageView
+        android:id="@+id/imageView10"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:src="@drawable/ic_baseline_cake_24"
+        app:layout_constraintBottom_toBottomOf="@+id/birthdate"
+        app:layout_constraintEnd_toStartOf="@+id/birthdate"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/birthdate" />
+
+
+    <TextView
+        android:id="@+id/birthdayText"
+        android:layout_width="61dp"
+        android:layout_height="17dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="32dp"
+        android:gravity="center_horizontal"
+        android:text="@string/birth_en"
+        android:textAlignment="textStart"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/birthdate"
+        app:layout_constraintStart_toStartOf="@+id/birthdate"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerFeetType" />
+
+    <EditText
+        android:id="@+id/weight"
+        android:layout_width="103dp"
+        android:layout_height="41dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="50dp"
+        android:ems="10"
+        android:hint="@string/weight_en"
+        android:inputType="numberDecimal"
+        app:layout_constraintStart_toEndOf="@+id/weightIcon"
+        app:layout_constraintTop_toBottomOf="@+id/patientNumber" />
+
+
+    <TextView
+        android:id="@+id/weightText"
+        android:layout_width="48dp"
+        android:layout_height="22dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="28dp"
+        android:gravity="center_horizontal"
+        android:text="@string/weight_en"
+        android:textAlignment="textStart"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/weight"
+        app:layout_constraintStart_toStartOf="@+id/weight"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerGender" />
+
+    <ImageView
+        android:id="@+id/weightIcon"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginLeft="15dp"
+        android:src="@drawable/ic_baseline_weight"
+        app:layout_constraintBottom_toBottomOf="@+id/weight"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/weight" />
+
+    <EditText
+        android:id="@+id/height"
+        android:layout_width="137dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:ems="10"
+        android:hint="@string/height_en"
+        android:inputType="numberDecimal"
+        android:maxLength="4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/heightIcon"
+        app:layout_constraintTop_toBottomOf="@+id/patientNumber" />
+
+    <TextView
+        android:id="@+id/heightText"
+        android:layout_width="48dp"
+        android:layout_height="22dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="28dp"
+        android:gravity="center_horizontal"
+        android:text="@string/height_en"
+        android:textAlignment="textStart"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/height"
+        app:layout_constraintStart_toStartOf="@+id/height"
+        app:layout_constraintTop_toBottomOf="@+id/patientNumber" />
+
+    <ImageView
+        android:id="@+id/heightIcon"
+        android:layout_width="36dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="45dp"
+        android:layout_marginLeft="45dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:src="@drawable/ic_baseline_height_24"
+        app:layout_constraintBottom_toBottomOf="@+id/height"
+        app:layout_constraintEnd_toStartOf="@+id/height"
+        app:layout_constraintStart_toEndOf="@+id/weight"
+        app:layout_constraintTop_toTopOf="@+id/height"
+        app:layout_constraintVertical_bias="0.384" />
+
+    <EditText
+        android:id="@+id/feetSize"
+        android:layout_width="137dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="50dp"
+        android:ems="10"
+        android:hint="@string/feetSize_en"
+        android:inputType="number"
+        android:maxLength="2"
+        app:layout_constraintStart_toEndOf="@+id/feetSizeIcon"
+        app:layout_constraintTop_toBottomOf="@+id/weight" />
+
+
+    <TextView
+        android:id="@+id/feetSizeText"
+        android:layout_width="55dp"
+        android:layout_height="15dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="35dp"
+        android:gravity="center_horizontal"
+        android:text="@string/feetSize_en"
+        android:textAlignment="textStart"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/feetSize"
+        app:layout_constraintStart_toStartOf="@+id/feetSize"
+        app:layout_constraintTop_toBottomOf="@+id/weight" />
+
+    <ImageView
+        android:id="@+id/feetSizeIcon"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:src="@drawable/ic_baseline_height_24"
+        app:layout_constraintBottom_toBottomOf="@+id/feetSize"
+        app:layout_constraintEnd_toStartOf="@+id/feetSize"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/feetSize" />
+
+    <Spinner
+        android:id="@+id/spinnerDiabetes"
+        android:layout_width="125dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="7dp"
+        android:layout_marginLeft="7dp"
+        android:layout_marginTop="50dp"
+        android:background="@android:drawable/btn_dropdown"
+        android:spinnerMode="dropdown"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageView8"
+        app:layout_constraintTop_toBottomOf="@+id/height" />
+
+    <ImageView
+        android:id="@+id/imageView8"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginLeft="30dp"
+        android:src="@drawable/ic_baseline_heart_24"
+        app:layout_constraintBottom_toBottomOf="@+id/spinnerDiabetes"
+        app:layout_constraintEnd_toStartOf="@+id/spinnerDiabetes"
+        app:layout_constraintStart_toEndOf="@+id/feetSize"
+        app:layout_constraintTop_toTopOf="@+id/spinnerDiabetes"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <Spinner
+        android:id="@+id/spinnerFeetType"
+        android:layout_width="236dp"
+        android:layout_height="34dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="50dp"
+        android:background="@android:drawable/btn_dropdown"
+        android:spinnerMode="dropdown"
+        app:layout_constraintStart_toEndOf="@+id/imageView9"
+        app:layout_constraintTop_toBottomOf="@+id/feetSize" />
+
+    <ImageView
+        android:id="@+id/imageView9"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:src="@drawable/ic_baseline_question_24"
+        app:layout_constraintBottom_toBottomOf="@+id/spinnerFeetType"
+        app:layout_constraintEnd_toStartOf="@+id/spinnerFeetType"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/spinnerFeetType" />
+
+    <ImageView
+        android:id="@+id/checkIcon"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="115dp"
+        android:layout_marginRight="115dp"
+        android:src="@drawable/ic_baseline_check_circle_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/cancelIcon" />
+
+    <ImageView
+        android:id="@+id/cancelIcon"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="115dp"
+        android:layout_marginLeft="115dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="81dp"
+        android:layout_marginRight="81dp"
+        android:src="@drawable/ic_baseline_cancel_24"
+        app:layout_constraintEnd_toStartOf="@+id/checkIcon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/birthdate" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

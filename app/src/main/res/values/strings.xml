@@ -20,6 +20,7 @@
     <string name="settings_en">Settings</string>
     <string name="privacy_en">Privacy policy</string>
     <string name="about_en">About</string>
+    <string name="personalInfo_en">Personal Information</string>
     <string name="logout_en">Log Out</string>
     <string name="navigations_drawer_open">Open navigation drawer</string>
     <string name="navigations_drawer_close">Close navigation drawer</string>
@@ -43,5 +44,18 @@
     <string name="cancel_en">Cancel</string>
     <string name="save_en">Save</string>
     <string name="select_item_dopdown_en">Select the device</string>
+
+
+    <!-- Personal Info -->
+
+    <string name="patientNumber_en">Patient Number</string>
+    <string name="gender_en">Gender</string>
+    <string name="birth_en">Birth Date</string>
+    <string name="height_en">Height</string>
+    <string name="weight_en">Weight</string>
+    <string name="feetSize_en">Feet Size</string>
+    <string name="diabetes_en">Diabetes</string>
+    <string name="feetType_en">Feet Type</string>
+    <string name="name_en">Name</string>
 
 </resources>
