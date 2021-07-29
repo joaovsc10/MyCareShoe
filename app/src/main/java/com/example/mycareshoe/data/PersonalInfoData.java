@@ -10,15 +10,15 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class SensorsDataSource {
+public class PersonalInfoData {
 
-    String name=null;
+    String name = null;
 
-    class Login extends AsyncTask<String, String, JSONObject> {
-        JSONParser jsonParser=new JSONParser();
+    class PersonalInfo extends AsyncTask<String, String, JSONObject> {
+        JSONParser jsonParser = new JSONParser();
         JSONObject json;
-        User user=null;
-        String URL= "http://192.168.0.102/mycareshoe/sensorsData.php";
+        User user = null;
+        String URL = "http://192.168.0.101/mycareshoe/patient_search.php";
 
 
         @Override
@@ -35,13 +35,13 @@ public class SensorsDataSource {
 
             String email = args[2];
             String password = args[1];
-            name= args[0];
+            name = args[0];
 
             ArrayList params = new ArrayList();
             params.add(new BasicNameValuePair("username", name));
             params.add(new BasicNameValuePair("password", password));
-            if(email.length()>0)
-                params.add(new BasicNameValuePair("email",email));
+            if (email.length() > 0)
+                params.add(new BasicNameValuePair("email", email));
 
             json = jsonParser.makeHttpRequest(URL, "POST", params);
 
@@ -57,8 +57,4 @@ public class SensorsDataSource {
     }
 
 
-
-    public void logout() {
-        // TODO: revoke authentication
-    }
 }

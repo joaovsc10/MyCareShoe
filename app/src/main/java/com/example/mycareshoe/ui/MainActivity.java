@@ -14,6 +14,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.mycareshoe.R;
+import com.example.mycareshoe.helpers.SharedPrefManager;
 import com.example.mycareshoe.ui.login.LoginActivity;
 import com.example.mycareshoe.ui.monitoring.MonitoringFragment;
 import com.example.mycareshoe.ui.personalInfo.PersonalInfoFragment;
@@ -56,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         switch (item.getItemId()){
             case R.id.monitorization:
+                System.out.println("WTF MAN");
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MonitoringFragment()).commit();
                 setTitle(R.string.monitorization_en);
                 break;
@@ -77,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 setTitle(R.string.personalInfo_en);
                 break;
             case R.id.logout:
+                SharedPrefManager.getInstance(getApplicationContext()).logout();
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivity(intent);
                 break;
