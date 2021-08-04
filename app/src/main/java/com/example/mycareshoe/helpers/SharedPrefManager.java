@@ -25,6 +25,14 @@ public class SharedPrefManager {
     private static final String KEY_PROFILE_ID = "keyprofileid";
     private static final String KEY_PASSWORD = "keypassword";
     private static final String KEY_PATIENT_NUMBER = "keypatientnumber";
+    private static final String KEY_GENDER = "keygender";
+    private static final String KEY_BIRTH = "keybirth";
+    private static final String KEY_HEIGHT = "keyheight";
+    private static final String KEY_WEIGHT = "keyweight";
+    private static final String KEY_FEET_SIZE = "keyfeetsize";
+    private static final String KEY_DIABETES = "keydiabetes";
+    private static final String KEY_FEET_TYPE = "keyfeetsize";
+    private static final String KEY_NAME = "keyname";
 
     private static SharedPrefManager mInstance;
     private static Context mCtx;

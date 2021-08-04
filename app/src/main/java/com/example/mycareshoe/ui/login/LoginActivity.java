@@ -19,9 +19,11 @@ import com.example.mycareshoe.helpers.SharedPrefManager;
 import com.example.mycareshoe.helpers.URLs;
 import com.example.mycareshoe.ui.MainActivity;
 
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class LoginActivity extends AppCompatActivity {
@@ -76,7 +78,7 @@ public class LoginActivity extends AppCompatActivity {
 
         //if everything is fine
 
-        class UserLogin extends AsyncTask<Void, Void, String> {
+        class UserLogin extends AsyncTask<Void, Void, JSONObject> {
 
             ProgressBar progressBar;
 
@@ -88,15 +90,12 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             @Override
-            protected void onPostExecute(String s) {
-                super.onPostExecute(s);
+            protected void onPostExecute(JSONObject obj) {
+                super.onPostExecute(obj);
                 progressBar.setVisibility(View.GONE);
-                System.out.println(s);
+                System.out.println(obj);
 
                 try {
-
-                    //converting response to json object
-                    JSONObject obj = new JSONObject(s);
 
                     //if no error in response
                     if (obj.getString("success").equals("1")) {
@@ -127,17 +126,16 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             @Override
-            protected String doInBackground(Void... voids) {
+            protected JSONObject doInBackground(Void... voids) {
                 //creating request handler object
-                RequestHandler requestHandler = new RequestHandler();
+                JSONParser jsonParser = new JSONParser();
 
-                //creating request parameters
-                HashMap<String, String> params = new HashMap<>();
-                params.put("username", username);
-                params.put("password", password);
+                ArrayList params = new ArrayList();
+                params.add(new BasicNameValuePair("username", username));
+                params.add(new BasicNameValuePair("password", password));
 
                 //returing the response
-                return requestHandler.sendPostRequest(URLs.URL_LOGIN, params);
+                return jsonParser.makeHttpRequest(URLs.URL_LOGIN,"POST", params);
             }
         }
 

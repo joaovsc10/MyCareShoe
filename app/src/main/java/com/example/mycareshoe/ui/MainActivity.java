@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -36,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         drawer= findViewById(R.id.drawer_layout);
 
+
         NavigationView navView= findViewById(R.id.nav_view);
         navView.setNavigationItemSelectedListener(this);
         ActionBarDrawerToggle toggle= new ActionBarDrawerToggle(this, drawer, toolbar,
@@ -43,6 +46,49 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+
+
+
+
+
+        drawer.addDrawerListener(new DrawerLayout.DrawerListener() {
+
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+                //Called when a drawer's position changes.
+
+            }
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                //Called when a drawer has settled in a completely open state.
+                //The drawer is interactive at this point.
+                // If you have 2 drawers (left and right) you can distinguish
+                // them by using id of the drawerView. int id = drawerView.getId();
+                // id will be your layout's id: for example R.id.left_drawer
+                TextView textViewName = findViewById(R.id.name);
+                TextView textViewEmail = findViewById(R.id.email);
+                textViewName.setText(SharedPrefManager.getInstance(getApplicationContext()).getUser().getDisplayName().toString());
+                textViewEmail.setText(SharedPrefManager.getInstance(getApplicationContext()).getUser().getEmail().toString());
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                // Called when a drawer has settled in a completely closed state.
+            }
+
+
+
+            @Override
+            public void onDrawerStateChanged(int newState) {
+                // Called when the drawer motion state changes. The new state will be one of STATE_IDLE, STATE_DRAGGING or STATE_SETTLING.
+            }
+        });
+
+
+
+
+
 
         if(savedInstanceState==null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MonitoringFragment()).commit();
@@ -57,7 +103,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         switch (item.getItemId()){
             case R.id.monitorization:
-                System.out.println("WTF MAN");
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MonitoringFragment()).commit();
                 setTitle(R.string.monitorization_en);
                 break;

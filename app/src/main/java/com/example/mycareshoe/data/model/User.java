@@ -11,6 +11,14 @@ public class User {
     private String email;
     private String password;
     private int patient_number;
+    private String gender;
+    private String birth;
+    private int height;
+    private int weight;
+    private int feetSize;
+    private String diabetesStatus;
+    private String feetType;
+    private String name;
 
     public User(int userId, String username, int profile_id, String email, String password, int patient_number) {
         this.userId = userId;
@@ -19,6 +27,53 @@ public class User {
         this.email = email;
         this.password = password;
         this.patient_number = patient_number;
+    }
+
+    public User(String gender, String birth, int height, int weight, int feetSize, String diabetesStatus, String feetType, String name) {
+        this.gender = gender;
+        this.birth = birth;
+        this.height = height;
+        this.weight = weight;
+        this.feetSize = feetSize;
+        this.diabetesStatus = diabetesStatus;
+        this.feetType = feetType;
+        this.name = name;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public String getBirth() {
+        return birth;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public int getWeight() {
+        return weight;
+    }
+
+    public int getFeetSize() {
+        return feetSize;
+    }
+
+    public String getDiabetesStatus() {
+        return diabetesStatus;
+    }
+
+    public String getFeetType() {
+        return feetType;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public int getProfile_id() {

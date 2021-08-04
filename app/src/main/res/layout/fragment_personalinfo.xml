@@ -6,7 +6,13 @@
     android:layout_height="match_parent"
     android:background="#26957F">
 
-
+    <ProgressBar
+        android:visibility="gone"
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true" />
     <EditText
         android:id="@+id/patientNumber"
         android:layout_width="137dp"
@@ -169,7 +175,7 @@
 
     <EditText
         android:id="@+id/birthdate"
-        android:layout_width="137dp"
+        android:layout_width="150dp"
         android:layout_height="45dp"
         android:layout_marginStart="10dp"
         android:layout_marginLeft="10dp"
@@ -179,7 +185,6 @@
         android:hint="@string/birth_en"
         android:inputType="number"
         android:longClickable="false"
-        android:maxLength="9"
         app:layout_constraintStart_toEndOf="@+id/imageView10"
         app:layout_constraintTop_toBottomOf="@+id/spinnerFeetType" />
 

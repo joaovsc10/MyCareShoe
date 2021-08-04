@@ -18,9 +18,8 @@ public class RequestHandler {
 
 
     //this method will send a post request to the specified url
-    //in this app we are using only post request
     //in the hashmap we have the data to be sent to the server in keyvalue pairs
-    public String sendPostRequest(String requestURL, HashMap<String, String> postDataParams) {
+    public String sendPostRequest(String requestURL, HashMap<String, String> postDataParams, String requestMethod) {
         URL url;
 
         StringBuilder sb = new StringBuilder();
@@ -29,7 +28,7 @@ public class RequestHandler {
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setReadTimeout(15000);
             conn.setConnectTimeout(15000);
-            conn.setRequestMethod("POST");
+            conn.setRequestMethod(requestMethod);
             conn.setDoInput(true);
             conn.setDoOutput(true);
 
@@ -37,7 +36,7 @@ public class RequestHandler {
 
             BufferedWriter writer = new BufferedWriter(
                     new OutputStreamWriter(os, "UTF-8"));
-            writer.write(getPostDataString(postDataParams));
+            writer.write(getKeyValueDataString(postDataParams));
 
             writer.flush();
             writer.close();
@@ -63,7 +62,7 @@ public class RequestHandler {
 
 
     //this method is converting keyvalue pairs data into a query string as needed to send to the server
-    private String getPostDataString(HashMap<String, String> params) throws UnsupportedEncodingException {
+    private String getKeyValueDataString(HashMap<String, String> params) throws UnsupportedEncodingException {
         StringBuilder result = new StringBuilder();
         boolean first = true;
         for (Map.Entry<String, String> entry : params.entrySet()) {
@@ -76,6 +75,7 @@ public class RequestHandler {
             result.append("=");
             result.append(URLEncoder.encode(entry.getValue(), "UTF-8"));
         }
+        System.out.println(result.toString());
         return result.toString();
     }
 }
