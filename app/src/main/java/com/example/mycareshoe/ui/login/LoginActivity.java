@@ -1,6 +1,7 @@
 package com.example.mycareshoe.ui.login;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -56,14 +57,18 @@ public class LoginActivity extends AppCompatActivity {
         //do nothing
     }
 
+    boolean isEmailValid(CharSequence email) {
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
+
     private void userLogin() {
         //first getting the values
-        final String username = editTextUsername.getText().toString();
+        final String usernameEmail = editTextUsername.getText().toString();
         final String password = editTextPassword.getText().toString();
 
         //validating inputs
-        if (TextUtils.isEmpty(username)) {
-            editTextUsername.setError("Please enter your username");
+        if (TextUtils.isEmpty(usernameEmail)) {
+            editTextUsername.setError("Please enter your username/e-mail");
             editTextUsername.requestFocus();
             return;
         }
@@ -73,6 +78,7 @@ public class LoginActivity extends AppCompatActivity {
             editTextPassword.requestFocus();
             return;
         }
+
 
         //if everything is fine
 
@@ -118,6 +124,13 @@ public class LoginActivity extends AppCompatActivity {
 
                     } else {
                         Toast.makeText(getApplicationContext(), "Invalid username or password", Toast.LENGTH_SHORT).show();
+                        Drawable dr = getResources().getDrawable(R.drawable.ic_baseline_error_24);
+                        //add an error icon to yur drawable files
+                        dr.setBounds(0, 0, dr.getIntrinsicWidth(), dr.getIntrinsicHeight());
+                        editTextUsername.setCompoundDrawables(null,null,dr,null);
+                        editTextPassword.setCompoundDrawables(null,null,dr,null);
+
+
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -130,7 +143,12 @@ public class LoginActivity extends AppCompatActivity {
                 JSONParser jsonParser = new JSONParser();
 
                 ArrayList params = new ArrayList();
-                params.add(new BasicNameValuePair("username", username));
+
+                if(isEmailValid(usernameEmail))
+                    params.add(new BasicNameValuePair("email", usernameEmail));
+                else
+                    params.add(new BasicNameValuePair("username", usernameEmail));
+
                 params.add(new BasicNameValuePair("password", password));
 
                 //returing the response

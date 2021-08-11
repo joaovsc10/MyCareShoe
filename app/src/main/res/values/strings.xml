@@ -35,6 +35,8 @@
     <!-- Warnings -->
     <string name="warningTitle_en">Warnings</string>
     <string name="emptyMessage_en">There are no warnings to display.</string>
+    <string name="sensors_en">Sensors with hiperpression values: </string>
+    <string name="date_en">Date: </string>
 
     <!-- Settings -->
 

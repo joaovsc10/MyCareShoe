@@ -10,4 +10,5 @@
     <color name="dark_cyan">#FF116756</color>
     <color name="grey_toolbar"> #DCDCDC </color>
     <color name="dark_gray"> #838383 </color>
+    <color name="red">#FF0000</color>
 </resources>

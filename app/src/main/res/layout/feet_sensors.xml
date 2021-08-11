@@ -51,14 +51,36 @@
         app:layout_constraintTop_toTopOf="@+id/feet_r" />
 
     <ImageView
+        android:id="@+id/phalange_l"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginRight="5dp"
+        android:src="@drawable/ic_baseline_circle"
+        app:layout_constraintEnd_toEndOf="@+id/metatarsal3_l"
+        app:layout_constraintTop_toTopOf="@+id/feet_r" />
+
+
+    <ImageView
+        android:id="@+id/phalange_r"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginLeft="3dp"
+        android:layout_marginTop="40dp"
+        android:src="@drawable/ic_baseline_circle"
+        app:layout_constraintStart_toStartOf="@+id/metatarsal3_r"
+        app:layout_constraintTop_toTopOf="@+id/feet_r" />
+
+
+    <ImageView
         android:id="@+id/metatarsal1_r"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="35dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginRight="30dp"
+        android:layout_marginTop="45dp"
         android:src="@drawable/ic_baseline_circle"
-        app:layout_constraintEnd_toEndOf="@+id/feet_l"
+        app:layout_constraintStart_toStartOf="@+id/hallux_r"
         app:layout_constraintTop_toBottomOf="@+id/hallux_r" />
 
     <ImageView
@@ -67,7 +89,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="43dp"
+        android:layout_marginTop="35dp"
         android:src="@drawable/ic_baseline_circle"
         app:layout_constraintStart_toEndOf="@+id/metatarsal1_r"
         app:layout_constraintTop_toBottomOf="@+id/hallux_r" />
@@ -98,33 +120,31 @@
         android:id="@+id/hindfoot1_r"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        android:layout_marginEnd="13dp"
-        android:layout_marginRight="13dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
         android:src="@drawable/ic_baseline_circle"
-        app:layout_constraintEnd_toEndOf="@+id/feet_l"
+        app:layout_constraintEnd_toStartOf="@+id/hindfoot2_r"
         app:layout_constraintTop_toBottomOf="@+id/cuboid_r" />
 
     <ImageView
         android:id="@+id/hindfoot2_r"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="100dp"
+        android:layout_marginRight="100dp"
         android:src="@drawable/ic_baseline_circle"
-        app:layout_constraintStart_toEndOf="@+id/hindfoot1_r"
+        app:layout_constraintEnd_toEndOf="@+id/feet_r"
         app:layout_constraintTop_toBottomOf="@+id/cuboid_r" />
 
     <ImageView
         android:id="@+id/metatarsal1_l"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="160dp"
-        android:layout_marginLeft="160dp"
-        android:layout_marginTop="35dp"
+        android:layout_marginTop="45dp"
         android:src="@drawable/ic_baseline_circle"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/hallux_l"
         app:layout_constraintTop_toBottomOf="@+id/hallux_l" />
 
     <ImageView
@@ -142,7 +162,7 @@
         android:id="@+id/metatarsal2_l"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="43dp"
+        android:layout_marginTop="35dp"
         android:layout_marginEnd="10dp"
         android:layout_marginRight="10dp"
         android:src="@drawable/ic_baseline_circle"
@@ -164,12 +184,34 @@
         android:id="@+id/hindfoot1_l"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="105dp"
-        android:layout_marginLeft="105dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginLeft="100dp"
+        android:layout_marginTop="40dp"
         android:src="@drawable/ic_baseline_circle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cuboid_l" />
+
+    <ImageView
+        android:id="@+id/hindfoot3_l"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="18dp"
+        android:layout_marginLeft="18dp"
+        android:layout_marginTop="5dp"
+        android:src="@drawable/ic_baseline_circle"
+        app:layout_constraintStart_toStartOf="@+id/hindfoot1_l"
+        app:layout_constraintTop_toBottomOf="@+id/hindfoot2_l" />
+
+    <ImageView
+        android:id="@+id/hindfoot3_r"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="18dp"
+        android:layout_marginLeft="18dp"
+        android:layout_marginTop="5dp"
+        android:src="@drawable/ic_baseline_circle"
+        app:layout_constraintStart_toStartOf="@+id/hindfoot1_r"
+        app:layout_constraintTop_toBottomOf="@+id/hindfoot2_r" />
 
     <ImageView
         android:id="@+id/hindfoot2_l"
@@ -177,7 +219,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="40dp"
         android:src="@drawable/ic_baseline_circle"
         app:layout_constraintStart_toEndOf="@+id/hindfoot1_l"
         app:layout_constraintTop_toBottomOf="@+id/cuboid_l" />
