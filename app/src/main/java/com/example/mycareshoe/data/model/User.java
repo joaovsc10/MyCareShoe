@@ -40,6 +40,23 @@ public class User {
         this.name = name;
     }
 
+    public User(int userId, String username, int profile_id, String email, String password, int patient_number, String gender, String birth, int height, int weight, int feetSize, String diabetesStatus, String feetType, String name) {
+        this.userId = userId;
+        this.username = username;
+        this.profile_id = profile_id;
+        this.email = email;
+        this.password = password;
+        this.patient_number = patient_number;
+        this.gender = gender;
+        this.birth = birth;
+        this.height = height;
+        this.weight = weight;
+        this.feetSize = feetSize;
+        this.diabetesStatus = diabetesStatus;
+        this.feetType = feetType;
+        this.name = name;
+    }
+
     public String getUsername() {
         return username;
     }

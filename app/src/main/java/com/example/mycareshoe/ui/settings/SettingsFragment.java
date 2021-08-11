@@ -52,11 +52,7 @@ public class SettingsFragment extends Fragment {
                 FrameLayout frameLayout = (FrameLayout) view.findViewById(R.id.contentFragment);
 
                 frameLayout.removeAllViews();
-                FragmentManager fm = getChildFragmentManager();
-                FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                fragmentTransaction.replace(R.id.contentFragment, new BluetoothFragment());
-                fragmentTransaction.addToBackStack("Bluetooth");
-                fragmentTransaction.commit();
+                getChildFragmentManager().beginTransaction().replace(R.id.contentFragment, new BluetoothFragment()).addToBackStack("Bluetooth").commit();
 
             }
         });

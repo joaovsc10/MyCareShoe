@@ -6,13 +6,12 @@
     android:layout_height="match_parent"
     android:background="#26957F">
 
-    <ProgressBar
-        android:visibility="gone"
-        android:id="@+id/progressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true" />
+
+
+
+
+
+
     <EditText
         android:id="@+id/patientNumber"
         android:layout_width="137dp"
@@ -143,7 +142,10 @@
         android:background="@android:drawable/btn_dropdown"
         android:spinnerMode="dropdown"
         app:layout_constraintStart_toEndOf="@+id/imageView4"
-        app:layout_constraintTop_toBottomOf="@+id/name" />
+        app:layout_constraintTop_toBottomOf="@+id/name"
+        android:paddingLeft="0dp"
+        android:paddingRight="0dp"
+        android:overlapAnchor="false"/>
 
     <ImageView
         android:id="@+id/imageView4"
@@ -360,7 +362,10 @@
         android:spinnerMode="dropdown"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageView8"
-        app:layout_constraintTop_toBottomOf="@+id/height" />
+        app:layout_constraintTop_toBottomOf="@+id/height"
+        android:paddingLeft="0dp"
+        android:paddingRight="0dp"
+        android:overlapAnchor="false"/>
 
     <ImageView
         android:id="@+id/imageView8"
@@ -385,7 +390,10 @@
         android:background="@android:drawable/btn_dropdown"
         android:spinnerMode="dropdown"
         app:layout_constraintStart_toEndOf="@+id/imageView9"
-        app:layout_constraintTop_toBottomOf="@+id/feetSize" />
+        app:layout_constraintTop_toBottomOf="@+id/feetSize"
+        android:paddingLeft="0dp"
+        android:paddingRight="0dp"
+        android:overlapAnchor="false"/>
 
     <ImageView
         android:id="@+id/imageView9"
@@ -401,17 +409,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/spinnerFeetType" />
 
-    <ImageView
+    <ImageButton
         android:id="@+id/checkIcon"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginEnd="115dp"
         android:layout_marginRight="115dp"
-        android:src="@drawable/ic_baseline_check_circle_24"
+        android:background="@drawable/ic_baseline_check_circle_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/cancelIcon" />
 
-    <ImageView
+    <ImageButton
         android:id="@+id/cancelIcon"
         android:layout_width="50dp"
         android:layout_height="50dp"
@@ -420,9 +428,30 @@
         android:layout_marginTop="50dp"
         android:layout_marginEnd="81dp"
         android:layout_marginRight="81dp"
-        android:src="@drawable/ic_baseline_cancel_24"
+        android:background="@drawable/ic_baseline_cancel_24"
         app:layout_constraintEnd_toStartOf="@+id/checkIcon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/birthdate" />
+
+    <RelativeLayout
+        android:id="@id/android:empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+ />
+
+    </RelativeLayout>
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </FrameLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

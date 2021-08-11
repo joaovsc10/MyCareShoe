@@ -2,6 +2,7 @@ package com.example.mycareshoe.ui.login;
 
 import android.net.http.HttpsConnection;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -57,6 +58,7 @@ public class JSONParser {
                 try {
                     Log.e("API123", " " +convertStreamToString(httpPost.getEntity().getContent()));
                     Log.e("API123",httpPost.getURI().toString());
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -71,11 +73,12 @@ public class JSONParser {
                 HttpEntity httpEntity = httpResponse.getEntity();
                 is = httpEntity.getContent();
 
-            }else if(method.equals("GET")){
+            }else if(method.equals("GET") || method.equals("PUT")){
                 // request method is GET
                 DefaultHttpClient httpClient = new DefaultHttpClient();
                 String paramString = URLEncodedUtils.format(params, "utf-8");
                 url += "?" + paramString;
+                System.out.println(paramString);
                 HttpGet httpGet = new HttpGet(url);
 
                 HttpResponse httpResponse = httpClient.execute(httpGet);
@@ -102,6 +105,8 @@ public class JSONParser {
             is.close();
             json = sb.toString();
             Log.d("API123",json);
+
+
         } catch (Exception e) {
             Log.e("Buffer Error", "Error converting result " + e.toString());
         }

@@ -68,8 +68,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 // id will be your layout's id: for example R.id.left_drawer
                 TextView textViewName = findViewById(R.id.name);
                 TextView textViewEmail = findViewById(R.id.email);
-                textViewName.setText(SharedPrefManager.getInstance(getApplicationContext()).getUser().getDisplayName().toString());
-                textViewEmail.setText(SharedPrefManager.getInstance(getApplicationContext()).getUser().getEmail().toString());
+                textViewName.setText(SharedPrefManager.getInstance(getApplicationContext()).getUser(false).getDisplayName().toString());
+                textViewEmail.setText(SharedPrefManager.getInstance(getApplicationContext()).getUser(false).getEmail().toString());
             }
 
             @Override
@@ -103,14 +103,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         switch (item.getItemId()){
             case R.id.monitorization:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MonitoringFragment()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MonitoringFragment()).addToBackStack("monitorization").commit();
                 setTitle(R.string.monitorization_en);
                 break;
             case R.id.statistics:
                 setTitle(R.string.statistics_en);
                 break;
             case R.id.settings:
-                getSupportFragmentManager().beginTransaction().hide(new MonitoringFragment()).replace(R.id.fragment_container, new SettingsFragment()).commit();
+                getSupportFragmentManager().beginTransaction().hide(new MonitoringFragment()).replace(R.id.fragment_container, new SettingsFragment()).addToBackStack("settings").commit();
                 setTitle(R.string.settings_en);
                 break;
             case R.id.privacy:
@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                setTitle(R.string.about_en);
                 break;
             case R.id.personalInfo:
-                getSupportFragmentManager().beginTransaction().hide(new MonitoringFragment()).replace(R.id.fragment_container, new PersonalInfoFragment()).commit();
+                getSupportFragmentManager().beginTransaction().hide(new MonitoringFragment()).replace(R.id.fragment_container, new PersonalInfoFragment()).addToBackStack("personal_info").commit();
                 setTitle(R.string.personalInfo_en);
                 break;
             case R.id.logout:

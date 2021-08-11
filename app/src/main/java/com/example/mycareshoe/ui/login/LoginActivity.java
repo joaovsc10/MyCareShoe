@@ -14,7 +14,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.mycareshoe.R;
 import com.example.mycareshoe.data.model.User;
-import com.example.mycareshoe.helpers.RequestHandler;
 import com.example.mycareshoe.helpers.SharedPrefManager;
 import com.example.mycareshoe.helpers.URLs;
 import com.example.mycareshoe.ui.MainActivity;
@@ -24,7 +23,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -93,7 +91,6 @@ public class LoginActivity extends AppCompatActivity {
             protected void onPostExecute(JSONObject obj) {
                 super.onPostExecute(obj);
                 progressBar.setVisibility(View.GONE);
-                System.out.println(obj);
 
                 try {
 
@@ -108,7 +105,9 @@ public class LoginActivity extends AppCompatActivity {
                                 json.getInt("profile_id"),
                                 json.getString("email"),
                                 json.getString("password"),
-                                json.getInt("patient_number"));
+                                json.getInt("patient_number")
+                                );
+
 
                         //storing the user in shared preferences
                         SharedPrefManager.getInstance(getApplicationContext()).userLogin(user);
@@ -142,4 +141,6 @@ public class LoginActivity extends AppCompatActivity {
         UserLogin ul = new UserLogin();
         ul.execute();
     }
+
+
 }

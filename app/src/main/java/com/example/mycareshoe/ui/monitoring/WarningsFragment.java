@@ -68,7 +68,21 @@ public class WarningsFragment extends DialogFragment
         // Initializing a new String Array
         String[] warnings = new String[] {
                 "Warning 1",
-                "Warning 2"
+                "Warning 2",
+                "Warning 1",
+                "Warning 1",
+                "Warning 1",
+                "Warning 1",
+                "Warning 1",
+                "Warning 1",
+                "Warning 1",
+                "Warning 1",
+                "Warning 1",
+                "Warning 1",
+                "Warning 1",
+                "Warning 1",
+                "Warning 1",
+                "Warning 1"
         };
 
         // Create a List from String Array elements
