@@ -71,6 +71,11 @@ public class MonitoringFragment extends Fragment {
                 WarningsFragment dialogFragment = new WarningsFragment();
                 dialogFragment.show(getActivity().getSupportFragmentManager(),"simple dialog");
                 return true;
+
+            case R.id.infoButton:
+                TemperatureHumidityFragment dialogFragmentTemp = new TemperatureHumidityFragment();
+                dialogFragmentTemp.show(getActivity().getSupportFragmentManager(),"simple dialog");
+                return true;
         }
         return false;
     }

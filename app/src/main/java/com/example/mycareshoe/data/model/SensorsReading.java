@@ -35,6 +35,10 @@ public class SensorsReading {
     private int S24;
     private int S25;
     private int S26;
+    private int T1;
+    private int T2;
+    private int H1;
+    private int H2;
     private String date;
     private int patient_number;
     private ArrayList<String> hiperpressionSensors;
@@ -94,11 +98,15 @@ public class SensorsReading {
         S23,
         S24,
         S25,
-        S26
+        S26,
+        T1,
+        T2,
+        H1,
+        H2
     }
 
 
-    public SensorsReading(int reading_id, int s1, int s2, int s3, int s4, int s5, int s6, int s7, int s8, int s9, int s10, int s11, int s12, int s13, int s14, int s15, int s16, int s17, int s18, int s19, int s20, int s21, int s22, int s23, int s24, int s25, int s26, String date, int patient_number) {
+    public SensorsReading(int reading_id, int s1, int s2, int s3, int s4, int s5, int s6, int s7, int s8, int s9, int s10, int s11, int s12, int s13, int s14, int s15, int s16, int s17, int s18, int s19, int s20, int s21, int s22, int s23, int s24, int s25, int s26, int T1, int T2, int H1, int H2, String date, int patient_number) {
         this.reading_id = reading_id;
         setS1(s1);
         setS2(s2);
@@ -126,6 +134,10 @@ public class SensorsReading {
         setS24(s24);
         setS25(s25);
         setS26(s26);
+        this.T1=T1;
+        this.T2=T2;
+        this.H1=H1;
+        this.H2=H2;
         this.date = date;
         this.patient_number = patient_number;
     }

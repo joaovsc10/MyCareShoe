@@ -120,6 +120,10 @@ public class WarningDetailsFragment extends Fragment {
                             obj.optInt(SensorsReading.Sensors.S24.toString(), 0),
                             obj.optInt(SensorsReading.Sensors.S25.toString(), 0),
                             obj.optInt(SensorsReading.Sensors.S26.toString(), 0),
+                            obj.optInt(SensorsReading.Sensors.T1.toString(), 0),
+                            obj.optInt(SensorsReading.Sensors.T2.toString(), 0),
+                            obj.optInt(SensorsReading.Sensors.H1.toString(), 0),
+                            obj.optInt(SensorsReading.Sensors.H2.toString(), 0),
                             obj.getString("date"),
                             obj.getInt("patient_number")
                     );

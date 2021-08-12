@@ -32,6 +32,10 @@
     <string name="time_en">Time</string>
     <string name="stanceTime_en">Stance Time</string>
 
+    <!-- Temperature/humidity -->
+    <string name="temp_humid_en">Temperature and Humidity</string>
+    <string name="humidity_en">Humidity</string>
+
     <!-- Warnings -->
     <string name="warningTitle_en">Warnings</string>
     <string name="emptyMessage_en">There are no warnings to display.</string>
@@ -59,5 +63,9 @@
     <string name="diabetes_en">Diabetes</string>
     <string name="feetType_en">Feet Type</string>
     <string name="name_en">Name</string>
+    <string name="temperature_en">Temperature</string>
+    <string name="left_foot_en">Left foot</string>
+    <string name="right_foot_en">Right foot</string>
+
 
 </resources>

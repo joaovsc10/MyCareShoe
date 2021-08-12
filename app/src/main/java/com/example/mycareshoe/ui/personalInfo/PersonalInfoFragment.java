@@ -186,7 +186,8 @@ public class PersonalInfoFragment extends Fragment  {
                 }
                 else{
                     updateArguments.remove(fieldName);
-                    saveBtn.setEnabled(false);
+                    if(updateArguments.isEmpty())
+                        saveBtn.setEnabled(false);
                 }
 
             }
@@ -218,6 +219,7 @@ public class PersonalInfoFragment extends Fragment  {
 
                 if(s.toString().isEmpty() ) {
                     invalidInputsList.put(fieldName, "false");
+
                 }
                 if(!s.toString().isEmpty() && !isInvalidInput()) {
                     double value = Double.parseDouble(s.toString());
@@ -254,26 +256,25 @@ public class PersonalInfoFragment extends Fragment  {
                     text.setError("Invalid " + fieldName + " value");
                     text.requestFocus();
                 }
+
             }
 
             @Override
             public void afterTextChanged(Editable s) {
 
+                if (initialValue.equals(s.toString().trim()) || ((initialValue.equals("-1") || initialValue.equals("0")) && s.toString().equals("")) || invalidInputsList.get(fieldName) == "true") {
+                    updateArguments.remove(fieldName);
+                    saveBtn.setEnabled(false);
+                }
+                else {
+
+                        updateArguments.put(fieldName, s.toString().trim());
+                        saveBtn.setEnabled(true);
+                }
                 if(s.toString().equals("") &&(!updateArguments.isEmpty() && !invalidInputsList.containsValue("true"))) {
                     saveBtn.setEnabled(true);
                     updateArguments.remove(fieldName);
-                }
-                else {
-                    if (initialValue.equals(s.toString().trim()) || ((initialValue.equals("-1") || initialValue.equals("0")) && s.toString().equals("")) || invalidInputsList.get(fieldName) == "true") {
-                        updateArguments.remove(fieldName);
-                        saveBtn.setEnabled(false);
 
-
-                    } else {
-                        updateArguments.put(fieldName, s.toString().trim());
-
-
-                    }
                 }
 
             }

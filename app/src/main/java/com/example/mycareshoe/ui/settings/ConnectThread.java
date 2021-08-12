@@ -56,6 +56,7 @@ public class ConnectThread extends Thread {
         ConnectedThread mConnectedThread = new ConnectedThread(mmSocket);
         Log.d("String Key", "the value you want to see");
         mConnectedThread.start();
+        mConnectedThread.run();
     }
 
     public void cancel() {
