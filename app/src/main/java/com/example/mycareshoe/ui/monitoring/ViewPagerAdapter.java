@@ -65,7 +65,7 @@ class ViewPagerAdapter extends PagerAdapter {
                 resId = com.example.mycareshoe.R.layout.feet_sensors;
                 break;
             case 1:
-                resId = com.example.mycareshoe.R.layout.upper_sensors;
+                resId =  com.example.mycareshoe.R.layout.upper_sensors;
                 break;
         }
 
@@ -73,9 +73,6 @@ class ViewPagerAdapter extends PagerAdapter {
 
 
         ((ViewPager) container).addView(myView, 0);
-        //Access yout textView, ImageView, Button like below
-        //TextView myText = (TextView)myView.findViewById(R.id.tv_myText);
-
         return myView;
     }
 
@@ -86,4 +83,6 @@ class ViewPagerAdapter extends PagerAdapter {
 
         container.removeView((LinearLayout) object);
     }
+
+
 }

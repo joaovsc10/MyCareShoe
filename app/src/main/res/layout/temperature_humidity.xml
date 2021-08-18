@@ -53,15 +53,21 @@
                 android:contentDescription="@string/left_foot_en" />
 
             <TextView
+                android:id="@+id/leftFootTemperature"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:gravity="center"
+                android:textStyle="bold"
                 android:layout_weight="1" />
 
             <TextView
+                android:id="@+id/leftFootHumidity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:gravity="center"
+                android:textStyle="bold"
                 android:layout_weight="1" />
 
         </TableRow>
@@ -77,15 +83,21 @@
                 android:contentDescription="@string/right_foot_en" />
 
             <TextView
+                android:id="@+id/rightFootTemperature"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:gravity="center"
+                android:textStyle="bold"
                 android:layout_weight="1" />
 
             <TextView
+                android:id="@+id/rightFootHumidity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:gravity="center"
+                android:textStyle="bold"
                 android:layout_weight="1" />
 
         </TableRow>

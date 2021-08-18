@@ -195,12 +195,6 @@ public class BluetoothFragment extends Fragment {
         });
 
 
-
-
-
-
-
-
     }
 
     public void checkSelectedDevices(boolean leftDeviceSelected, boolean rightDeviceSelected, Button btn){

@@ -11,6 +11,7 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -51,7 +52,11 @@ import static com.example.mycareshoe.data.Warnings.getNumOfWarnings;
 public class TemperatureHumidityFragment extends DialogFragment
 {
     private ImageView closeButton;
-    private
+    private TextView leftFootTemperature;
+    private TextView rightFootTemperature;
+    private TextView leftFootHumidity;
+    private TextView rightFootHumidity;
+
     // Initializing a new String Array
     ArrayList<String> warnings = new ArrayList<String>();
 
@@ -73,6 +78,15 @@ public class TemperatureHumidityFragment extends DialogFragment
         builder.setContentView(view);
 
 
+        leftFootTemperature = (TextView) view.findViewById(R.id.leftFootTemperature);
+        rightFootTemperature = (TextView) view.findViewById(R.id.rightFootTemperature);
+        leftFootHumidity = (TextView) view.findViewById(R.id.leftFootHumidity);
+        rightFootHumidity = (TextView) view.findViewById(R.id.rightFootHumidity);
+
+        leftFootTemperature.setText("38ºC");
+        rightFootTemperature.setText("38ºC");
+        leftFootHumidity.setText("50%");
+        rightFootHumidity.setText("60%");
         closeButton = view.findViewById(R.id.tempHumidity_exit);
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override

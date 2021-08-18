@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+<androidx.constraintlayout.widget.ConstraintLayout
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,130 +13,165 @@
     tools:context=".ui.login.LoginActivity"
     >
 
-    <Chronometer
-        android:id="@+id/chronometer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginEnd="37dp"
-        android:layout_marginRight="37dp"
-        android:layout_marginBottom="10dp"
-        android:textSize="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/textView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/cadence"></Chronometer>
 
-    <ImageView
-        android:id="@+id/play"
-        android:layout_width="70dp"
-        android:layout_height="76dp"
-        android:layout_marginStart="170dp"
-        android:layout_marginLeft="170dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="171dp"
-        android:layout_marginRight="171dp"
-        android:clickable="true"
-        android:src="@drawable/ic_baseline_play_circle"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/monitoringButtonsLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="20dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintHeight_percent="0.23"
+        app:layout_constraintWidth_percent="0.7"
 
-    <ImageView
-        android:id="@+id/pause"
-        android:layout_width="70dp"
-        android:layout_height="76dp"
-        android:layout_marginStart="54dp"
-        android:layout_marginLeft="54dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="46dp"
-        android:layout_marginRight="46dp"
-        android:clickable="true"
-        android:src="@drawable/ic_baseline_pause_circle"
-        app:layout_constraintEnd_toStartOf="@+id/play"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        >
 
-    <ImageView
-        android:id="@+id/stop"
-        android:layout_width="70dp"
-        android:layout_height="76dp"
-        android:layout_marginStart="47dp"
-        android:layout_marginLeft="47dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="54dp"
-        android:layout_marginRight="54dp"
-        android:clickable="true"
-        android:src="@drawable/ic_baseline_stop_circle"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/play"
-        app:layout_constraintTop_toTopOf="parent" />
+        <ImageView
+            android:id="@+id/play"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_percent=".4"
+            app:layout_constraintWidth_percent="0.3"
+            android:clickable="true"
+            app:layout_constraintTop_toTopOf="@id/monitoringButtonsLayout"
+            app:layout_constraintLeft_toRightOf="@id/pause"
+            app:layout_constraintRight_toLeftOf="@id/stop"
+            android:src="@drawable/ic_baseline_play_circle" />
+
+        <ImageView
+            android:id="@+id/pause"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:clickable="true"
+            android:src="@drawable/ic_baseline_pause_circle"
+            app:layout_constraintHeight_percent=".4"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintWidth_percent="0.3"
+            app:layout_constraintTop_toTopOf="@id/monitoringButtonsLayout"/>
+
+        <ImageView
+            android:id="@+id/stop"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_percent=".4"
+            app:layout_constraintWidth_percent="0.3"
+            android:clickable="true"
+            app:layout_constraintTop_toTopOf="@id/monitoringButtonsLayout"
+            android:src="@drawable/ic_baseline_stop_circle"
+            app:layout_constraintEnd_toEndOf="parent" />
 
 
+        <TextView
+            android:id="@+id/stanceTimeTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/stanceTime_en"
+            android:textColor="@color/grey_toolbar"
+            android:textSize="20dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/play"
+            app:layout_constraintBottom_toTopOf="@id/stanceTimeLeft"
+            />
+
+        <TextView
+            android:id="@+id/stanceTimeLeft"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="x ms"
+            android:textSize="20dp"
+            android:gravity="center"
+            app:layout_constraintWidth_percent=".5"
+            android:background="@color/dark_gray"
+            app:layout_constraintBottom_toBottomOf="@id/monitoringButtonsLayout"/>
+
+        <TextView
+            android:id="@+id/stanceTimeRight"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:hint="x ms"
+            android:textSize="20dp"
+            app:layout_constraintWidth_percent=".5"
+            android:background="@color/dark_gray"
+            app:layout_constraintBottom_toBottomOf="@id/monitoringButtonsLayout"
+            app:layout_constraintRight_toRightOf="@id/monitoringButtonsLayout"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/monitoringInfoLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintHeight_percent="0.15"
+        app:layout_constraintWidth_percent="1"
+        app:layout_constraintTop_toBottomOf="@id/progressBar"
+
+        >
+        <Chronometer
+            android:id="@+id/chronometer"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintWidth_percent=".25"
+            app:layout_constraintHeight_percent=".5"
+            app:layout_constraintLeft_toRightOf="@id/cadence"
+            android:gravity="center"
+            android:textSize="20dp"
+            ></Chronometer>
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="40dp"
-        android:layout_marginRight="40dp"
-        android:layout_marginBottom="43dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent=".5"
+        app:layout_constraintWidth_percent=".25"
+        android:gravity="center"
         android:text="@string/pace_en"
         android:textColor="@color/grey_toolbar"
         android:textSize="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/textView3" />
+        android:id="@+id/paceTitle"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+
 
 
     <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="149dp"
-        android:layout_marginLeft="149dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="149dp"
-        android:layout_marginRight="149dp"
-        android:text="@string/stanceTime_en"
-        android:textColor="@color/grey_toolbar"
-        android:textSize="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/play" />
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="40dp"
-        android:layout_marginRight="40dp"
-        android:layout_marginBottom="43dp"
+        android:id="@+id/stepsTitle"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintLeft_toRightOf="@id/paceTitle"
+        app:layout_constraintWidth_percent=".25"
+        app:layout_constraintHeight_percent=".5"
+        android:gravity="center"
         android:text="@string/steps_en"
         android:textColor="@color/grey_toolbar"
-        android:textSize="20dp"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/textView2" />
+         />
 
     <TextView
         android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="40dp"
-        android:layout_marginRight="40dp"
-        android:layout_marginBottom="43dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintWidth_percent=".25"
+        app:layout_constraintHeight_percent=".5"
         android:text="@string/cadence_en"
         android:textColor="@color/grey_toolbar"
         android:textSize="20dp"
+        android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/textView" />
+        app:layout_constraintLeft_toRightOf="@id/stepsTitle"/>
 
     <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="41dp"
-        android:layout_marginRight="41dp"
-        android:layout_marginBottom="43dp"
+        android:id="@+id/timeTitle"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintWidth_percent=".25"
+        app:layout_constraintHeight_percent=".5"
+        android:gravity="center"
         android:text="@string/time_en"
         android:textColor="@color/grey_toolbar"
         android:textSize="20dp"
@@ -141,94 +180,85 @@
 
     <TextView
         android:id="@+id/pace"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
-        android:layout_marginLeft="28dp"
-        android:layout_marginEnd="344dp"
-        android:layout_marginRight="344dp"
-        android:layout_marginBottom="80dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintWidth_percent=".25"
+        app:layout_constraintHeight_percent=".5"
+        android:gravity="center"
         android:hint="m's''"
         android:textSize="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        />
 
     <TextView
         android:id="@+id/steps"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginEnd="228dp"
-        android:layout_marginRight="228dp"
-        android:layout_marginBottom="80dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:hint="Steps Nº"
         android:textSize="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/pace" />
+        app:layout_constraintHeight_percent=".5"
+        app:layout_constraintWidth_percent=".25"
+        android:gravity="center"
+        app:layout_constraintLeft_toRightOf="@id/pace"
+         />
 
     <TextView
         android:id="@+id/cadence"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginLeft="12dp"
-        android:layout_marginEnd="124dp"
-        android:layout_marginRight="124dp"
-        android:layout_marginBottom="80dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintWidth_percent=".25"
+        app:layout_constraintHeight_percent=".5"
         android:hint="Steps/min"
         android:textSize="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/steps" />
+        android:gravity="center"
+        app:layout_constraintLeft_toRightOf="@id/stepsTitle"/>
 
-    <TextView
-        android:id="@+id/stanceTimeLeft"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="232dp"
-        android:layout_marginRight="232dp"
-        android:hint="x ms"
-        android:textSize="20dp"
-        android:background="@color/dark_gray"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
-
-    <TextView
-        android:id="@+id/stanceTimeRight"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="136dp"
-        android:layout_marginRight="136dp"
-        android:hint="x ms"
-        android:textSize="20dp"
-        android:background="@color/dark_gray"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="159dp"
-        android:layout_height="88dp"
-        android:layout_marginEnd="123dp"
-        android:layout_marginRight="123dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent=".05"
+        app:layout_constraintWidth_percent=".5"
+        app:layout_constraintLeft_toLeftOf="@id/viewPagerMain"
+        app:layout_constraintRight_toRightOf="@id/viewPagerMain"
         android:progress="70"
-        app:layout_constraintBottom_toTopOf="@+id/chronometer"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:layout_marginTop="40dp"
+        app:layout_constraintTop_toBottomOf="@id/viewPagerMain"
+        />
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewPagerMain"
         android:layout_width="match_parent"
-        android:layout_height="268dp"
-        android:layout_marginBottom="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/progressBar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        android:layout_marginTop="40dp"
+        android:layout_height="0dp"
+       app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/monitoringButtonsLayout"
+        app:layout_constraintHeight_percent=".42"
+         >
+        <ImageView
+            android:id="@+id/feet_l"
+            android:layout_width="270dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/foot_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/feet_r"
+            android:layout_width="270dp"
+            android:layout_height="268dp"
+            android:layout_marginStart="124dp"
+            android:layout_marginLeft="124dp"
+            android:layout_toRightOf="@id/feet_l"
+            android:src="@drawable/foot_icon_inverted"
+            app:layout_constraintStart_toStartOf="@+id/feet_l"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
 
 
     </androidx.viewpager.widget.ViewPager>
@@ -245,3 +275,4 @@
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
