@@ -23,6 +23,7 @@ header("Content-Type: application/json; charset=UTF-8");
 	
 	if(count($queries)>0)
 	{
+		
 		if(isset($queries['username'])){
 			$username=$queries['username'];
 		}
@@ -30,11 +31,15 @@ header("Content-Type: application/json; charset=UTF-8");
 		if(isset($queries['password'])){
 			$password=$queries['password'];
 		}
+		
+		if(isset($queries['email'])){
+
+			$email=$queries['email'];
+		}
 	}else{
       if(isset($_POST['username'])){
         $username = $_POST['username'];
-        
-		
+	
     }
     
     if(isset($_POST['password'])){
@@ -54,7 +59,7 @@ header("Content-Type: application/json; charset=UTF-8");
     
     // Registration
     
-    if(!empty($username) && !empty($password) && !empty($email)){
+  /*  if(!empty($username) && !empty($password) && !empty($email)){
         
         $hashed_password = sha1($password);
         
@@ -62,16 +67,24 @@ header("Content-Type: application/json; charset=UTF-8");
         
         echo json_encode($json_registration);
         
-    }
+    } */
+
+ 
     
     // Login
-    
-    if(!empty($username) && !empty($password) && empty($email)){
-        
-        $hashed_password = sha1($password);
-        
-        $json_array = $userObject->loginUsers($username, $hashed_password);
-        
+	
+	if(!empty($password)){
+		
+		$hashed_password = sha1($password);
+		 
+		if(!empty($username))
+			
+			$json_array = $userObject->loginUsers($username, $hashed_password, 0);
+		
+		if(!empty($email))
+			
+			$json_array = $userObject->loginUsers($email, $hashed_password,1);
+ 
         echo json_encode($json_array);
     }
     ?>

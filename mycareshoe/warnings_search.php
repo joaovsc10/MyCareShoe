@@ -4,7 +4,7 @@ header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
   
 // database connection will be here
-require_once 'warnings.php';
+require_once 'warning.php';
 require_once 'db_connect.php';
 
   
@@ -16,10 +16,17 @@ $db = $database->getConnection();
 // initialize object
 $warnings = new Warning($db);
 
+// get posted data
+$queries = array();
+parse_str($_SERVER['QUERY_STRING'], $queries);
 
+if(isset($queries['patient_number']))
+{}
 // query warnings
-$result = $warnings->read();
+$result = $warnings->readAll($queries);
 $num = $result->rowCount();
+
+
   
 // check if more than 0 record found
 if($num>0){
@@ -37,7 +44,8 @@ if($num>0){
   
         $warnings_item=array(      
 			"patient_number" => $patient_number,
-			"reading_id" => $reading_id
+			"reading_id" => $reading_id,
+			"warning_date" => $warning_date
         );
   
         array_push($warnings_arr["readings"], $warnings_item);
@@ -55,9 +63,9 @@ else{
     // set response code - 404 Not found
     http_response_code(404);
   
-    // tell the user no sensor data was found
+    // tell the user no warning data was found
     echo json_encode(
-        array("message" => "No Sensor data found.")
+        array("message" => "No warning data found.")
     );
 }
 

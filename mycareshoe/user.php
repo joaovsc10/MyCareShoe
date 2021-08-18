@@ -25,11 +25,14 @@
             $this->conn = $db;
         }
         
-        public function isLoginExist($username, $password){
+        public function isLoginExist($usernameEmail, $password, $isEmailSet){
 			
-            
-            $query = "select * from ".$this->db_table." where username = '$username' AND password = '$password' Limit 1";
-			       
+			if ($isEmailSet==0)
+				$query = "select * from ".$this->db_table." where username = '$usernameEmail' AND password = '$password' Limit 1";
+			
+			 elseif($isEmailSet==1)
+				$query = "select * from ".$this->db_table." where email = '$usernameEmail' AND password = '$password' Limit 1";
+				
             // prepare query statement
 			$stmt = $this->conn->prepare($query);
   
@@ -48,7 +51,7 @@
 				$this->username = $row['username'];
 				$this->patient_number = $row['patient_number'];
                 $this->conn = null;
-                
+               
                 
                 return $row;
                 
@@ -137,11 +140,11 @@
             
         }
         
-        public function loginUsers($username, $password){
+        public function loginUsers($usernameEmail, $password, $isEmailSet){
             
             $json = array();
             
-            $canUserLogin = $this->isLoginExist($username, $password);
+            $canUserLogin = $this->isLoginExist($usernameEmail, $password, $isEmailSet);
             
             if($canUserLogin!=false){
                 

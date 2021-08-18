@@ -17,8 +17,12 @@ $db = $database->getConnection();
 // prepare sensor reading object
 $sensors = new Sensors($db);
 
+// get posted data
+$queries = array();
+parse_str($_SERVER['QUERY_STRING'], $queries);
+
 // read the details of sensors reading to be edited
-$sensors->readOne();
+$sensors->readOne($queries);
   
 if($sensors->patient_number!=null){
 	
@@ -38,6 +42,23 @@ if($sensors->patient_number!=null){
 		"S11" => $sensors->S11,
 		"S12" => $sensors->S12,
 		"S13" => $sensors->S13,
+		"S14" => $sensors->S14,
+        "S15" => $sensors->S15,
+		"S16" => $sensors->S16,
+		"S17" => $sensors->S17,
+		"S18" => $sensors->S18,
+		"S19" => $sensors->S19,
+		"S20" => $sensors->S20,
+		"S21" => $sensors->S21,
+		"S22" => $sensors->S22,
+		"S23" => $sensors->S23,
+		"S24" => $sensors->S24,
+		"S25" => $sensors->S25,
+		"S26" => $sensors->S26,
+		"T1" => $sensors->T1,
+		"T2" => $sensors->T2,
+		"H1" => $sensors->H1,
+		"H2" => $sensors->H2,
 		"date" => $sensors->date,
 		"patient_number" => $sensors->patient_number
     );

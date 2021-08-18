@@ -34,6 +34,7 @@ if(!$emptyFound)
     // set warning's property values
     $warning->reading_id = $queries["reading_id"];
 	$warning->patient_number = $queries["patient_number"];
+	$warning->warning_date = $queries["warning_date"];
   
     // create the warning
     if($warning->create()){

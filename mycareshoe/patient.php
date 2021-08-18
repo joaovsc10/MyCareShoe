@@ -70,5 +70,35 @@ class Patient{
     return $stmt;
 	}
 }
+
+// update the product
+function update($updateData){
+
+  $query = "UPDATE " . $this->table_name . " SET ";
+  $params = array();
+  
+  foreach($updateData as $key=>$value){
+	  
+	  if(isset($key)){
+		  $query .= "$key = :$key, ";
+		// You're using prepared statements, right?
+		$params[$key] = $value;
+	  }
+  }
+  // Cut off last comma and append WHERE clause
+$query = substr($query,0,-2)." WHERE patient_number = :patient_number";
+// Store id for prepared statement
+
+
+    // prepare query statement
+    $stmt = $this->conn->prepare($query);
+ 
+    // execute the query
+    if($stmt->execute($params)){
+        return true;
+    }
+  
+    return false;
+}
 }
 ?>

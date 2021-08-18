@@ -8,6 +8,9 @@ class Sensors{
 	
 	
   
+//https://codeofaninja.com/2017/02/create-simple-rest-api-in-php.html
+
+
     // database connection and table name
     private $db;
     private $table_name = "sensor_reading";
@@ -27,6 +30,23 @@ class Sensors{
 	public $S11;
 	public $S12;
 	public $S13;
+	public $S14;
+    public $S15;
+    public $S16;
+    public $S17;
+    public $S18;
+    public $S19;
+	public $S20;
+	public $S21;
+	public $S22;
+	public $S23;
+	public $S24;
+	public $S25;
+	public $S26;
+	public $T1;
+	public $T2;
+	public $H1;
+	public $H2;
 	public $date;
 	public $patient_number;
   
@@ -52,10 +72,9 @@ class Sensors{
 	// create reading
 	function create(){
 		
-		$array = array("S1","S2","S3","S4", "S5", "S6", "S7", "S8", "S9", "S10", "S11", "S12", "S13", "date", "patient_number" );
-	  
+		
 		// query to insert reading
-		$query = "INSERT INTO " . $this->table_name . " (S1,S2,S3,S4,S5,S6,S7,S8,S9,S10,S11,S12,S13,date,patient_number) VALUES (:S1, :S2, :S3, :S4, :S5, :S6,:S7,:S8,:S9,:S10,:S11,:S12,:S13,:date,:patient_number)";
+		$query = "INSERT INTO " . $this->table_name . " (S1,S2,S3,S4,S5,S6,S7,S8,S9,S10,S11,S12,S13,S14,S15,S16,S17,S18,S19,S20,S21,S22,S23,S24,S25,S26,T1,T2,H1,H2,date,patient_number) VALUES (:S1, :S2, :S3, :S4, :S5, :S6,:S7,:S8,:S9,:S10,:S11,:S12,:S13,:S14,:S15,:S16,:S17,:S18,:S19,:S20,:S21,:S22,:S23,:S24,:S25,:S26,:T1,:T2,:H1,:H2,:date,:patient_number)";
 	  
 	 
 	  // prepare query
@@ -76,6 +95,23 @@ class Sensors{
 		$stmt->bindParam(":S11", $this->S11);
 		$stmt->bindParam(":S12", $this->S12);
 		$stmt->bindParam(":S13", $this->S13);
+		$stmt->bindParam(":S14", $this->S14);
+		$stmt->bindParam(":S15", $this->S15);
+		$stmt->bindParam(":S16", $this->S16);
+		$stmt->bindParam(":S17", $this->S17);
+		$stmt->bindParam(":S18", $this->S18);
+		$stmt->bindParam(":S19", $this->S19);
+		$stmt->bindParam(":S20", $this->S20);
+		$stmt->bindParam(":S21", $this->S21);
+		$stmt->bindParam(":S22", $this->S22);
+		$stmt->bindParam(":S23", $this->S23);
+		$stmt->bindParam(":S24", $this->S24);
+		$stmt->bindParam(":S25", $this->S25);
+		$stmt->bindParam(":S26", $this->S26);
+		$stmt->bindParam(":T1", $this->T1);
+		$stmt->bindParam(":T2", $this->T2);
+		$stmt->bindParam(":H1", $this->H1);
+		$stmt->bindParam(":H2", $this->H2);
 		$stmt->bindParam(":date", $this->date);
 		$stmt->bindParam(":patient_number", $this->patient_number);
 	
@@ -90,7 +126,7 @@ class Sensors{
 }
 
 // used when filling up the update sensors reading form
-function readOne(){
+function readOne($data){
   
     // query to read single record
     $query = "SELECT
@@ -103,9 +139,9 @@ function readOne(){
   
     // prepare query statement
     $stmt = $this->conn->prepare( $query );
-  
+ 
     // bind id of product to be updated
-    $stmt->bindParam(":reading_id", $this->reading_id);
+    $stmt->bindParam(":reading_id", $data['reading_id']);
   
     // execute query
     if($stmt->execute()){
@@ -135,6 +171,23 @@ function readOne(){
 	$this->S11 = $row['S11'];
 	$this->S12 = $row['S12'];
 	$this->S13 = $row['S13'];
+	$this->S14 = $row['S14'];
+    $this->S15 = $row['S15'];
+    $this->S16 = $row['S16'];
+    $this->S17 = $row['S17'];
+    $this->S18 = $row['S18'];
+	$this->S19 = $row['S19'];
+	$this->S20 = $row['S20'];
+	$this->S21 = $row['S21'];
+	$this->S22 = $row['S22'];
+	$this->S23 = $row['S23'];
+	$this->S24 = $row['S24'];
+	$this->S25 = $row['S25'];
+	$this->S26 = $row['S26'];
+	$this->T1 = $row['T1'];
+	$this->T2 = $row['T2'];
+	$this->H1 = $row['H1'];
+	$this->H2 = $row['H2'];
 	$this->date = $row['date'];
 	$this->patient_number = $row['patient_number'];
 	}

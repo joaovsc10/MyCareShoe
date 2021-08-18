@@ -18,6 +18,7 @@ $patient = new Patient($db);
 // get posted data
 $queries = array();
 parse_str($_SERVER['QUERY_STRING'], $queries);
+
   
 if(isset($queries['p']))
 {
