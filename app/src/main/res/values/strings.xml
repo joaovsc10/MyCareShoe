@@ -32,9 +32,12 @@
     <string name="time_en">Time</string>
     <string name="stanceTime_en">Stance Time</string>
 
+
     <!-- Temperature/humidity -->
     <string name="temp_humid_en">Temperature and Humidity</string>
     <string name="humidity_en">Humidity</string>
+    <string name="temperature_display">%1$.1f ºC</string>
+    <string name="humidity_display">%1$.1f %%</string>
 
     <!-- Warnings -->
     <string name="warningTitle_en">Warnings</string>

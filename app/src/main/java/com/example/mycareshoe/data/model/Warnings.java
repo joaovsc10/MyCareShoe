@@ -1,11 +1,11 @@
-package com.example.mycareshoe.data;
+package com.example.mycareshoe.data.model;
 
 import java.util.Date;
 
 public class Warnings {
 
     private Date warningTime;
-    private String[] sensors;
+    private SensorsReading sensorsReading;
     private String duration;
     private static int counter=0;
 
@@ -14,9 +14,9 @@ public class Warnings {
 
     }
 
-    public Warnings(Date warningTime, String[] sensors, String duration) {
+    public Warnings(Date warningTime, SensorsReading sensorsReading, String duration) {
         this.warningTime = warningTime;
-        this.sensors = sensors;
+        this.sensorsReading = sensorsReading;
         this.duration = duration;
         counter++;
     }
@@ -29,12 +29,12 @@ public class Warnings {
         this.warningTime = warningTime;
     }
 
-    public String[] getSensors() {
-        return sensors;
+    public SensorsReading getSensors() {
+        return sensorsReading;
     }
 
-    public void setSensors(String[] sensors) {
-        this.sensors = sensors;
+    public void setSensors(SensorsReading sensors) {
+        this.sensorsReading = sensorsReading;
     }
 
     public String getDuration() {

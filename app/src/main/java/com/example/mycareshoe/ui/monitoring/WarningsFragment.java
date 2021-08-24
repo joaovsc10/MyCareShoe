@@ -4,51 +4,31 @@ import android.app.Dialog;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
 
 import com.example.mycareshoe.R;
-import com.example.mycareshoe.data.Warnings;
 import com.example.mycareshoe.helpers.SharedPrefManager;
 import com.example.mycareshoe.helpers.URLs;
 import com.example.mycareshoe.ui.login.JSONParser;
-import com.example.mycareshoe.ui.settings.BluetoothFragment;
-import com.google.gson.JsonArray;
 
 import org.apache.http.message.BasicNameValuePair;
-import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-
-import static com.example.mycareshoe.data.Warnings.getNumOfWarnings;
 
 public class WarningsFragment extends DialogFragment
 {
@@ -148,7 +128,8 @@ public class WarningsFragment extends DialogFragment
                         warnings.add(array.getJSONObject(i).getString("reading_id"));
                         warningsDate.add(array.getJSONObject(i).getString("warning_date"));
                     }
-         //           Collections.sort(warnings, Collections.reverseOrder());
+                    Collections.sort(warnings, Collections.reverseOrder());
+                    Collections.sort(warningsDate, Collections.reverseOrder());
 
 
                     // Create a List from String Array elements
@@ -179,7 +160,7 @@ public class WarningsFragment extends DialogFragment
                 JSONParser jsonParser = new JSONParser();
                 //creating request parameters
                 ArrayList params = new ArrayList();
-                params.add(new BasicNameValuePair("patient_number", Integer.toString(SharedPrefManager.getInstance(getContext()).getUser(true).getPatient_number())));
+                params.add(new BasicNameValuePair("patient_number", Integer.toString(SharedPrefManager.getInstance(getContext()).getPatient(true).getPatient_number())));
 
                 //returning the response
                 return jsonParser.makeHttpRequest(URLs.URL_GET_WARNINGS,"GET", params);
@@ -187,5 +168,42 @@ public class WarningsFragment extends DialogFragment
         }
         loadWarnings warnings = new loadWarnings();
         warnings.execute();
+    }
+
+
+    public void createWarning(String reading_id, String date) {
+        class createWarning extends AsyncTask<Void, Void, JSONObject> {
+
+            ProgressBar progressBar;
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+            }
+
+            @Override
+            protected void onPostExecute(JSONObject objs) {
+
+                super.onPostExecute(objs);
+
+            }
+
+
+            @Override
+            protected JSONObject doInBackground(Void... voids) {
+                //creating request handler object
+                JSONParser jsonParser = new JSONParser();
+                //creating request parameters
+                ArrayList params = new ArrayList();
+                params.add(new BasicNameValuePair("patient_number", Integer.toString(SharedPrefManager.getInstance(getContext()).getPatient(true).getPatient_number())));
+                params.add(new BasicNameValuePair("reading_id", reading_id));
+                params.add(new BasicNameValuePair("warning_date", date));
+
+                //returning the response
+                return jsonParser.makeHttpRequest(URLs.URL_CREATE_WARNING,"PUT", params);
+            }
+        }
+        createWarning createWarning = new createWarning();
+        createWarning.execute();
     }
 }

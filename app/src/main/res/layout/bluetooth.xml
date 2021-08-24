@@ -64,8 +64,7 @@
             <Button
                 android:id="@+id/blCancelButton"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:layout_constraintHeight_percent=".1"
+                android:layout_height="wrap_content"
                 app:layout_constraintWidth_percent=".4"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintVertical_bias="0.7"
@@ -76,8 +75,7 @@
             <Button
                 android:id="@+id/blSaveButton"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:layout_constraintHeight_percent=".1"
+                android:layout_height="wrap_content"
                 app:layout_constraintWidth_percent=".4"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintVertical_bias="0.7"

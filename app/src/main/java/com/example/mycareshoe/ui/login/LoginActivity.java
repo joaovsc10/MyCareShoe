@@ -1,6 +1,7 @@
 package com.example.mycareshoe.ui.login;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -12,8 +13,10 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.ColorUtils;
 
 import com.example.mycareshoe.R;
+import com.example.mycareshoe.data.model.Patient;
 import com.example.mycareshoe.data.model.User;
 import com.example.mycareshoe.helpers.SharedPrefManager;
 import com.example.mycareshoe.helpers.URLs;
@@ -105,7 +108,7 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
 
                         JSONObject json = obj.getJSONObject("user");
-                        User user = new User(
+                        Patient patient = new Patient(
                                 json.getInt("user_id"),
                                 json.getString("username"),
                                 json.getInt("profile_id"),
@@ -116,7 +119,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
                         //storing the user in shared preferences
-                        SharedPrefManager.getInstance(getApplicationContext()).userLogin(user);
+                        SharedPrefManager.getInstance(getApplicationContext()).patientLogin(patient);
 
                         //starting the profile activity
                         finish();

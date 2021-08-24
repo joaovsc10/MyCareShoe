@@ -1,53 +1,34 @@
 package com.example.mycareshoe.ui.monitoring;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.os.Handler;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
 
 import com.example.mycareshoe.R;
-import com.example.mycareshoe.data.Warnings;
+import com.example.mycareshoe.data.model.SensorsReading;
 import com.example.mycareshoe.helpers.SharedPrefManager;
 import com.example.mycareshoe.helpers.URLs;
 import com.example.mycareshoe.ui.login.JSONParser;
 import com.example.mycareshoe.ui.settings.BluetoothFragment;
-import com.google.gson.JsonArray;
 
 import org.apache.http.message.BasicNameValuePair;
 import org.jetbrains.annotations.NotNull;
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import static com.example.mycareshoe.data.Warnings.getNumOfWarnings;
 
 public class TemperatureHumidityFragment extends DialogFragment
 {
@@ -56,13 +37,29 @@ public class TemperatureHumidityFragment extends DialogFragment
     private TextView rightFootTemperature;
     private TextView leftFootHumidity;
     private TextView rightFootHumidity;
+    private SensorsReading sr;
+    private Handler handler = new Handler();
 
-    // Initializing a new String Array
-    ArrayList<String> warnings = new ArrayList<String>();
+    Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            leftFootTemperature.setText(getString(R.string.temperature_display,sr.getT1()));
+            rightFootTemperature.setText(getString(R.string.temperature_display,sr.getT2()));
+            leftFootHumidity.setText(getString(R.string.humidity_display,sr.getH1()));
+            rightFootHumidity.setText(getString(R.string.humidity_display,sr.getH2()));
+            handler.postDelayed(this, 0);
+        }
+    };
 
+    public void setSr(SensorsReading sr) {
+        this.sr = sr;
+    }
 
-
-
+    @Override
+    public void onDismiss(@NonNull @NotNull DialogInterface dialog) {
+        handler.removeCallbacks(runnable);
+        super.onDismiss(dialog);
+    }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState)
@@ -78,26 +75,30 @@ public class TemperatureHumidityFragment extends DialogFragment
         builder.setContentView(view);
 
 
+
+        Bundle bundle = getArguments();
+        setSr((SensorsReading) bundle.getSerializable("reading"));
+
+
         leftFootTemperature = (TextView) view.findViewById(R.id.leftFootTemperature);
         rightFootTemperature = (TextView) view.findViewById(R.id.rightFootTemperature);
         leftFootHumidity = (TextView) view.findViewById(R.id.leftFootHumidity);
         rightFootHumidity = (TextView) view.findViewById(R.id.rightFootHumidity);
 
-        leftFootTemperature.setText("38ºC");
-        rightFootTemperature.setText("38ºC");
-        leftFootHumidity.setText("50%");
-        rightFootHumidity.setText("60%");
+
+
+
+
+        handler.postDelayed(runnable,0);
+
         closeButton = view.findViewById(R.id.tempHumidity_exit);
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                handler.removeCallbacks(runnable);
                 dismiss(); // <---- closes the dialog
             }
         });
-
-
-
-
 
         return builder;
     }
@@ -115,12 +116,9 @@ public class TemperatureHumidityFragment extends DialogFragment
             @Override
             protected void onPostExecute(JSONObject objs) {
 
-
-
                 super.onPostExecute(objs);
 
             }
-
 
             @Override
             protected JSONObject doInBackground(Void... voids) {
@@ -128,7 +126,7 @@ public class TemperatureHumidityFragment extends DialogFragment
                 JSONParser jsonParser = new JSONParser();
                 //creating request parameters
                 ArrayList params = new ArrayList();
-                params.add(new BasicNameValuePair("patient_number", Integer.toString(SharedPrefManager.getInstance(getContext()).getUser(true).getPatient_number())));
+                params.add(new BasicNameValuePair("patient_number", Integer.toString(SharedPrefManager.getInstance(getContext()).getPatient(true).getPatient_number())));
 
                 //returning the response
                 return jsonParser.makeHttpRequest(URLs.URL_GET_WARNINGS,"GET", params);
@@ -137,4 +135,5 @@ public class TemperatureHumidityFragment extends DialogFragment
         loadWarnings warnings = new loadWarnings();
         warnings.execute();
     }
+
 }

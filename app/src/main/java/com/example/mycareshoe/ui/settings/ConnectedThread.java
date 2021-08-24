@@ -35,8 +35,8 @@ public class ConnectedThread extends Thread {
         int bytes = 0;
         while (true) {
             try {
-                Log.d("String Key", "the value you want to see");
                 bytes += mmInStream.read(buffer, bytes, buffer.length - bytes);
+
                 for(int i = begin; i < bytes; i++) {
                     if(buffer[i] == "#".getBytes()[0]) {
                         mHandler.obtainMessage(1, begin, i, buffer).sendToTarget();

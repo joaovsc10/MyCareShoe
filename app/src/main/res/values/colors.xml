@@ -11,4 +11,5 @@
     <color name="grey_toolbar"> #DCDCDC </color>
     <color name="dark_gray"> #838383 </color>
     <color name="red">#FF0000</color>
+    <color name="dark_green">#00FF00</color>
 </resources>

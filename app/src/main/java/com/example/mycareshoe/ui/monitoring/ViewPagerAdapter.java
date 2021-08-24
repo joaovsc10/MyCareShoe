@@ -1,5 +1,6 @@
 package com.example.mycareshoe.ui.monitoring;
 import com.example.mycareshoe.R;
+import com.example.mycareshoe.data.model.SensorsReading;
 
 import android.app.Activity;
 import android.content.Context;
@@ -33,6 +34,7 @@ class ViewPagerAdapter extends PagerAdapter {
 
     private TextView[] dots;
     private int[] layouts;
+    private SensorsReading sensorsReading;
 
 
     // Viewpager Constructor

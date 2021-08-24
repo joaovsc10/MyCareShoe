@@ -2,11 +2,9 @@ package com.example.mycareshoe.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -16,6 +14,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.mycareshoe.R;
+import com.example.mycareshoe.data.model.SensorsReading;
 import com.example.mycareshoe.helpers.SharedPrefManager;
 import com.example.mycareshoe.ui.login.LoginActivity;
 import com.example.mycareshoe.ui.monitoring.MonitoringFragment;
@@ -30,7 +29,33 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout drawer;
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+
+    /*    //Get the text file
+        File dir = new File(Environment.getExternalStorageDirectory().toString() + "/Download");
+        dir.mkdir();
+        File file = new File(dir, "BLABLABLAS.txt");
+
+
+        //Read text from file
+        StringBuilder text = new StringBuilder();
+
+        try {
+            if(file.exists()) {
+                BufferedReader br = new BufferedReader(new FileReader(file));
+                String line;
+
+                while ((line = br.readLine()) != null) {
+                    text.append(line);
+                    text.append('\n');
+                }
+                br.close();
+            }
+        }
+        catch (IOException e) {
+            System.out.println(e);
+        }
+*/
+       super.onCreate(savedInstanceState);
         setContentView(R.layout.sidebar);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -68,8 +93,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 // id will be your layout's id: for example R.id.left_drawer
                 TextView textViewName = findViewById(R.id.name);
                 TextView textViewEmail = findViewById(R.id.email);
-                textViewName.setText(SharedPrefManager.getInstance(getApplicationContext()).getUser(false).getDisplayName().toString());
-                textViewEmail.setText(SharedPrefManager.getInstance(getApplicationContext()).getUser(false).getEmail().toString());
+                textViewName.setText(SharedPrefManager.getInstance(getApplicationContext()).getPatient(false).getUsername().toString());
+                textViewEmail.setText(SharedPrefManager.getInstance(getApplicationContext()).getPatient(false).getEmail().toString());
             }
 
             @Override
@@ -99,7 +124,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(@NonNull @NotNull MenuItem item) {
-
 
         switch (item.getItemId()){
             case R.id.monitorization:

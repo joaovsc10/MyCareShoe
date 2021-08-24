@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
+import com.example.mycareshoe.data.model.Patient;
 import com.example.mycareshoe.data.model.User;
 import com.example.mycareshoe.ui.login.LoginActivity;
 
@@ -33,6 +34,7 @@ public class SharedPrefManager {
     private static final String KEY_DIABETES = "keydiabetes";
     private static final String KEY_FEET_TYPE = "keytype";
     private static final String KEY_NAME = "keyname";
+    private static final String KEY_OVERPRESSURE_VALUE = "keyoverpressure";
 
     private static SharedPrefManager mInstance;
     private static Context mCtx;
@@ -50,31 +52,32 @@ public class SharedPrefManager {
 
     //method to let the user login
     //this method will store the user data in shared preferences
-    public void userLogin(User user) {
+    public void patientLogin(Patient patient) {
 
         SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt(KEY_ID, user.getUserId());
-        editor.putString(KEY_USERNAME, user.getDisplayName());
-        editor.putInt(KEY_PROFILE_ID, user.getProfile_id());
-        editor.putString(KEY_EMAIL, user.getEmail());
-        editor.putInt(KEY_PATIENT_NUMBER, user.getPatient_number());
-        editor.putString(KEY_PASSWORD, user.getPassword());
+        editor.putInt(KEY_ID, patient.getUserId());
+        editor.putString(KEY_USERNAME, patient.getUsername());
+        editor.putInt(KEY_PROFILE_ID, patient.getProfile_id());
+        editor.putString(KEY_EMAIL, patient.getEmail());
+        editor.putInt(KEY_PATIENT_NUMBER, patient.getPatient_number());
+        editor.putString(KEY_PASSWORD, patient.getPassword());
+        editor.putInt(KEY_OVERPRESSURE_VALUE, 200);
         editor.apply();
     }
 
-    public void updatePersonalInfo(User user){
+    public void updatePersonalInfo(Patient patient){
 
         SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(KEY_GENDER, user.getGender());
-        editor.putString(KEY_BIRTH, user.getBirth());
-        editor.putInt(KEY_HEIGHT, user.getHeight());
-        editor.putInt(KEY_WEIGHT, user.getWeight());
-        editor.putInt(KEY_FEET_SIZE, user.getFeetSize());
-        editor.putString(KEY_DIABETES, user.getDiabetesStatus());
-        editor.putString(KEY_FEET_TYPE, user.getFeetType());
-        editor.putString(KEY_NAME, user.getName());
+        editor.putString(KEY_GENDER, patient.getGender());
+        editor.putString(KEY_BIRTH, patient.getBirth());
+        editor.putInt(KEY_HEIGHT, patient.getHeight());
+        editor.putInt(KEY_WEIGHT, patient.getWeight());
+        editor.putInt(KEY_FEET_SIZE, patient.getFeetSize());
+        editor.putString(KEY_DIABETES, patient.getDiabetesStatus());
+        editor.putString(KEY_FEET_TYPE, patient.getFeetType());
+        editor.putString(KEY_NAME, patient.getName());
         editor.apply();
 
         System.out.println(sharedPreferences.getAll());
@@ -87,13 +90,19 @@ public class SharedPrefManager {
         return sharedPreferences.getString(KEY_USERNAME, null) != null;
     }
 
+    public int getOverPressureValue(){
+        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+
+        return sharedPreferences.getInt(KEY_OVERPRESSURE_VALUE, -1);
+    }
+
     //this method will give the logged in user
-    public User getUser(boolean personalInfo) {
+    public Patient getPatient(boolean personalInfo) {
         SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
 
         if(personalInfo) {
             System.out.println(sharedPreferences.getAll());
-            return new User(
+            return new Patient(
                     sharedPreferences.getInt(KEY_ID, -1),
                     sharedPreferences.getString(KEY_USERNAME, null),
                     sharedPreferences.getInt(KEY_PROFILE_ID, -1),
@@ -110,7 +119,7 @@ public class SharedPrefManager {
                     sharedPreferences.getString(KEY_NAME, null)
             );
         }else{
-            return new User(
+            return new Patient(
                     sharedPreferences.getInt(KEY_ID, -1),
                     sharedPreferences.getString(KEY_USERNAME, null),
                     sharedPreferences.getInt(KEY_PROFILE_ID, -1),

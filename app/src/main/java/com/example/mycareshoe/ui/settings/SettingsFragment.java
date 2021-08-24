@@ -3,6 +3,8 @@ package com.example.mycareshoe.ui.settings;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.os.Bundle;
+import android.os.ParcelUuid;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +26,8 @@ import com.example.mycareshoe.ui.monitoring.MonitoringFragment;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Set;
 
@@ -44,6 +48,27 @@ public class SettingsFragment extends Fragment {
         getActivity().setTitle(getResources().getString(R.string.settings_en));
 
         Button bluetooth= (Button) view.findViewById(R.id.bluetooth);
+
+        try {
+            BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
+            Method getUuidsMethod = BluetoothAdapter.class.getDeclaredMethod("getUuids", null);
+            ParcelUuid[] uuids = (ParcelUuid[]) getUuidsMethod.invoke(adapter, null);
+
+            if(uuids != null) {
+                for (ParcelUuid uuid : uuids) {
+                    System.out.println("UUID: " + uuid.getUuid().toString());
+                }
+            }else{
+                System.out.println("Uuids not found, be sure to enable Bluetooth!");
+            }
+
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
 
 
         bluetooth.setOnClickListener(new View.OnClickListener() {

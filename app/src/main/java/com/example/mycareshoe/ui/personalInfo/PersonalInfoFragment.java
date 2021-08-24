@@ -12,7 +12,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -21,26 +20,20 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.example.mycareshoe.R;
+import com.example.mycareshoe.data.model.Patient;
 import com.example.mycareshoe.data.model.User;
 import com.example.mycareshoe.helpers.SharedPrefManager;
 import com.example.mycareshoe.helpers.URLs;
-import com.example.mycareshoe.ui.MainActivity;
 import com.example.mycareshoe.ui.login.JSONParser;
 import com.example.mycareshoe.ui.login.LoginActivity;
 import com.example.mycareshoe.ui.monitoring.MonitoringFragment;
-import com.example.mycareshoe.ui.settings.BluetoothFragment;
-import com.example.mycareshoe.ui.settings.ConnectThread;
-import com.google.gson.JsonObject;
 
 import org.apache.http.message.BasicNameValuePair;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -56,8 +49,8 @@ public class PersonalInfoFragment extends Fragment  {
     TextView textViewHeight;
     TextView textViewFeetSize;
     TextView textViewBirthday;
-    ImageButton saveBtn;
-    ImageButton cancelBtn;
+    Button saveBtn;
+    Button cancelBtn;
     ArrayAdapter genderAdapter;
     private ArrayAdapter diabetesAdapter;
     private ArrayAdapter feetTypeAdapter;
@@ -118,8 +111,8 @@ public class PersonalInfoFragment extends Fragment  {
             startActivity(new Intent(getActivity(), LoginActivity.class));
         }
 
-        saveBtn= (ImageButton) view.findViewById(R.id.checkIcon);
-        cancelBtn=(ImageButton) view.findViewById(R.id.cancelIcon);
+        saveBtn= (Button) view.findViewById(R.id.checkIcon);
+        cancelBtn=(Button) view.findViewById(R.id.cancelIcon);
 
         saveBtn.setEnabled(false);
         textViewPatientNumber = (TextView) view.findViewById(R.id.patientNumber);
@@ -194,7 +187,7 @@ public class PersonalInfoFragment extends Fragment  {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                    System.out.println("ehehe");
+
             }
 
         });
@@ -339,18 +332,18 @@ public class PersonalInfoFragment extends Fragment  {
                 }
 
                 //getting the current user
-                User user = SharedPrefManager.getInstance(getActivity()).getUser(true);
+                Patient patient = SharedPrefManager.getInstance(getActivity()).getPatient(true);
 
                 //setting the values to the textviews
-                textViewPatientNumber.setText(Integer.toString(user.getPatient_number()));
+                textViewPatientNumber.setText(Integer.toString(patient.getPatient_number()));
                 textViewPatientNumber.setEnabled(false);
 
-                validateChangedSpinner(genderSpinner, genders, user.getGender(), "gender");
-                validateChangedSpinner(diabetesSpinner, diabetesStatus, user.getDiabetesStatus(), "diabetes");
-                validateChangedSpinner(feetTypeSpinner, feetTypes, user.getFeetType(), "type_feet");
-                validateChangedText(textViewWeight,Integer.toString(user.getWeight()), "weight");
-                validateChangedText(textViewHeight,Integer.toString(user.getHeight()), "height");
-                validateChangedText(textViewFeetSize,Integer.toString(user.getFeetSize()), "feet_size");
+                validateChangedSpinner(genderSpinner, genders, patient.getGender(), "gender");
+                validateChangedSpinner(diabetesSpinner, diabetesStatus, patient.getDiabetesStatus(), "diabetes");
+                validateChangedSpinner(feetTypeSpinner, feetTypes, patient.getFeetType(), "type_feet");
+                validateChangedText(textViewWeight,Integer.toString(patient.getWeight()), "weight");
+                validateChangedText(textViewHeight,Integer.toString(patient.getHeight()), "height");
+                validateChangedText(textViewFeetSize,Integer.toString(patient.getFeetSize()), "feet_size");
 
             }
 
@@ -361,14 +354,14 @@ public class PersonalInfoFragment extends Fragment  {
 
                 //creating request parameters
                 ArrayList params = new ArrayList();
-                params.add(new BasicNameValuePair("p", Integer.toString(SharedPrefManager.getInstance(getContext()).getUser(true).getPatient_number())));
+                params.add(new BasicNameValuePair("p", Integer.toString(SharedPrefManager.getInstance(getContext()).getPatient(true).getPatient_number())));
 
                 //returning the response
                 JSONObject obj= jsonParser.makeHttpRequest(URLs.URL_READ_PATIENT_INFO,"GET", params);
 
-                User user = null;
+                Patient patient = null;
                 try {
-                    user = new User(
+                    patient = new Patient(
                             obj.getString("gender"),
                             obj.getString("birth"),
                             obj.optInt("height", 0),
@@ -381,7 +374,7 @@ public class PersonalInfoFragment extends Fragment  {
 
 
                 //storing the user in shared preferences
-                SharedPrefManager.getInstance(getContext()).updatePersonalInfo(user);
+                SharedPrefManager.getInstance(getContext()).updatePersonalInfo(patient);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -420,7 +413,7 @@ public class PersonalInfoFragment extends Fragment  {
                 JSONParser jsonParser = new JSONParser();
                 //creating request parameters
                 ArrayList params = new ArrayList();
-                params.add(new BasicNameValuePair("patient_number", Integer.toString(SharedPrefManager.getInstance(getContext()).getUser(true).getPatient_number())));
+                params.add(new BasicNameValuePair("patient_number", Integer.toString(SharedPrefManager.getInstance(getContext()).getPatient(true).getPatient_number())));
                 for (Map.Entry<String, String> editedField : updatedata.entrySet()) {
                     params.add(new BasicNameValuePair(editedField.getKey(), editedField.getValue()));
                 }

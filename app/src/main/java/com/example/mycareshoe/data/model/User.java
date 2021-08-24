@@ -1,9 +1,11 @@
 package com.example.mycareshoe.data.model;
 
+import java.io.Serializable;
+
 /**
  * Data class that captures user information for logged in users retrieved from LoginRepository
  */
-public class User {
+public class User implements Serializable {
 
     private int userId;
     private String username;
@@ -11,14 +13,7 @@ public class User {
     private String email;
     private String password;
     private int patient_number;
-    private String gender;
-    private String birth;
-    private int height;
-    private int weight;
-    private int feetSize;
-    private String diabetesStatus;
-    private String feetType;
-    private String name;
+
 
     public User(int userId, String username, int profile_id, String email, String password, int patient_number) {
         this.userId = userId;
@@ -29,91 +24,62 @@ public class User {
         this.patient_number = patient_number;
     }
 
-    public User(String gender, String birth, int height, int weight, int feetSize, String diabetesStatus, String feetType, String name) {
-        this.gender = gender;
-        this.birth = birth;
-        this.height = height;
-        this.weight = weight;
-        this.feetSize = feetSize;
-        this.diabetesStatus = diabetesStatus;
-        this.feetType = feetType;
-        this.name = name;
+    public User() {
+        this.userId = -1;
+        this.username = null;
+        this.profile_id = -1;
+        this.email = null;
+        this.password = null;
+        this.patient_number = -1;
     }
 
-    public User(int userId, String username, int profile_id, String email, String password, int patient_number, String gender, String birth, int height, int weight, int feetSize, String diabetesStatus, String feetType, String name) {
+
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
         this.userId = userId;
-        this.username = username;
-        this.profile_id = profile_id;
-        this.email = email;
-        this.password = password;
-        this.patient_number = patient_number;
-        this.gender = gender;
-        this.birth = birth;
-        this.height = height;
-        this.weight = weight;
-        this.feetSize = feetSize;
-        this.diabetesStatus = diabetesStatus;
-        this.feetType = feetType;
-        this.name = name;
     }
 
     public String getUsername() {
         return username;
     }
 
-    public String getGender() {
-        return gender;
-    }
-
-    public String getBirth() {
-        return birth;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public int getWeight() {
-        return weight;
-    }
-
-    public int getFeetSize() {
-        return feetSize;
-    }
-
-    public String getDiabetesStatus() {
-        return diabetesStatus;
-    }
-
-    public String getFeetType() {
-        return feetType;
-    }
-
-    public String getName() {
-        return name;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public int getProfile_id() {
         return profile_id;
     }
 
+    public void setProfile_id(int profile_id) {
+        this.profile_id = profile_id;
+    }
+
     public String getEmail() {
         return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {
         return password;
     }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public int getPatient_number() {
         return patient_number;
     }
 
-    public int getUserId() {
-        return userId;
-    }
-
-    public String getDisplayName() {
-        return username;
+    public void setPatient_number(int patient_number) {
+        this.patient_number = patient_number;
     }
 }
