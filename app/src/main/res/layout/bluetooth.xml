@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -11,7 +12,6 @@
         android:id="@+id/fragment_bluetooth"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -32,27 +32,27 @@
 
             <Spinner
                 android:id="@+id/spinnerBluetoothR"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                app:layout_constraintRight_toLeftOf="@id/right_guideline"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/spinnerBluetoothL"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintVertical_bias="0.2"
                 android:background="@android:drawable/btn_dropdown"
                 android:spinnerMode="dropdown"
-                app:layout_constraintLeft_toRightOf="parent"
-                app:layout_constraintRight_toLeftOf="parent" />
+                app:layout_constraintLeft_toRightOf="@id/leftt_guideline"/>
 
             <Spinner
                 android:id="@+id/spinnerBluetoothL"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                app:layout_constraintRight_toLeftOf="@id/right_guideline"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintVertical_bias="0.1"
                 android:background="@android:drawable/btn_dropdown"
                 android:spinnerMode="dropdown"
-                app:layout_constraintLeft_toRightOf="parent"
-                app:layout_constraintRight_toLeftOf="parent"/>
+                app:layout_constraintLeft_toRightOf="@id/leftt_guideline"/>
 
             <ListView
                 android:id="@+id/deviceList"
@@ -107,6 +107,9 @@
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
 
     </FrameLayout>
 

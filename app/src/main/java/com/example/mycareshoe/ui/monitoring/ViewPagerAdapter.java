@@ -1,5 +1,4 @@
 package com.example.mycareshoe.ui.monitoring;
-import com.example.mycareshoe.R;
 import com.example.mycareshoe.data.model.SensorsReading;
 
 import android.app.Activity;
@@ -7,19 +6,13 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
-
-import java.util.Objects;
-
-import static android.os.Build.VERSION_CODES.R;
 
 class ViewPagerAdapter extends PagerAdapter {
 
@@ -64,7 +57,7 @@ class ViewPagerAdapter extends PagerAdapter {
 
         switch (position) {
             case 0:
-                resId = com.example.mycareshoe.R.layout.feet_sensors;
+                resId = com.example.mycareshoe.R.layout.down_sensors;
                 break;
             case 1:
                 resId =  com.example.mycareshoe.R.layout.upper_sensors;

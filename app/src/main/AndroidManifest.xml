@@ -16,6 +16,7 @@
 
 
     <application
+        android:configChanges="orientation|screenSize"
         android:requestLegacyExternalStorage="true"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"

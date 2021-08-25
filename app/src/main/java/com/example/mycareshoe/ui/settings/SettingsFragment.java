@@ -33,8 +33,11 @@ import java.util.Set;
 
 public class SettingsFragment extends Fragment {
 
+
+
     @Override
     public View onCreateView(@NonNull @NotNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+
         return inflater.inflate(R.layout.fragment_settings, container, false);
 
 
@@ -43,6 +46,8 @@ public class SettingsFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+
+
         super.onViewCreated(view, savedInstanceState);
 
         getActivity().setTitle(getResources().getString(R.string.settings_en));
@@ -74,10 +79,10 @@ public class SettingsFragment extends Fragment {
         bluetooth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FrameLayout frameLayout = (FrameLayout) view.findViewById(R.id.contentFragment);
+                FrameLayout frameLayout = (FrameLayout) view.findViewById(R.id.contentFragmente);
 
                 frameLayout.removeAllViews();
-                getChildFragmentManager().beginTransaction().replace(R.id.contentFragment, new BluetoothFragment()).addToBackStack("Bluetooth").commit();
+                getParentFragmentManager().beginTransaction().replace(((ViewGroup)getView().getParent()).getId(), new BluetoothFragment()).addToBackStack("Bluetooth").commit();
 
             }
         });

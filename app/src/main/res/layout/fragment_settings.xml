@@ -7,24 +7,23 @@
     android:background="#26957F">
 
     <FrameLayout
-        android:id="@+id/contentFragment"
+        android:id="@+id/contentFragmente"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_weight="1"
+        android:layout_weight="1">
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/bluetooth"
+        android:layout_width="match_parent"
+        android:layout_height="71dp"
+        android:layout_alignParentTop="true"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="@string/bluetooth_en"
+        android:drawableLeft="@drawable/ic_baseline_bluetooth"
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/bluetooth"
-            android:layout_width="match_parent"
-            android:layout_height="71dp"
-            android:layout_alignParentTop="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:text="@string/bluetooth_en"
-            android:drawableLeft="@drawable/ic_baseline_bluetooth"
-            />
+        />
+
 
     </FrameLayout>
 
