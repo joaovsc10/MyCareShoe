@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,9 +19,11 @@ import androidx.core.graphics.ColorUtils;
 import com.example.mycareshoe.R;
 import com.example.mycareshoe.data.model.Patient;
 import com.example.mycareshoe.data.model.User;
+import com.example.mycareshoe.helpers.PatientHelper;
 import com.example.mycareshoe.helpers.SharedPrefManager;
 import com.example.mycareshoe.helpers.URLs;
 import com.example.mycareshoe.ui.MainActivity;
+import com.example.mycareshoe.ui.personalInfo.PersonalInfoFragment;
 
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
@@ -31,6 +34,8 @@ import java.util.ArrayList;
 public class LoginActivity extends AppCompatActivity {
 
     EditText editTextUsername, editTextPassword;
+    private PatientHelper patientHelper = new PatientHelper();
+    private TextView createAccount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +46,7 @@ public class LoginActivity extends AppCompatActivity {
         editTextUsername = (EditText) findViewById(R.id.username);
         editTextPassword = (EditText) findViewById(R.id.password);
 
-
+        createAccount = (TextView) findViewById(R.id.createAccount);
         Button login= (Button) findViewById(R.id.login);
         //if user presses on login
         //calling the method login
@@ -52,7 +57,13 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-
+        createAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+                startActivity(new Intent(getApplicationContext(), RegistrationActivity.class));
+            }
+        });
 
     }
 
@@ -105,28 +116,35 @@ public class LoginActivity extends AppCompatActivity {
 
                     //if no error in response
                     if (obj.getString("success").equals("1")) {
-                        Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
 
-                        JSONObject json = obj.getJSONObject("user");
-                        Patient patient = new Patient(
-                                json.getInt("user_id"),
-                                json.getString("username"),
-                                json.getInt("profile_id"),
-                                json.getString("email"),
-                                json.getString("password"),
-                                json.getInt("patient_number")
-                                );
+                        if(obj.getJSONObject("user").getInt("profile_id")!=1){
+                            Toast.makeText(getApplicationContext(), "The APP is only meant to be used by a patient. Contact the administrator.", Toast.LENGTH_SHORT).show();
+                        }else {
+
+                            Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
+
+                            JSONObject json = obj.getJSONObject("user");
+                            Patient patient = new Patient(
+                                    json.getInt("user_id"),
+                                    json.getString("username"),
+                                    json.getInt("profile_id"),
+                                    json.getString("email"),
+                                    json.getString("password"),
+                                    json.getInt("patient_number")
+                            );
 
 
-                        //storing the user in shared preferences
-                        SharedPrefManager.getInstance(getApplicationContext()).patientLogin(patient);
+                            //storing the user in shared preferences
+                            SharedPrefManager.getInstance(getApplicationContext()).patientLogin(patient);
 
-                        //starting the profile activity
-                        finish();
-                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
 
+                            //starting the profile activity
+                            finish();
+                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                        }
                     } else {
-                        Toast.makeText(getApplicationContext(), "Invalid username or password", Toast.LENGTH_SHORT).show();
+
+                        Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
                         Drawable dr = getResources().getDrawable(R.drawable.ic_baseline_error_24);
                         //add an error icon to yur drawable files
                         dr.setBounds(0, 0, dr.getIntrinsicWidth(), dr.getIntrinsicHeight());
@@ -144,18 +162,31 @@ public class LoginActivity extends AppCompatActivity {
             protected JSONObject doInBackground(Void... voids) {
                 //creating request handler object
                 JSONParser jsonParser = new JSONParser();
+                JSONObject result = null;
 
                 ArrayList params = new ArrayList();
 
-                if(isEmailValid(usernameEmail))
-                    params.add(new BasicNameValuePair("email", usernameEmail));
-                else
-                    params.add(new BasicNameValuePair("username", usernameEmail));
+      //          if(isEmailValid(usernameEmail))
+      //              params.add(new BasicNameValuePair("email", usernameEmail));
+      //          else
+      //              params.add(new BasicNameValuePair("username", usernameEmail));
+                params.add(new BasicNameValuePair("usernameEmail", usernameEmail));
 
                 params.add(new BasicNameValuePair("password", password));
 
+
                 //returing the response
-                return jsonParser.makeHttpRequest(URLs.URL_LOGIN,"POST", params);
+                try {
+                    result = jsonParser.makeHttpRequest(URLs.URL_LOGIN,"POST", params);
+                    if (result!=null && result.getString("success").equals("1")) {
+                        patientHelper.getPersonalInfo(getApplicationContext(), result.getJSONObject("user").getInt("patient_number"));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                return result;
+
             }
         }
 

@@ -29,6 +29,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class WarningsFragment extends DialogFragment
 {
@@ -36,9 +38,10 @@ public class WarningsFragment extends DialogFragment
     private
     // Initializing a new String Array
     ArrayList<String> warnings = new ArrayList<String>();
-    ArrayList<String> warningsDate = new ArrayList<String>();
     private List<String> warnings_list;
     private List<String> warnings_date_list;
+    private Map<String, String> warningsTreeMap =
+            new TreeMap<String, String>(Collections.reverseOrder());
 
     public List<String> getWarnings_date_list() {
         return warnings_date_list;
@@ -89,7 +92,6 @@ public class WarningsFragment extends DialogFragment
         lstView.setEmptyView(emptyText);
 
 
-
         lstView.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -97,7 +99,8 @@ public class WarningsFragment extends DialogFragment
                 dismiss();
                 WarningDetailsFragment detailsFragment= new WarningDetailsFragment();
                 Bundle bundle = new Bundle();
-                bundle.putString("reading_id", getWarnings_list().get(position));
+                bundle.putString("warning_date", warningsTreeMap.keySet().toArray()[position].toString());
+                bundle.putString("sensors", warningsTreeMap.get(warningsTreeMap.keySet().toArray()[position]));
                 detailsFragment.setArguments(bundle);
                 getParentFragmentManager().beginTransaction().replace(R.id.fragment_container, detailsFragment).addToBackStack("WarningDetail").commit();
                 getActivity().setTitle(lstView.getAdapter().getItem(position).toString());
@@ -116,6 +119,7 @@ public class WarningsFragment extends DialogFragment
 
             @Override
             protected void onPreExecute() {
+
                 super.onPreExecute();
             }
 
@@ -123,32 +127,34 @@ public class WarningsFragment extends DialogFragment
             protected void onPostExecute(JSONObject objs) {
 
                 try {
-                    JSONArray array= objs.getJSONArray("readings");
-                    for(int i=0; i<array.length();i++){
-                        warnings.add(array.getJSONObject(i).getString("reading_id"));
-                        warningsDate.add(array.getJSONObject(i).getString("warning_date"));
+                    JSONArray array= objs.optJSONArray("readings");
+                    if(array!=null) {
+                        for (int i = 0; i < array.length(); i++) {
+                            if(warningsTreeMap.containsKey(array.getJSONObject(i).getString("warning_date"))){
+                                warningsTreeMap.replace(array.getJSONObject(i).getString("warning_date"), warningsTreeMap.get(array.getJSONObject(i).getString("warning_date"))+","+array.getJSONObject(i).getString("sensor"));
+                            }else {
+                                warningsTreeMap.put(array.getJSONObject(i).getString("warning_date"), array.getJSONObject(i).getString("sensor"));
+                            }
+                        }
+
+                        // Create a List from String Array elements
+                        setWarnings_date_list(new ArrayList<String>(warningsTreeMap.keySet()));
+
+
+                        if (warningsTreeMap.size() > 0 && getContext()!=null) {
+                            // Create an ArrayAdapter from List
+                            final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>
+                                    (getActivity(), android.R.layout.simple_list_item_1, getWarnings_date_list());
+
+
+                            // DataBind ListView with items from ArrayAdapter
+                            listView.setAdapter(arrayAdapter);
+                        }
                     }
-                    Collections.sort(warnings, Collections.reverseOrder());
-                    Collections.sort(warningsDate, Collections.reverseOrder());
-
-
-                    // Create a List from String Array elements
-                    setWarnings_list(new ArrayList<String>(warnings));
-                    setWarnings_date_list(new ArrayList<String>(warningsDate));
-
-                    // Create an ArrayAdapter from List
-                    final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>
-                            (getActivity(), android.R.layout.simple_list_item_1, getWarnings_date_list());
-
-
-                    // DataBind ListView with items from ArrayAdapter
-                    listView.setAdapter(arrayAdapter);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
-
                 super.onPostExecute(objs);
 
             }
@@ -171,10 +177,9 @@ public class WarningsFragment extends DialogFragment
     }
 
 
-    public void createWarning(String reading_id, String date) {
+    public void createWarning(String sensor, String date) {
         class createWarning extends AsyncTask<Void, Void, JSONObject> {
 
-            ProgressBar progressBar;
 
             @Override
             protected void onPreExecute() {
@@ -196,7 +201,7 @@ public class WarningsFragment extends DialogFragment
                 //creating request parameters
                 ArrayList params = new ArrayList();
                 params.add(new BasicNameValuePair("patient_number", Integer.toString(SharedPrefManager.getInstance(getContext()).getPatient(true).getPatient_number())));
-                params.add(new BasicNameValuePair("reading_id", reading_id));
+                params.add(new BasicNameValuePair("sensor", sensor));
                 params.add(new BasicNameValuePair("warning_date", date));
 
                 //returning the response

@@ -53,15 +53,17 @@
 
     <ListView
         android:id="@+id/warningListView"
-        android:layout_width="300dp"
+        android:layout_width="0dp"
         android:layout_height="350dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginLeft="20dp"
+        app:layout_constraintWidth_percent=".8"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         android:layout_marginTop="40dp"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView5" >
 
     </ListView>
+
+
 
     <FrameLayout
         android:id="@+id/contentFragment1"

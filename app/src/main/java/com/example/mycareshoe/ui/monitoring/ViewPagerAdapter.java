@@ -1,5 +1,6 @@
 package com.example.mycareshoe.ui.monitoring;
 import com.example.mycareshoe.data.model.SensorsReading;
+import com.example.mycareshoe.ui.settings.BluetoothFragment;
 
 import android.app.Activity;
 import android.content.Context;
@@ -14,14 +15,16 @@ import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-class ViewPagerAdapter extends PagerAdapter {
+import org.jetbrains.annotations.NotNull;
+
+public class ViewPagerAdapter extends PagerAdapter {
 
     // Context object
     Context context;
 
     // Array of images
     int[] images;
-
+    boolean isInflated=false;
     // Layout Inflater
     LayoutInflater mLayoutInflater;
 
@@ -29,6 +32,14 @@ class ViewPagerAdapter extends PagerAdapter {
     private int[] layouts;
     private SensorsReading sensorsReading;
 
+
+    public boolean isInflated() {
+        return isInflated;
+    }
+
+    public void setInflated(boolean inflated) {
+        isInflated = inflated;
+    }
 
     // Viewpager Constructor
     public ViewPagerAdapter(Context context, int[] images) {
@@ -46,6 +57,11 @@ class ViewPagerAdapter extends PagerAdapter {
     @Override
     public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
         return view == ((RelativeLayout) object);
+    }
+
+    @Override
+    public void finishUpdate(@NonNull @NotNull ViewGroup container) {
+        super.finishUpdate(container);
     }
 
     @NonNull
@@ -68,6 +84,7 @@ class ViewPagerAdapter extends PagerAdapter {
 
 
         ((ViewPager) container).addView(myView, 0);
+        isInflated=true;
         return myView;
     }
 

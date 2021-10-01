@@ -3,6 +3,7 @@ package com.example.mycareshoe.ui.settings;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -13,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -21,11 +23,13 @@ import androidx.fragment.app.Fragment;
 
 import com.example.mycareshoe.R;
 import com.example.mycareshoe.data.model.SensorsReading;
+import com.example.mycareshoe.helpers.SharedPrefManager;
 import com.example.mycareshoe.ui.monitoring.MonitoringFragment;
 import com.example.mycareshoe.ui.monitoring.WarningsFragment;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Set;
 
@@ -41,7 +45,9 @@ public class BluetoothFragment extends Fragment {
     Set<BluetoothDevice> pairedDevices;
     private boolean leftDeviceSelected=false;
     private boolean rightDeviceSelected=false;
-
+    private int aa=0;
+    private int bb=0;
+    private int cc=0;
     public static final int MESSAGE_STATE_CHANGE = 1;
     public static final int MESSAGE_READ = 2;
     public static final int MESSAGE_WRITE = 3;
@@ -53,12 +59,39 @@ public class BluetoothFragment extends Fragment {
     private static final int REQUEST_ENABLE_BLUETOOTH = 1;
     private BluetoothController bluetoothControllerLeft;
     private BluetoothController bluetoothControllerRight;
-    private BluetoothDevice connectingDeviceLeft;
-    private BluetoothDevice connectingDeviceRight;
-    public SensorsReading sr = new SensorsReading();
+    public SensorsReading sr = new SensorsReading(SharedPrefManager.getInstance(getContext()).getOverPressureValue());
+    private ArrayList<String[]> arrayListLeft = new ArrayList<>();
+    private ArrayList<String[]> arrayListRight= new ArrayList<>();
     private WarningsFragment warningsFragment= new WarningsFragment();
     private MonitoringFragment monitoring= new MonitoringFragment();
+    private TextView leftFootStatusTextView;
+    private TextView rightFootStatusTextView;
+    private boolean leftFootConnected;
+    private boolean rightFootConnected;
 
+    public BluetoothController getBluetoothControllerLeft() {
+        return bluetoothControllerLeft;
+    }
+
+    public BluetoothController getBluetoothControllerRight() {
+        return bluetoothControllerRight;
+    }
+
+    public boolean isLeftFootConnected() {
+        return leftFootConnected;
+    }
+
+    public void setLeftFootConnected(boolean leftFootConnected) {
+        this.leftFootConnected = leftFootConnected;
+    }
+
+    public boolean isRightFootConnected() {
+        return rightFootConnected;
+    }
+
+    public void setRightFootConnected(boolean rightFootConnected) {
+        this.rightFootConnected = rightFootConnected;
+    }
 
     public SensorsReading getSr() {
         return sr;
@@ -82,10 +115,28 @@ public class BluetoothFragment extends Fragment {
 
         super.onViewCreated(view, savedInstanceState);
 
+
         getActivity().setTitle(getResources().getString(R.string.bluetooth_en));
 
         Button cancelBtn= (Button) view.findViewById(R.id.blCancelButton);
         Button saveBtn= (Button) view.findViewById(R.id.blSaveButton);
+        leftFootStatusTextView = view.findViewById(R.id.leftFootStatus);
+        rightFootStatusTextView = view.findViewById(R.id.rightFootStatus);
+
+        if (savedInstanceState != null) {
+
+            setLeftFootConnected(savedInstanceState.getBoolean("leftFootStatus"));
+            setRightFootConnected(savedInstanceState.getBoolean("rightFootStatus"));
+
+        }
+
+        if(savedInstanceState!=null || (leftFootStatusTextView.getText()!=null && rightFootStatusTextView.getText()!=null))
+        {
+            setConnectionStatus(leftFootConnected, leftFootStatusTextView);
+            setConnectionStatus(rightFootConnected, rightFootStatusTextView);
+        }
+
+
         saveBtn.setEnabled(false);
         //get the spinner from the xml
         Spinner dropdownL = view.findViewById(R.id.spinnerBluetoothL);
@@ -207,7 +258,7 @@ public class BluetoothFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                getChildFragmentManager().popBackStack("Bluetooth", 0);
+                getActivity().getSupportFragmentManager().popBackStackImmediate();
 
             }
         });
@@ -219,7 +270,11 @@ public class BluetoothFragment extends Fragment {
                 bAdapter.cancelDiscovery();
 
 
-                connectToDevice(rightFootDevice,leftFootDevice);
+                try {
+                    connectToDevice(rightFootDevice,leftFootDevice);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
             }
         });
@@ -227,11 +282,17 @@ public class BluetoothFragment extends Fragment {
 
     }
 
-    private void connectToDevice(BluetoothDevice rightFootdevice, BluetoothDevice leftFootdevice) {
+    private void connectToDevice(BluetoothDevice rightFootdevice, BluetoothDevice leftFootdevice) throws IOException {
         bAdapter.cancelDiscovery();
+
+        if(bluetoothControllerRight.getRightSocket()!=null || bluetoothControllerLeft.getLeftSocket()!=null) {
+            bluetoothControllerLeft.stop("L");
+            bluetoothControllerRight.stop("R");
+        }
         bluetoothControllerLeft.connect(leftFootdevice, "L");
         bluetoothControllerRight.connect(rightFootdevice, "R");
-    }
+
+        }
 
     public void checkSelectedDevices(boolean leftDeviceSelected, boolean rightDeviceSelected, Button btn){
 
@@ -249,15 +310,17 @@ public class BluetoothFragment extends Fragment {
     }
 private Handler setHandler(String foot) {
 
-    final BluetoothDevice[] bluetoothDevice = new BluetoothDevice[1];
         String device;
+        Boolean connectionStatus;
 
         if(foot.equals("L")){
-            bluetoothDevice[0] =connectingDeviceLeft;
-            device=DEVICE_OBJECT_LEFT;}
+            device=DEVICE_OBJECT_LEFT;
+            connectionStatus= isLeftFootConnected();
+        }
         else{
-            bluetoothDevice[0] =connectingDeviceRight;
-            device=DEVICE_OBJECT_RIGHT;}
+            device=DEVICE_OBJECT_RIGHT;
+            connectionStatus= isRightFootConnected();
+        }
     Handler handler = new Handler(new Handler.Callback() {
 
         @Override
@@ -266,17 +329,24 @@ private Handler setHandler(String foot) {
                 case MESSAGE_STATE_CHANGE:
                     switch (msg.arg1) {
                         case BluetoothController.STATE_CONNECTED:
-                            Toast.makeText(getContext(), "Connected to: " + bluetoothDevice[0].getName(),
-                                    Toast.LENGTH_SHORT).show();
+    //                        Toast.makeText(getContext(), "Connected to: " + bluetoothDevice[0].getName(),
+     //                               Toast.LENGTH_SHORT).show();
+
+                            setConnectionStatus(leftFootStatusTextView, rightFootStatusTextView, device, true);
                             break;
                         case BluetoothController.STATE_CONNECTING:
                             Toast.makeText(getContext(), "Connecting...",
                                     Toast.LENGTH_SHORT).show();
                             break;
                         case BluetoothController.STATE_LISTEN:
+
+                            if(connectionStatus==null || !connectionStatus)
+                            {
+                                setConnectionStatus(leftFootStatusTextView, rightFootStatusTextView, device, false);
+                            }
                         case BluetoothController.STATE_NONE:
-                            Toast.makeText(getContext(), "Not connected",
-                                    Toast.LENGTH_SHORT).show();
+
+                            setConnectionStatus(leftFootStatusTextView, rightFootStatusTextView, device, false);
                             break;
                     }
                     break;
@@ -286,34 +356,39 @@ private Handler setHandler(String foot) {
                     String writeMessage = new String(writeBuf);
                     break;
                 case MESSAGE_READ:
+
                     byte[] readBuf = (byte[]) msg.obj;
-
-
 
                     String readMessage = new String(readBuf, 0, msg.arg1);
 
                     String[] arrofs = readMessage.split("\\|");
 
+
                     if(arrofs.length==15){
-                        if(device.equals(DEVICE_OBJECT_LEFT))
-                            sr.setLeftFootSensors(arrofs);
-                        else
-                            sr.setRightFootSensors(arrofs);
+                        if(device.equals(DEVICE_OBJECT_LEFT)){
+
+                             arrayListLeft.add(arrofs);}
+                        else{
+
+                            arrayListRight.add(arrofs);}
                     }
 
-                    if(sr.isDataReceivedFromBothFeet()){
-                        monitoring.createReading(sr);
-                        sr= new SensorsReading();
+                    if(arrayListLeft.size()!=0 && arrayListRight.size()!=0){
+
+                        while(arrayListLeft.size()!=0 && arrayListRight.size()!=0) {
+
+                            sr.setLeftFootSensors(arrayListLeft.get(0));
+                            sr.setRightFootSensors(arrayListRight.get(0));
+                            monitoring.createReading(sr);
+                            sr = new SensorsReading(SharedPrefManager.getInstance(getContext()).getOverPressureValue());
+                            arrayListLeft.remove(0);
+                            arrayListRight.remove(0);
+                        }
 
                     }
-
-        //           Toast.makeText(getContext(), bluetoothDevice[0].getName() + ":  " + readMessage,
-      //                      Toast.LENGTH_SHORT).show();
                     break;
                 case MESSAGE_DEVICE_OBJECT:
-                    bluetoothDevice[0] = msg.getData().getParcelable(device);
-                    Toast.makeText(getContext(), "Connected to " + bluetoothDevice[0].getName(),
-                            Toast.LENGTH_SHORT).show();
+                    setConnectionStatus(leftFootStatusTextView, rightFootStatusTextView, device, true);
                     break;
                 case MESSAGE_TOAST:
                     Toast.makeText(getContext(), msg.getData().getString("toast"),
@@ -328,6 +403,21 @@ private Handler setHandler(String foot) {
 }
 
 
+    Thread one = new Thread() {
+        public void run() {
+            while(arrayListLeft.size()!=0 && arrayListRight.size()!=0) {
+                System.out.println(arrayListLeft.size());
+                System.out.println(arrayListRight.size());
+                sr.setLeftFootSensors(arrayListLeft.get(0));
+                sr.setRightFootSensors(arrayListRight.get(0));
+                monitoring.createReading(sr);
+                sr = new SensorsReading(SharedPrefManager.getInstance(getContext()).getOverPressureValue());
+                arrayListLeft.remove(0);
+                arrayListRight.remove(0);
+            }
+
+        }
+    };
     @Override
     public void onStart() {
         super.onStart();
@@ -335,9 +425,16 @@ private Handler setHandler(String foot) {
             Intent enableIntent = new Intent(bAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableIntent, REQUEST_ENABLE_BLUETOOTH);
         } else {
-            bluetoothControllerLeft = new BluetoothController(getContext(), setHandler("L"));
-            bluetoothControllerRight = new BluetoothController(getContext(), setHandler("R"));
-        }
+                if ((bluetoothControllerLeft==null || bluetoothControllerLeft.getLeftSocket() == null) && !isLeftFootConnected()){
+                    bluetoothControllerLeft = new BluetoothController(getContext(), setHandler("L"));
+                }
+
+
+                if ((bluetoothControllerRight==null || bluetoothControllerRight.getRightSocket() == null) && !isRightFootConnected()){
+                    bluetoothControllerRight = new BluetoothController(getContext(), setHandler("R"));}
+
+            }
+
     }
 
     @Override
@@ -346,16 +443,83 @@ private Handler setHandler(String foot) {
 
         if (bluetoothControllerLeft != null) {
             if (bluetoothControllerLeft.getState() == BluetoothController.STATE_NONE) {
-                bluetoothControllerLeft.start("L");
+
+                    bluetoothControllerLeft.start("L");
+
             }
         }
 
         if (bluetoothControllerRight != null) {
             if (bluetoothControllerRight.getState() == BluetoothController.STATE_NONE) {
-                bluetoothControllerRight.start("R");
+
+                    bluetoothControllerRight.start("R");
+
             }
         }
     }
 
+
+
+    private void setConnectionStatus(TextView textViewLeft, TextView textViewRight, String foot, boolean connected){
+
+
+        TextView textView;
+        String status=getResources().getString(R.string.disconnected_status_en);
+
+        if(foot.equals(DEVICE_OBJECT_LEFT)){
+
+            textView=textViewLeft;
+        }
+        else {
+
+            textView=textViewRight;
+        }
+
+
+        if(foot.equals(DEVICE_OBJECT_LEFT)) {
+            setLeftFootConnected(connected);
+
+        }else {
+            setRightFootConnected(connected);
+        }
+
+        setConnectionStatus(connected, textView);
+
+
+    }
+
+    private void setConnectionStatus(Boolean connectionStatus, TextView footConnectionTextView){
+
+        if(connectionStatus)
+        {
+            footConnectionTextView.setText(R.string.connected_status_en);
+            footConnectionTextView.setTextColor(Color.GREEN);
+        }
+        else{
+            footConnectionTextView.setText(R.string.disconnected_status_en);
+            footConnectionTextView.setTextColor(Color.RED);
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+
+        super.onSaveInstanceState(outState);
+        outState.putBoolean("leftFootStatus", isLeftFootConnected());
+        outState.putBoolean("rightFootStatus", isRightFootConnected());
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        if (savedInstanceState != null) {
+            String a=savedInstanceState.getString("leftFootStatus");
+            setLeftFootConnected(savedInstanceState.getBoolean("leftFootStatus"));
+            setRightFootConnected(savedInstanceState.getBoolean("rightFootStatus"));
+
+        }
+
+    }
 
 }

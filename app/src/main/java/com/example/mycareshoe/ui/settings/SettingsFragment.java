@@ -1,5 +1,6 @@
 package com.example.mycareshoe.ui.settings;
 
+import android.app.DatePickerDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.os.Bundle;
@@ -10,7 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -28,12 +32,17 @@ import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Set;
 
 public class SettingsFragment extends Fragment {
 
-
+        public BluetoothFragment bluetoothFragment= new BluetoothFragment();
+        private AccountSettingsFragment accountSettingsFragment= new AccountSettingsFragment();
+        private Button accountSettings;
 
     @Override
     public View onCreateView(@NonNull @NotNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
@@ -47,13 +56,13 @@ public class SettingsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
 
-
         super.onViewCreated(view, savedInstanceState);
 
         getActivity().setTitle(getResources().getString(R.string.settings_en));
 
         Button bluetooth= (Button) view.findViewById(R.id.bluetooth);
 
+        accountSettings = (Button) view.findViewById(R.id.accountSettingsBtn);
         try {
             BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
             Method getUuidsMethod = BluetoothAdapter.class.getDeclaredMethod("getUuids", null);
@@ -82,12 +91,46 @@ public class SettingsFragment extends Fragment {
                 FrameLayout frameLayout = (FrameLayout) view.findViewById(R.id.contentFragmente);
 
                 frameLayout.removeAllViews();
-                getParentFragmentManager().beginTransaction().replace(((ViewGroup)getView().getParent()).getId(), new BluetoothFragment()).addToBackStack("Bluetooth").commit();
+                getParentFragmentManager().beginTransaction().replace(((ViewGroup)getView().getParent()).getId(), bluetoothFragment).addToBackStack("Bluetooth").commit();
+
+            }
+        });
+
+        accountSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FrameLayout frameLayout = (FrameLayout) view.findViewById(R.id.contentFragmente);
+
+                frameLayout.removeAllViews();
+                getParentFragmentManager().beginTransaction().replace(((ViewGroup)getView().getParent()).getId(), accountSettingsFragment).addToBackStack("AccountSettings").commit();
 
             }
         });
 
 
 }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+
+        super.onSaveInstanceState(outState);
+
+
+
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        if (savedInstanceState != null) {
+
+
+        }
+
+    }
+
+
+
 
 }

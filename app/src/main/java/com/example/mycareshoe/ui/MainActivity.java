@@ -1,34 +1,57 @@
 package com.example.mycareshoe.ui;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.os.PersistableBundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.NotificationCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 
 import com.example.mycareshoe.R;
 import com.example.mycareshoe.data.model.SensorsReading;
+import com.example.mycareshoe.data.model.StatisticsData;
+import com.example.mycareshoe.helpers.ChronometerHelper;
 import com.example.mycareshoe.helpers.SharedPrefManager;
 import com.example.mycareshoe.ui.login.LoginActivity;
 import com.example.mycareshoe.ui.monitoring.MonitoringFragment;
 import com.example.mycareshoe.ui.personalInfo.PersonalInfoFragment;
 import com.example.mycareshoe.ui.settings.SettingsFragment;
+import com.example.mycareshoe.ui.statistics.StatisticsFragment;
 import com.google.android.material.navigation.NavigationView;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawer;
+    private SettingsFragment settingsFragment= new SettingsFragment();
+    private MonitoringFragment monitoringFragment= new MonitoringFragment();
+    private StatisticsFragment statisticsFragment= new StatisticsFragment();
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
+
 
     /*    //Get the text file
         File dir = new File(Environment.getExternalStorageDirectory().toString() + "/Download");
@@ -56,8 +79,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 */
        super.onCreate(savedInstanceState);
-        setContentView(R.layout.sidebar);
 
+
+        if(savedInstanceState!=null){
+            monitoringFragment = (MonitoringFragment) getSupportFragmentManager().getFragment(savedInstanceState, "monitorization");
+            settingsFragment = (SettingsFragment) getSupportFragmentManager().getFragment(savedInstanceState, "settings");
+            statisticsFragment = (StatisticsFragment) getSupportFragmentManager().getFragment(savedInstanceState, "statistics");
+
+        }
+        setContentView(R.layout.sidebar);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -72,10 +102,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-
-
-
-
         drawer.addDrawerListener(new DrawerLayout.DrawerListener() {
 
             @Override
@@ -88,9 +114,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onDrawerOpened(View drawerView) {
                 //Called when a drawer has settled in a completely open state.
                 //The drawer is interactive at this point.
-                // If you have 2 drawers (left and right) you can distinguish
-                // them by using id of the drawerView. int id = drawerView.getId();
-                // id will be your layout's id: for example R.id.left_drawer
+
                 TextView textViewName = findViewById(R.id.name);
                 TextView textViewEmail = findViewById(R.id.email);
                 textViewName.setText(SharedPrefManager.getInstance(getApplicationContext()).getPatient(false).getUsername().toString());
@@ -116,29 +140,36 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         if(savedInstanceState==null) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MonitoringFragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, monitoringFragment).commit();
             navView.setCheckedItem(R.id.monitorization);
 
         }
     }
+
+
 
     @Override
     public boolean onNavigationItemSelected(@NonNull @NotNull MenuItem item) {
 
         switch (item.getItemId()){
             case R.id.monitorization:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MonitoringFragment()).addToBackStack("monitorization").commit();
+
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, monitoringFragment).addToBackStack("monitorization").commit();
                 setTitle(R.string.monitorization_en);
                 break;
             case R.id.statistics:
+
+                if(statisticsFragment==null)
+                    statisticsFragment = new StatisticsFragment();
+               getSupportFragmentManager().beginTransaction().hide(new MonitoringFragment()).replace(R.id.fragment_container,statisticsFragment).addToBackStack("statistics").commit();
                 setTitle(R.string.statistics_en);
                 break;
             case R.id.settings:
-                getSupportFragmentManager().beginTransaction().hide(new MonitoringFragment()).replace(R.id.fragment_container, new SettingsFragment()).addToBackStack("settings").commit();
+
+                if(settingsFragment==null)
+                    settingsFragment= new SettingsFragment();
+                getSupportFragmentManager().beginTransaction().hide(new MonitoringFragment()).replace(R.id.fragment_container,settingsFragment).addToBackStack("settings").commit();
                 setTitle(R.string.settings_en);
-                break;
-            case R.id.privacy:
-               setTitle(R.string.privacy_en);
                 break;
             case R.id.about:
                setTitle(R.string.about_en);
@@ -150,6 +181,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.logout:
                 SharedPrefManager.getInstance(getApplicationContext()).logout();
                 Intent intent = new Intent(this, LoginActivity.class);
+                if(settingsFragment!=null) {
+                    if (settingsFragment.bluetoothFragment != null) {
+                        if (settingsFragment.bluetoothFragment.getBluetoothControllerRight() != null && settingsFragment.bluetoothFragment.getBluetoothControllerLeft() != null) {
+                            if (settingsFragment.bluetoothFragment.getBluetoothControllerRight().getRightSocket() != null || settingsFragment.bluetoothFragment.getBluetoothControllerLeft().getLeftSocket() != null) {
+                                try {
+                                    settingsFragment.bluetoothFragment.getBluetoothControllerRight().stop("R");
+
+                                    settingsFragment.bluetoothFragment.getBluetoothControllerLeft().stop("L");
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+                    }
+                }
                 startActivity(intent);
                 break;
         }
@@ -167,5 +213,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             super.onBackPressed();
         }
     }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+
+        super.onSaveInstanceState(outState);
+
+        //Save the fragment's instance
+        getSupportFragmentManager().putFragment(outState, "monitorization", monitoringFragment);
+        if(getSupportFragmentManager().getFragment(outState, "settings")!=null)
+            getSupportFragmentManager().putFragment(outState, "settings", settingsFragment);
+
+        if(getSupportFragmentManager().getFragment(outState, "statistics")!=null)
+            getSupportFragmentManager().putFragment(outState, "statistics", statisticsFragment);
+    }
+
+    @Override
+    public void onRestoreInstanceState(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
+        super.onRestoreInstanceState(savedInstanceState, persistentState);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+
 
 }

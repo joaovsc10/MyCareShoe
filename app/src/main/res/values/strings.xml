@@ -5,7 +5,6 @@
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Login</string>
     <string name="action_sign_in_short">Login</string>
-    <string name="action_forgot_pass">Forgot password?</string>
     <string name="action_create_account">Create a new account</string>
     <string name="smarthealth_title">SMART-HEALTH-4-ALL</string>
     <string name="smarthealth_subtitle">SMART MEDICAL TECHNOLOGIES FOR BETTER HEALTH AND CARE</string>
@@ -24,6 +23,10 @@
     <string name="logout_en">Log Out</string>
     <string name="navigations_drawer_open">Open navigation drawer</string>
     <string name="navigations_drawer_close">Close navigation drawer</string>
+
+    <!-- Informations -->
+    <string name="informations_title_en">Informations</string>
+
 
     <!-- Monitorization -->
     <string name="pace_en">Pace</string>
@@ -48,11 +51,34 @@
     <!-- Settings -->
 
     <string name="bluetooth_en">Choose Bluetooth devices for each foot</string>
-    <string name="leftFoot_en">Left Foot</string>
-    <string name="rightFoot_en">Right Foot</string>
+    <string name="leftFoot_en">Left Foot - </string>
+    <string name="rightFoot_en">Right Foot - </string>
+    <string name="connected_status_en">Connected</string>
+    <string name="disconnected_status_en">Disconnected</string>
     <string name="cancel_en">Cancel</string>
     <string name="save_en">Save</string>
+    <string name="account_info">Account settings</string>
     <string name="select_item_dopdown_en">Select the device</string>
+
+    <!-- Statistics -->
+
+    <string name="plot_mean_pressure_en">Pressure Statistics (Plot)</string>
+    <string name="mean_pressure_illustration_en">Pressure Statistics (Illustrated)</string>
+    <string name="sensor_reading_xtitle_en">Sensor reading records</string>
+    <string name="hours_of_day_xtitle_en">Hours</string>
+    <string name="pressure_ytitle_en">Pressure (kPa)</string>
+    <string name="mean_pressure_left_en">Mean pressure of the left foot</string>
+    <string name="mean_pressure_right_en">Mean pressure of the right foot</string>
+    <string name="start_date_hint_en">Start Date</string>
+    <string name="end_date_hint_en">End Date</string>
+    <string name="empty_graph_en">Empty Plot</string>
+    <string name="total_warnings_en">Total number of warnings</string>
+    <string name="steps_count_stats_en">Total number of steps</string>
+    <string name="cadence_mean_en">Mean cadence</string>
+    <string name="no_records_message_en">There is no sensor reading in this time gap!</string>
+    <string name="plot_statistics_name_en">Plot Statistics</string>
+    <string name="illustrated_statistics_name_en">Illustrated Statistics</string>
+
 
 
     <!-- Personal Info -->
@@ -71,4 +97,7 @@
     <string name="right_foot_en">Right foot</string>
 
 
+    <!-- Registration -->
+    <string name="email_en">E-mail</string>
+    <string name="username_en">Username</string>
 </resources>

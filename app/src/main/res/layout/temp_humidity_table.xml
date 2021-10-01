@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="30dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <TableRow android:padding="5dp">
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0" />
+
+            <ImageView
+                android:id="@+id/thermometer"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+                android:src="@drawable/thermometer"
+                android:contentDescription="@string/temperature_en" />
+
+            <ImageView
+                android:id="@+id/humidity"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+                android:contentDescription="@string/humidity_en"
+                android:src="@drawable/humidity" />
+        </TableRow>
+
+        <TableRow android:padding="5dp">
+
+            <ImageView
+                android:id="@+id/leftFoot"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@drawable/foot_icon"
+                android:contentDescription="@string/left_foot_en" />
+
+            <TextView
+                android:id="@+id/leftFootTemperature"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/leftFootHumidity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:layout_weight="1" />
+
+        </TableRow>
+
+        <TableRow android:padding="5dp">
+
+            <ImageView
+                android:id="@+id/rightFoot"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_weight="0"
+                android:src="@drawable/foot_icon_inverted"
+                android:contentDescription="@string/right_foot_en" />
+
+            <TextView
+                android:id="@+id/rightFootTemperature"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/rightFootHumidity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:layout_weight="1" />
+
+        </TableRow>
+
+    </TableLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

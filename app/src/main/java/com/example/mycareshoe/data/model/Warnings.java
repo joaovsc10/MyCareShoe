@@ -4,48 +4,38 @@ import java.util.Date;
 
 public class Warnings {
 
-    private Date warningTime;
-    private SensorsReading sensorsReading;
-    private String duration;
-    private static int counter=0;
+    private String warningTime;
+    private String sensor;
+    private int counter;
 
 
     public Warnings() {
 
     }
 
-    public Warnings(Date warningTime, SensorsReading sensorsReading, String duration) {
+    public Warnings(String warningTime, String sensor, int counter) {
         this.warningTime = warningTime;
-        this.sensorsReading = sensorsReading;
-        this.duration = duration;
-        counter++;
+        this.sensor = sensor;
+        this.counter = counter;
     }
 
-    public Date getWarningTime() {
+    public String getSensor() {
+        return sensor;
+    }
+
+    public String getWarningTime() {
         return warningTime;
     }
 
-    public void setWarningTime(Date warningTime) {
+    public void setWarningTime(String warningTime) {
         this.warningTime = warningTime;
     }
 
-    public SensorsReading getSensors() {
-        return sensorsReading;
-    }
-
-    public void setSensors(SensorsReading sensors) {
-        this.sensorsReading = sensorsReading;
-    }
-
-    public String getDuration() {
-        return duration;
-    }
-
-    public void setDuration(String duration) {
-        this.duration = duration;
-    }
-
-    public static int getNumOfWarnings() {
+    public int getCounter() {
         return counter;
+    }
+
+    public void setCounter(int counter) {
+        this.counter = counter;
     }
 }

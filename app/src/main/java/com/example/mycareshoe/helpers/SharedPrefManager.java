@@ -35,6 +35,9 @@ public class SharedPrefManager {
     private static final String KEY_FEET_TYPE = "keytype";
     private static final String KEY_NAME = "keyname";
     private static final String KEY_OVERPRESSURE_VALUE = "keyoverpressure";
+    private static final String KEY_TIME_INTERVAL = "keytimeinterval";
+    private static final String KEY_OCCURRENCES_NUMBER = "keyoccurrencesnumber";
+    private static final String KEY_STRIDE_LENGTH = "keystride";
 
     private static SharedPrefManager mInstance;
     private static Context mCtx;
@@ -62,8 +65,8 @@ public class SharedPrefManager {
         editor.putString(KEY_EMAIL, patient.getEmail());
         editor.putInt(KEY_PATIENT_NUMBER, patient.getPatient_number());
         editor.putString(KEY_PASSWORD, patient.getPassword());
-        editor.putInt(KEY_OVERPRESSURE_VALUE, 200);
         editor.apply();
+        System.out.println(sharedPreferences.getAll());
     }
 
     public void updatePersonalInfo(Patient patient){
@@ -72,17 +75,29 @@ public class SharedPrefManager {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(KEY_GENDER, patient.getGender());
         editor.putString(KEY_BIRTH, patient.getBirth());
-        editor.putInt(KEY_HEIGHT, patient.getHeight());
-        editor.putInt(KEY_WEIGHT, patient.getWeight());
+        putDouble(editor,KEY_HEIGHT, patient.getHeight());
+        putDouble(editor,KEY_WEIGHT, patient.getWeight());
         editor.putInt(KEY_FEET_SIZE, patient.getFeetSize());
         editor.putString(KEY_DIABETES, patient.getDiabetesStatus());
         editor.putString(KEY_FEET_TYPE, patient.getFeetType());
         editor.putString(KEY_NAME, patient.getName());
-        editor.apply();
+        putDouble(editor,KEY_STRIDE_LENGTH, patient.getStrideLength());
 
+        if(patient.getPressureThreshold()==0){
+            patient.setPressureThreshold(200);
+        }
+        if(patient.getOccurencesNumber()==0){
+            patient.setOccurencesNumber(5);
+        }
+        if(patient.getTimeInterval()==0){
+            patient.setTimeInterval(10);
+        }
+        editor.putInt(KEY_OVERPRESSURE_VALUE, patient.getPressureThreshold());
+        editor.putInt(KEY_OCCURRENCES_NUMBER, patient.getOccurencesNumber());
+        editor.putInt(KEY_TIME_INTERVAL, patient.getTimeInterval());
+        editor.apply();
         System.out.println(sharedPreferences.getAll());
     }
-
 
     //this method will checker whether user is already logged in or not
     public boolean isLoggedIn() {
@@ -94,6 +109,30 @@ public class SharedPrefManager {
         SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
 
         return sharedPreferences.getInt(KEY_OVERPRESSURE_VALUE, -1);
+    }
+
+    public int getUserId(){
+        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+
+        return sharedPreferences.getInt(KEY_ID, -1);
+    }
+
+    public double getStrideLength(){
+        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+
+        return getDouble(sharedPreferences, KEY_STRIDE_LENGTH, -1);
+    }
+
+    public int getOccurrencesNumber(){
+        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+
+        return sharedPreferences.getInt(KEY_OCCURRENCES_NUMBER, -1);
+    }
+
+    public int getTimeInterval(){
+        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+
+        return sharedPreferences.getInt(KEY_TIME_INTERVAL, -1);
     }
 
     //this method will give the logged in user
@@ -111,12 +150,15 @@ public class SharedPrefManager {
                     sharedPreferences.getInt(KEY_PATIENT_NUMBER, -1),
                     sharedPreferences.getString(KEY_GENDER, null),
                     sharedPreferences.getString(KEY_BIRTH, null),
-                    sharedPreferences.getInt(KEY_HEIGHT, -1),
-                    sharedPreferences.getInt(KEY_WEIGHT, -1),
+                    getDouble(sharedPreferences,KEY_HEIGHT, -1),
+                    getDouble(sharedPreferences,KEY_WEIGHT, -1),
                     sharedPreferences.getInt(KEY_FEET_SIZE, -1),
                     sharedPreferences.getString(KEY_DIABETES, null),
                     sharedPreferences.getString(KEY_FEET_TYPE, null),
-                    sharedPreferences.getString(KEY_NAME, null)
+                    sharedPreferences.getString(KEY_NAME, null),
+                    sharedPreferences.getInt(KEY_OVERPRESSURE_VALUE, -1),
+                    sharedPreferences.getInt(KEY_OCCURRENCES_NUMBER, -1),
+                    sharedPreferences.getInt(KEY_TIME_INTERVAL, -1)
             );
         }else{
             return new Patient(
@@ -137,5 +179,13 @@ public class SharedPrefManager {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear();
         editor.apply();
+    }
+
+    SharedPreferences.Editor putDouble(final SharedPreferences.Editor edit, final String key, final double value) {
+        return edit.putLong(key, Double.doubleToRawLongBits(value));
+    }
+
+    double getDouble(final SharedPreferences prefs, final String key, final double defaultValue) {
+        return Double.longBitsToDouble(prefs.getLong(key, Double.doubleToLongBits(defaultValue)));
     }
 }

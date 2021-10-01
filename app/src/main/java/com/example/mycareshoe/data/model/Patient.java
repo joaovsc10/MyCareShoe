@@ -6,42 +6,92 @@ public class Patient extends User implements Serializable {
 
     private String gender;
     private String birth;
-    private int height;
-    private int weight;
+    private double height;
+    private double weight;
     private int feetSize;
     private String diabetesStatus;
     private String feetType;
     private String name;
-
+    private double strideLength;
+    private int pressureThreshold;
+    private int occurencesNumber;
+    private int timeInterval;
 
     public Patient ( int userId, String username, int profile_id, String email, String password, int patient_number){
 
         super(userId, username, profile_id, email, password, patient_number);
     }
 
-    public Patient(int userId, String username, int profile_id, String email, String password, int patient_number, String gender, String birth, int height, int weight, int feetSize, String diabetesStatus, String feetType, String name) {
+    public Patient(int userId, String username, int profile_id, String email, String password, int patient_number, String gender, String birth, double height, double weight, int feetSize, String diabetesStatus, String feetType, String name, int pressureThreshold, int occurencesNumber, int timeInterval) {
 
         super(userId, username, profile_id, email, password, patient_number);
         this.gender = gender;
         this.birth = birth;
-        this.height = height;
+        setHeight(height);
         this.weight = weight;
         this.feetSize = feetSize;
         this.diabetesStatus = diabetesStatus;
         this.feetType = feetType;
         this.name = name;
+        this.pressureThreshold= pressureThreshold;
+        this.occurencesNumber=occurencesNumber;
+        this.timeInterval=timeInterval;
     }
 
-    public Patient(String gender, String birth, int height, int weight, int feetSize, String diabetesStatus, String feetType, String name) {
+    public Patient(String gender, String birth, double height, double weight, int feetSize, String diabetesStatus, String feetType, String name, int pressureThreshold, int occurencesNumber, int timeInterval) {
 
         this.gender = gender;
         this.birth = birth;
-        this.height = height;
+        setHeight(height);
         this.weight = weight;
         this.feetSize = feetSize;
         this.diabetesStatus = diabetesStatus;
         this.feetType = feetType;
         this.name = name;
+        this.pressureThreshold= pressureThreshold;
+        this.occurencesNumber=occurencesNumber;
+        this.timeInterval=timeInterval;
+    }
+
+    public double getStrideLength() {
+        if(getHeight()>0 && getGender()!=null){
+            if(getGender().equals("Male")){
+                setStrideLength(getHeight()*100*0.415);
+            }else{
+                setStrideLength(getHeight()*100*0.413);
+            }
+        }else{
+            setStrideLength(165*0.414);
+        }
+        return strideLength;
+    }
+
+    public int getOccurencesNumber() {
+        return occurencesNumber;
+    }
+
+    public void setOccurencesNumber(int occurencesNumber) {
+        this.occurencesNumber = occurencesNumber;
+    }
+
+    public int getTimeInterval() {
+        return timeInterval;
+    }
+
+    public void setTimeInterval(int timeInterval) {
+        this.timeInterval = timeInterval;
+    }
+
+    public void setPressureThreshold(int pressureThreshold) {
+        this.pressureThreshold = pressureThreshold;
+    }
+
+    public int getPressureThreshold() {
+        return pressureThreshold;
+    }
+
+    public void setStrideLength(double strideLength) {
+        this.strideLength = strideLength;
     }
 
     public String getGender() {
@@ -60,19 +110,26 @@ public class Patient extends User implements Serializable {
         this.birth = birth;
     }
 
-    public int getHeight() {
+    public double getHeight() {
         return height;
     }
 
-    public void setHeight(int height) {
+    public void setHeight(double height) {
         this.height = height;
+        if(getHeight()>0 && getGender()!=null){
+            if(getGender().equals("Male")){
+                setStrideLength(getHeight()*100*0.415);
+            }else{
+                setStrideLength(getHeight()*100*0.413);
+            }
+        }
     }
 
-    public int getWeight() {
+    public double getWeight() {
         return weight;
     }
 
-    public void setWeight(int weight) {
+    public void setWeight(double weight) {
         this.weight = weight;
     }
 

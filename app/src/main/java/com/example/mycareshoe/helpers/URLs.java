@@ -4,21 +4,29 @@ import java.util.UUID;
 
 public class URLs {
 
-    private static final String ROOT_URL = "http://192.168.0.107/mycareshoe/";
+    private static final String ROOT_URL = "http://192.168.0.103/mycareshoe/";
 
-    public static final String URL_LOGIN= ROOT_URL + "login.php";
+    public static final String URL_LOGIN= ROOT_URL + "user/login.php";
 
-    public static final String URL_READ_PATIENT_INFO= ROOT_URL + "patient_search.php";
+    public static final String URL_READ_PATIENT_INFO= ROOT_URL + "patient/patient_search.php";
 
-    public static final String URL_UPDATE_PATIENT_INFO= ROOT_URL + "update_patient_info.php";
+    public static final String URL_UPDATE_PATIENT_INFO= ROOT_URL + "patient/update_patient_info.php";
 
-    public static final String URL_GET_WARNINGS= ROOT_URL + "warnings_search.php";
+    public static final String URL_UPDATE_USER_INFO= ROOT_URL + "user/update_user_info.php";
 
-    public static final String URL_GET_SENSOR_READING= ROOT_URL + "read_one_reading.php";
+    public static final String URL_GET_WARNINGS= ROOT_URL + "warnings/warnings_search.php";
 
-    public static final String URL_CREATE_READING= ROOT_URL + "create_reading.php";
+    public static final String URL_GET_SENSOR_READING= ROOT_URL + "readings/read_one_reading.php";
 
-    public static final String URL_CREATE_WARNING= ROOT_URL + "create_warning.php";
+    public static final String URL_CREATE_READING= ROOT_URL + "readings/create_reading.php";
+
+    public static final String URL_CREATE_WARNING= ROOT_URL + "warnings/create_warning.php";
+
+    public static final String URL_CREATE_STATISTIC= ROOT_URL + "statistics/create_statistics.php";
+
+    public static final String URL_CREATE_USER= ROOT_URL + "user/registration.php";
+
+    public static final String URL_SEARCH_DATE= ROOT_URL + "search.php";
 
     public static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb");
 

@@ -1,6 +1,13 @@
 package com.example.mycareshoe.data.model;
 
+import android.content.Context;
+import android.view.View;
+import android.widget.ImageView;
+
+import androidx.core.graphics.ColorUtils;
+
 import com.example.mycareshoe.R;
+import com.example.mycareshoe.helpers.SharedPrefManager;
 
 import org.apache.http.message.BasicNameValuePair;
 
@@ -50,6 +57,7 @@ public class SensorsReading implements Serializable {
     private boolean leftFootDataSent;
     private boolean rightFootDataSent;
     private boolean sensorColorPrinted;
+    private int pressureThreshold;
     private ArrayList<String> hiperpressionSensors;
     private ArrayList<BasicNameValuePair> sensorsQueryParams = new ArrayList<>();
 
@@ -82,7 +90,8 @@ public class SensorsReading implements Serializable {
             put(Sensors.S26.toString(), R.id.dorsal_l_upper);
     }};
 
-
+    public SensorsReading() {
+    }
 
     public enum Sensors {
         S1,
@@ -117,8 +126,9 @@ public class SensorsReading implements Serializable {
         H2
     }
 
-    public SensorsReading() {
+    public SensorsReading(int pressureThreshold) {
         this.reading_id=-1;
+        setPressureThreshold(pressureThreshold);
         setS1(-1);
         setS2(-1);
         setS3(-1);
@@ -154,7 +164,8 @@ public class SensorsReading implements Serializable {
     }
     
 
-    public SensorsReading(int reading_id, int s1, int s2, int s3, int s4, int s5, int s6, int s7, int s8, int s9, int s10, int s11, int s12, int s13, int s14, int s15, int s16, int s17, int s18, int s19, int s20, int s21, int s22, int s23, int s24, int s25, int s26, int T1, int T2, int H1, int H2, String date, int patient_number) {
+    public SensorsReading(int reading_id, int s1, int s2, int s3, int s4, int s5, int s6, int s7, int s8, int s9, int s10, int s11, int s12, int s13, int s14, int s15, int s16, int s17, int s18, int s19, int s20, int s21, int s22, int s23, int s24, int s25, int s26, int T1, int T2, int H1, int H2, String date, int patient_number, int pressureThreshold) {
+        this.pressureThreshold= pressureThreshold;
         this.reading_id = reading_id;
         setS1(s1);
         setS2(s2);
@@ -188,6 +199,15 @@ public class SensorsReading implements Serializable {
         this.H2=H2;
         this.date = date;
         this.patient_number = patient_number;
+
+    }
+
+    public int getPressureThreshold() {
+        return pressureThreshold;
+    }
+
+    public void setPressureThreshold(int pressureThreshold) {
+        this.pressureThreshold = pressureThreshold;
     }
 
     public ArrayList<BasicNameValuePair> getsensorsQueryParams() {
@@ -238,6 +258,78 @@ public class SensorsReading implements Serializable {
         this.rightFootDataSent=true;
     }
 
+    public int getS7() {
+        return S7;
+    }
+
+    public int getS1() {
+        return S1;
+    }
+
+    public int getS2() {
+        return S2;
+    }
+
+    public int getS3() {
+        return S3;
+    }
+
+    public int getS4() {
+        return S4;
+    }
+
+    public int getS5() {
+        return S5;
+    }
+
+    public int getS6() {
+        return S6;
+    }
+
+    public int getS8() {
+        return S8;
+    }
+
+    public int getS9() {
+        return S9;
+    }
+
+    public int getS10() {
+        return S10;
+    }
+
+    public int getS11() {
+        return S11;
+    }
+
+    public int getS12() {
+        return S12;
+    }
+
+    public int getS13() {
+        return S13;
+    }
+
+    public int getS14() {
+        return S14;
+    }
+
+    public int getS15() {
+        return S15;
+    }
+
+    public int getS16() {
+        return S16;
+    }
+
+    public int getS17() {
+        return S17;
+    }
+
+    public int getS18() {
+        return S18;
+    }
+
     public int getRightFootSensorsSum(){
 
         return S10+S11+S12+S13+S14+S15+S16+S17+S18;
@@ -246,6 +338,17 @@ public class SensorsReading implements Serializable {
 
     public int getLeftFootSensorsSum(){
         return S1+S2+S3+S4+S5+S6+S7+S8+S9;
+    }
+
+
+    public int getRightFootSensorsMean(){
+
+        return (S10+S11+S12+S13+S14+S15+S16+S17+S18)/9;
+
+    }
+
+    public int getLeftFootSensorsMean(){
+        return (S1+S2+S3+S4+S5+S6+S7+S8+S9)/9;
     }
 
 
@@ -469,6 +572,17 @@ public class SensorsReading implements Serializable {
         return sensorValues;
     }
 
+    public Map<String, Float> getSensorsTempHumidity(){
+        Map<String, Float> tempHumidityValues = new HashMap<String, Float>(){{
+            put(Sensors.T1.toString(), T1);
+            put(Sensors.T2.toString(), T2);
+            put(Sensors.H1.toString(), H1);
+            put(Sensors.H2.toString(), H2);
+        }};
+
+        return tempHumidityValues;
+    }
+
     public float getT1() {
         return T1;
     }
@@ -492,9 +606,74 @@ public class SensorsReading implements Serializable {
         if(getHiperpressionSensors()!=null)
             hiperpressionSensors=getHiperpressionSensors();
 
-        if(sensor>=200){
+        if(sensor>=getPressureThreshold()){
             hiperpressionSensors.add(name);
             setHiperpressionSensors(hiperpressionSensors);
         }
+    }
+
+    public int changeSensorsColor(int sensorImageId, View view, int sensorValue, Context context){
+
+        float fraction=0;
+        int color=0;
+
+        if(sensorValue<getPressureThreshold()) {
+            fraction = ((float) sensorValue) / getPressureThreshold();
+        }
+        else{
+            fraction=1;
+        }
+        ImageView imageViewIcon = (ImageView) view.findViewById(sensorImageId);
+
+        if(sensorValue<(getPressureThreshold()/3))
+            color = ColorUtils.blendARGB(context.getResources().getColor(R.color.dark_green), context.getResources().getColor(R.color.yellow), (float) fraction);
+        else
+            color = ColorUtils.blendARGB(context.getResources().getColor(R.color.yellow), context.getResources().getColor(R.color.red), (float) fraction);
+
+        imageViewIcon.setColorFilter(color);
+
+
+        return color;
+    }
+
+
+    public long calculateBalance(SensorsReading sr){
+
+        long sensorsSum=sr.getLeftFootSensorsSum()+sr.getRightFootSensorsSum();
+
+        if(sensorsSum==0){
+            return 0;
+        }
+        return (sr.getLeftFootSensorsSum()*100)/sensorsSum;
+    }
+
+    public boolean isLeftHeelStrike(){
+        if((this.getS7()>0 || this.getS8()>0 || this.getS9()>0)  && this.getS1()==0&& this.getS2()==0&& this.getS3()==0&& this.getS4()==0&& this.getS5()==0&& this.getS6()==0)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean isLeftFootToeOff(){
+        if(getLeftFootSensorsSum()==0)
+            return true;
+        return false;
+    }
+
+    public boolean isRightHeelStrike(){
+        if((this.getS16()>0 || this.getS17()>0 || this.getS18()>0) && this.getS10()==0&& this.getS11()==0&& this.getS12()==0&& this.getS13()==0&& this.getS14()==0&& this.getS15()==0)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean isRightFootToeOff(){
+        if(getRightFootSensorsSum()==0)
+            return true;
+        return false;
     }
 }

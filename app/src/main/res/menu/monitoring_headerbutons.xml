@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <item
-        android:id="@+id/infoButton"
+        android:id="@+id/information"
+        android:title="Information"
+        android:icon="@drawable/ic_baseline_question_24"
+        app:showAsAction="always"
+
+        ></item>
+    
+    <item
+        android:id="@+id/temperatureHumidity"
         android:title="Temperature and Humidity"
         android:icon="@drawable/ic_baseline_ac_unit_24"
         app:showAsAction="always"
@@ -16,6 +25,8 @@
         app:showAsAction="always"
 
         ></item>
+
+
 
 
 </menu>

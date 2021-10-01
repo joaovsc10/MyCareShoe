@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -23,12 +22,13 @@ import androidx.fragment.app.Fragment;
 
 import com.example.mycareshoe.R;
 import com.example.mycareshoe.data.model.Patient;
-import com.example.mycareshoe.data.model.User;
+import com.example.mycareshoe.helpers.PatientHelper;
 import com.example.mycareshoe.helpers.SharedPrefManager;
 import com.example.mycareshoe.helpers.URLs;
 import com.example.mycareshoe.ui.login.JSONParser;
 import com.example.mycareshoe.ui.login.LoginActivity;
 import com.example.mycareshoe.ui.monitoring.MonitoringFragment;
+import com.example.mycareshoe.ui.settings.SettingsFragment;
 
 import org.apache.http.message.BasicNameValuePair;
 import org.jetbrains.annotations.NotNull;
@@ -58,6 +58,7 @@ public class PersonalInfoFragment extends Fragment  {
     private Spinner diabetesSpinner;
     private Spinner feetTypeSpinner;
     private boolean invalidInput=false;
+    private PatientHelper patientHelper = new PatientHelper();
 
     public boolean isInvalidInput() {
         return invalidInput;
@@ -139,6 +140,7 @@ public class PersonalInfoFragment extends Fragment  {
             public void onClick(View v) {
 
                 updatePersonalInfo(updateArguments);
+
             }
         });
 
@@ -293,24 +295,23 @@ public class PersonalInfoFragment extends Fragment  {
             protected void onPostExecute(JSONObject obj) {
                 super.onPostExecute(obj);
                 progressBar.setVisibility(View.GONE);
-                try {
-                    textViewName.setText(obj.getString("name"));
+                textViewName.setText(obj.optString("name",""));
 
-                    textViewName.setEnabled(false);
-                    textViewWeight.setText(obj.getString("weight"));
-                    textViewHeight.setText(obj.getString("height"));
-                    textViewFeetSize.setText(obj.getString("feet_size"));
-                    textViewBirthday.setText(obj.getString("birth"));
+                textViewName.setEnabled(false);
+                textViewWeight.setText(obj.optString("weight",""));
+                textViewHeight.setText(obj.optString("height",""));
+                textViewFeetSize.setText(obj.optString("feet_size",""));
+                textViewBirthday.setText(obj.optString("birth",""));
 
-                    genderSpinner.setSelection(genderAdapter.getPosition(obj.getString("gender")));
-                    diabetesSpinner.setSelection(diabetesAdapter.getPosition(obj.getString("diabetes")));
-                    feetTypeSpinner.setSelection(feetTypeAdapter.getPosition(obj.getString("type_feet")));
-                    textViewBirthday.setEnabled(false);
+                genderSpinner.setSelection(genderAdapter.getPosition(obj.optString("gender")));
+                diabetesSpinner.setSelection(diabetesAdapter.getPosition(obj.optString("diabetes")));
+                feetTypeSpinner.setSelection(feetTypeAdapter.getPosition(obj.optString("type_feet")));
+                textViewBirthday.setEnabled(false);
 
-                    //converting response to json object
-                    for (String info: infos) {
-                        if(obj.getString(info).equals("null") || obj.getString(info).equals("0")){
-                            switch (info){
+                //converting response to json object
+                for (String info: infos) {
+                        if (obj.optString(info).equals("null") || obj.optString(info).equals("0")) {
+                            switch (info) {
                                 case "name":
                                     textViewName.setText("");
                                     break;
@@ -326,9 +327,7 @@ public class PersonalInfoFragment extends Fragment  {
 
                             }
                         }
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+
                 }
 
                 //getting the current user
@@ -341,45 +340,16 @@ public class PersonalInfoFragment extends Fragment  {
                 validateChangedSpinner(genderSpinner, genders, patient.getGender(), "gender");
                 validateChangedSpinner(diabetesSpinner, diabetesStatus, patient.getDiabetesStatus(), "diabetes");
                 validateChangedSpinner(feetTypeSpinner, feetTypes, patient.getFeetType(), "type_feet");
-                validateChangedText(textViewWeight,Integer.toString(patient.getWeight()), "weight");
-                validateChangedText(textViewHeight,Integer.toString(patient.getHeight()), "height");
+                validateChangedText(textViewWeight,Double.toString(patient.getWeight()), "weight");
+                validateChangedText(textViewHeight,Double.toString(patient.getHeight()), "height");
                 validateChangedText(textViewFeetSize,Integer.toString(patient.getFeetSize()), "feet_size");
 
             }
 
             @Override
             protected JSONObject doInBackground(Void... voids) {
-                //creating request handler object
-                JSONParser jsonParser = new JSONParser();
 
-                //creating request parameters
-                ArrayList params = new ArrayList();
-                params.add(new BasicNameValuePair("p", Integer.toString(SharedPrefManager.getInstance(getContext()).getPatient(true).getPatient_number())));
-
-                //returning the response
-                JSONObject obj= jsonParser.makeHttpRequest(URLs.URL_READ_PATIENT_INFO,"GET", params);
-
-                Patient patient = null;
-                try {
-                    patient = new Patient(
-                            obj.getString("gender"),
-                            obj.getString("birth"),
-                            obj.optInt("height", 0),
-                            obj.optInt("weight", 0),
-                            obj.optInt("feet_size",0),
-                            obj.getString("diabetes"),
-                            obj.getString("type_feet"),
-                            obj.getString("name")
-                    );
-
-
-                //storing the user in shared preferences
-                SharedPrefManager.getInstance(getContext()).updatePersonalInfo(patient);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                return obj;
+                return patientHelper.getPersonalInfo(getContext(),0);
             }
         }
         PersonalInfo pinfo = new PersonalInfo();
@@ -424,7 +394,7 @@ public class PersonalInfoFragment extends Fragment  {
         }
         updatePersonalInfo pinfo = new updatePersonalInfo();
         pinfo.execute();
-        getChildFragmentManager().beginTransaction().replace(R.id.fragment_container, new MonitoringFragment()).addToBackStack("Monitoring").commit();
+    //   getChildFragmentManager().beginTransaction().replace(R.id.fragment_container, new SettingsFragment()).addToBackStack("Monitoring").commit();
     }
 
 

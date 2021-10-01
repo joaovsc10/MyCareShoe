@@ -24,11 +24,6 @@
         android:icon="@drawable/ic_baseline_settings"/>
 
     <item
-        android:title="@string/privacy_en"
-        android:id="@+id/privacy"
-        android:icon="@drawable/ic_baseline_privacy"/>
-
-    <item
         android:title="@string/about_en"
         android:id="@+id/about"
         android:icon="@drawable/ic_baseline_about"/>

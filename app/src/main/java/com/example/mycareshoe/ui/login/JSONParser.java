@@ -1,5 +1,7 @@
 package com.example.mycareshoe.ui.login;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
 import android.net.http.HttpsConnection;
 import android.util.Log;
 import android.widget.Toast;
@@ -24,6 +26,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.net.ConnectException;
+import java.net.NoRouteToHostException;
 import java.net.URLConnection;
 import java.util.ArrayList;
 
@@ -43,7 +47,7 @@ public class JSONParser {
     // function get json from url
     // by making HTTP POST or GET mehtod
     public JSONObject makeHttpRequest(String url, String method,
-                                      ArrayList params) {
+                                      ArrayList params)  {
 
         // Making HTTP request
         try {
@@ -52,6 +56,7 @@ public class JSONParser {
             if(method.equals("POST")){
                 // request method is POST
                 // defaultHttpClient
+                HttpResponse httpResponse = null;
                 HttpClient httpClient = new DefaultHttpClient();
                 HttpPost httpPost = new HttpPost(url);
                 httpPost.setEntity(new UrlEncodedFormEntity(params));
@@ -67,11 +72,15 @@ public class JSONParser {
                         new Scheme("https", SSLSocketFactory.getSocketFactory(), 443)
                 );
 
-                HttpResponse httpResponse = httpClient.execute(httpPost);
+
+                httpResponse = httpClient.execute(httpPost);
                 Log.e("API123",""+httpResponse.getStatusLine().getStatusCode());
                 error= String.valueOf(httpResponse.getStatusLine().getStatusCode());
                 HttpEntity httpEntity = httpResponse.getEntity();
                 is = httpEntity.getContent();
+
+
+
 
             }else if(method.equals("GET") || method.equals("PUT")){
                 // request method is GET
@@ -90,7 +99,21 @@ public class JSONParser {
             e.printStackTrace();
         } catch (ClientProtocolException e) {
             e.printStackTrace();
-        } catch (IOException e) {
+        }
+        catch (NoRouteToHostException e) {
+            e.printStackTrace();
+        }
+        catch (ConnectException e){
+            JSONObject json = new JSONObject();
+            try {
+                json.put("success", "0");
+                json.put("message", "No internet connection");
+            } catch (JSONException exception) {
+            Log.e("JSON Parser", "Error parsing data " + e.toString());
+        }
+            return json;
+        }
+        catch (IOException e) {
             e.printStackTrace();
         }
 
