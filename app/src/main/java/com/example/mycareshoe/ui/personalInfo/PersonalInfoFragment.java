@@ -27,8 +27,6 @@ import com.example.mycareshoe.helpers.SharedPrefManager;
 import com.example.mycareshoe.helpers.URLs;
 import com.example.mycareshoe.ui.login.JSONParser;
 import com.example.mycareshoe.ui.login.LoginActivity;
-import com.example.mycareshoe.ui.monitoring.MonitoringFragment;
-import com.example.mycareshoe.ui.settings.SettingsFragment;
 
 import org.apache.http.message.BasicNameValuePair;
 import org.jetbrains.annotations.NotNull;
@@ -41,7 +39,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class PersonalInfoFragment extends Fragment  {
+public class PersonalInfoFragment extends Fragment {
 
     TextView textViewPatientNumber;
     TextView textViewName;
@@ -57,7 +55,7 @@ public class PersonalInfoFragment extends Fragment  {
     private Spinner genderSpinner;
     private Spinner diabetesSpinner;
     private Spinner feetTypeSpinner;
-    private boolean invalidInput=false;
+    private boolean invalidInput = false;
     private PatientHelper patientHelper = new PatientHelper();
 
     public boolean isInvalidInput() {
@@ -68,7 +66,7 @@ public class PersonalInfoFragment extends Fragment  {
         this.invalidInput = invalidInput;
     }
 
-    String[] infos= new String[]{
+    String[] infos = new String[]{
             "name",
             "gender",
             "height",
@@ -78,11 +76,11 @@ public class PersonalInfoFragment extends Fragment  {
             "type_feet"
     };
 
-    List<String> genders = Arrays.asList("","Male", "Female", "Other");
-    List<String> diabetesStatus = Arrays.asList("","Present", "Absent");
-    List<String> feetTypes = Arrays.asList("","Normal foot", "Flat foot", "Hollow foot");
-    Map<String,String> updateArguments = new HashMap<>();
-    Map<String,String> invalidInputsList = new HashMap<>(Map.of(
+    List<String> genders = Arrays.asList("", "Male", "Female", "Other");
+    List<String> diabetesStatus = Arrays.asList("", "Present", "Absent");
+    List<String> feetTypes = Arrays.asList("", "Normal foot", "Flat foot", "Hollow foot");
+    Map<String, String> updateArguments = new HashMap<>();
+    Map<String, String> invalidInputsList = new HashMap<>(Map.of(
             "height", "false",
             "weight", "false",
             "feet_size", "false"
@@ -112,27 +110,26 @@ public class PersonalInfoFragment extends Fragment  {
             startActivity(new Intent(getActivity(), LoginActivity.class));
         }
 
-        saveBtn= (Button) view.findViewById(R.id.checkIcon);
-        cancelBtn=(Button) view.findViewById(R.id.cancelIcon);
+        saveBtn = (Button) view.findViewById(R.id.checkIcon);
+        cancelBtn = (Button) view.findViewById(R.id.cancelIcon);
 
         saveBtn.setEnabled(false);
         textViewPatientNumber = (TextView) view.findViewById(R.id.patientNumber);
         textViewName = (TextView) view.findViewById(R.id.name);
-        textViewWeight= (TextView) view.findViewById(R.id.weight);
-        textViewHeight= (TextView) view.findViewById(R.id.height);
-        textViewFeetSize= (TextView) view.findViewById(R.id.feetSize);
-        textViewBirthday= (TextView) view.findViewById(R.id.birthdate);
+        textViewWeight = (TextView) view.findViewById(R.id.weight);
+        textViewHeight = (TextView) view.findViewById(R.id.height);
+        textViewFeetSize = (TextView) view.findViewById(R.id.feetSize);
+        textViewBirthday = (TextView) view.findViewById(R.id.birthdate);
 
-        genderSpinner=setSpinner(genderSpinner, R.id.spinnerGender, genders, genderAdapter, view);
-        genderAdapter= (ArrayAdapter) genderSpinner.getAdapter();
-        diabetesSpinner=setSpinner(diabetesSpinner, R.id.spinnerDiabetes, diabetesStatus, diabetesAdapter, view);
-        diabetesAdapter= (ArrayAdapter) diabetesSpinner.getAdapter();
-        feetTypeSpinner=setSpinner(feetTypeSpinner, R.id.spinnerFeetType, feetTypes, feetTypeAdapter, view);
-        feetTypeAdapter= (ArrayAdapter) feetTypeSpinner.getAdapter();
+        genderSpinner = setSpinner(genderSpinner, R.id.spinnerGender, genders, genderAdapter, view);
+        genderAdapter = (ArrayAdapter) genderSpinner.getAdapter();
+        diabetesSpinner = setSpinner(diabetesSpinner, R.id.spinnerDiabetes, diabetesStatus, diabetesAdapter, view);
+        diabetesAdapter = (ArrayAdapter) diabetesSpinner.getAdapter();
+        feetTypeSpinner = setSpinner(feetTypeSpinner, R.id.spinnerFeetType, feetTypes, feetTypeAdapter, view);
+        feetTypeAdapter = (ArrayAdapter) feetTypeSpinner.getAdapter();
 
 
         getPersonalInfo();
-
 
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
@@ -153,11 +150,10 @@ public class PersonalInfoFragment extends Fragment  {
         });
 
 
-
     }
 
 
-    private Spinner setSpinner(Spinner spinner, int viewId, List<String> spinnerOptions, ArrayAdapter adapter, View view){
+    private Spinner setSpinner(Spinner spinner, int viewId, List<String> spinnerOptions, ArrayAdapter adapter, View view) {
 
         spinner = view.findViewById(viewId);
         adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_dropdown_item, spinnerOptions);
@@ -166,22 +162,21 @@ public class PersonalInfoFragment extends Fragment  {
         return spinner;
     }
 
-    private void validateChangedSpinner(Spinner spinner, List<String> listOptions, String initialValue, String fieldName){
+    private void validateChangedSpinner(Spinner spinner, List<String> listOptions, String initialValue, String fieldName) {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
             public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long arg3) {
 
 
-                if(listOptions.get(position).toString().equals(initialValue)==false || (initialValue=="null" && position!=0)){
+                if (listOptions.get(position).toString().equals(initialValue) == false || (initialValue == "null" && position != 0)) {
 
-                    updateArguments.put(fieldName,listOptions.get(position).toString());
-                    if(!invalidInputsList.containsValue("true"))
+                    updateArguments.put(fieldName, listOptions.get(position).toString());
+                    if (!invalidInputsList.containsValue("true"))
                         saveBtn.setEnabled(true);
-                }
-                else{
+                } else {
                     updateArguments.remove(fieldName);
-                    if(updateArguments.isEmpty())
+                    if (updateArguments.isEmpty())
                         saveBtn.setEnabled(false);
                 }
 
@@ -195,7 +190,8 @@ public class PersonalInfoFragment extends Fragment  {
         });
 
     }
-    private void validateChangedText(TextView text, String initialValue, String fieldName){
+
+    private void validateChangedText(TextView text, String initialValue, String fieldName) {
 
         TextWatcher tw = new TextWatcher() {
             @Override
@@ -208,22 +204,22 @@ public class PersonalInfoFragment extends Fragment  {
 
                 setInvalidInput(false);
 
-                if(s.toString().endsWith(".") || s.toString().contains(",") || s.toString().startsWith(".")){
+                if (s.toString().endsWith(".") || s.toString().contains(",") || s.toString().startsWith(".")) {
                     setInvalidInput(true);
                 }
 
-                if(s.toString().isEmpty() ) {
+                if (s.toString().isEmpty()) {
                     invalidInputsList.put(fieldName, "false");
 
                 }
-                if(!s.toString().isEmpty() && !isInvalidInput()) {
+                if (!s.toString().isEmpty() && !isInvalidInput()) {
                     double value = Double.parseDouble(s.toString());
                     switch (fieldName) {
                         case "weight":
                             if (value < 20 || value > 700) {
                                 setInvalidInput(true);
                                 invalidInputsList.put(fieldName, "true");
-                            }else{
+                            } else {
                                 invalidInputsList.put(fieldName, "false");
                             }
                             break;
@@ -232,7 +228,7 @@ public class PersonalInfoFragment extends Fragment  {
                             if (value < 0.5 || value > 3) {
                                 setInvalidInput(true);
                                 invalidInputsList.put(fieldName, "true");
-                            }else{
+                            } else {
                                 invalidInputsList.put(fieldName, "false");
                             }
                             break;
@@ -241,7 +237,7 @@ public class PersonalInfoFragment extends Fragment  {
                             if (value < 15 || value > 75) {
                                 setInvalidInput(true);
                                 invalidInputsList.put(fieldName, "true");
-                            }else{
+                            } else {
                                 invalidInputsList.put(fieldName, "false");
                             }
                             break;
@@ -260,13 +256,12 @@ public class PersonalInfoFragment extends Fragment  {
                 if (initialValue.equals(s.toString().trim()) || ((initialValue.equals("-1") || initialValue.equals("0")) && s.toString().equals("")) || invalidInputsList.get(fieldName) == "true") {
                     updateArguments.remove(fieldName);
                     saveBtn.setEnabled(false);
-                }
-                else {
+                } else {
 
-                        updateArguments.put(fieldName, s.toString().trim());
-                        saveBtn.setEnabled(true);
+                    updateArguments.put(fieldName, s.toString().trim());
+                    saveBtn.setEnabled(true);
                 }
-                if(s.toString().equals("") &&(!updateArguments.isEmpty() && !invalidInputsList.containsValue("true"))) {
+                if (s.toString().equals("") && (!updateArguments.isEmpty() && !invalidInputsList.containsValue("true"))) {
                     saveBtn.setEnabled(true);
                     updateArguments.remove(fieldName);
 
@@ -295,13 +290,13 @@ public class PersonalInfoFragment extends Fragment  {
             protected void onPostExecute(JSONObject obj) {
                 super.onPostExecute(obj);
                 progressBar.setVisibility(View.GONE);
-                textViewName.setText(obj.optString("name",""));
+                textViewName.setText(obj.optString("name", ""));
 
                 textViewName.setEnabled(false);
-                textViewWeight.setText(obj.optString("weight",""));
-                textViewHeight.setText(obj.optString("height",""));
-                textViewFeetSize.setText(obj.optString("feet_size",""));
-                textViewBirthday.setText(obj.optString("birth",""));
+                textViewWeight.setText(obj.optString("weight", ""));
+                textViewHeight.setText(obj.optString("height", ""));
+                textViewFeetSize.setText(obj.optString("feet_size", ""));
+                textViewBirthday.setText(obj.optString("birth", ""));
 
                 genderSpinner.setSelection(genderAdapter.getPosition(obj.optString("gender")));
                 diabetesSpinner.setSelection(diabetesAdapter.getPosition(obj.optString("diabetes")));
@@ -309,24 +304,24 @@ public class PersonalInfoFragment extends Fragment  {
                 textViewBirthday.setEnabled(false);
 
                 //converting response to json object
-                for (String info: infos) {
-                        if (obj.optString(info).equals("null") || obj.optString(info).equals("0")) {
-                            switch (info) {
-                                case "name":
-                                    textViewName.setText("");
-                                    break;
-                                case "weight":
-                                    textViewWeight.setText("");
-                                    break;
-                                case "height":
-                                    textViewHeight.setText("");
-                                    break;
-                                case "feet_size":
-                                    textViewFeetSize.setText("");
-                                    break;
+                for (String info : infos) {
+                    if (obj.optString(info).equals("null") || obj.optString(info).equals("0")) {
+                        switch (info) {
+                            case "name":
+                                textViewName.setText("");
+                                break;
+                            case "weight":
+                                textViewWeight.setText("");
+                                break;
+                            case "height":
+                                textViewHeight.setText("");
+                                break;
+                            case "feet_size":
+                                textViewFeetSize.setText("");
+                                break;
 
-                            }
                         }
+                    }
 
                 }
 
@@ -340,16 +335,16 @@ public class PersonalInfoFragment extends Fragment  {
                 validateChangedSpinner(genderSpinner, genders, patient.getGender(), "gender");
                 validateChangedSpinner(diabetesSpinner, diabetesStatus, patient.getDiabetesStatus(), "diabetes");
                 validateChangedSpinner(feetTypeSpinner, feetTypes, patient.getFeetType(), "type_feet");
-                validateChangedText(textViewWeight,Double.toString(patient.getWeight()), "weight");
-                validateChangedText(textViewHeight,Double.toString(patient.getHeight()), "height");
-                validateChangedText(textViewFeetSize,Integer.toString(patient.getFeetSize()), "feet_size");
+                validateChangedText(textViewWeight, Double.toString(patient.getWeight()), "weight");
+                validateChangedText(textViewHeight, Double.toString(patient.getHeight()), "height");
+                validateChangedText(textViewFeetSize, Integer.toString(patient.getFeetSize()), "feet_size");
 
             }
 
             @Override
             protected JSONObject doInBackground(Void... voids) {
 
-                return patientHelper.getPersonalInfo(getContext(),0);
+                return patientHelper.getPersonalInfo(getContext(), 0);
             }
         }
         PersonalInfo pinfo = new PersonalInfo();
@@ -389,12 +384,12 @@ public class PersonalInfoFragment extends Fragment  {
                 }
 
                 //returning the response
-                return jsonParser.makeHttpRequest(URLs.URL_UPDATE_PATIENT_INFO,"PUT", params);
+                return jsonParser.makeHttpRequest(URLs.URL_UPDATE_PATIENT_INFO, "PUT", params);
             }
         }
         updatePersonalInfo pinfo = new updatePersonalInfo();
         pinfo.execute();
-    //   getChildFragmentManager().beginTransaction().replace(R.id.fragment_container, new SettingsFragment()).addToBackStack("Monitoring").commit();
+        //   getChildFragmentManager().beginTransaction().replace(R.id.fragment_container, new SettingsFragment()).addToBackStack("Monitoring").commit();
     }
 
 

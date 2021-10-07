@@ -1,6 +1,5 @@
 package com.example.mycareshoe.ui.settings;
 
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -20,7 +19,6 @@ import com.example.mycareshoe.helpers.PersonalDataHelper;
 import com.example.mycareshoe.helpers.SharedPrefManager;
 import com.example.mycareshoe.helpers.URLs;
 import com.example.mycareshoe.ui.login.JSONParser;
-import com.example.mycareshoe.ui.login.LoginActivity;
 
 import org.apache.http.message.BasicNameValuePair;
 import org.jetbrains.annotations.NotNull;
@@ -30,7 +28,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Map;
 
-public class AccountSettingsFragment  extends Fragment {
+public class AccountSettingsFragment extends Fragment {
 
     private Button cancelButton;
     private Button saveButton;
@@ -59,10 +57,10 @@ public class AccountSettingsFragment  extends Fragment {
         cancelButton = (Button) view.findViewById(R.id.cancelIcon);
         saveButton = (Button) view.findViewById(R.id.checkIcon);
         saveButton.setEnabled(false);
-        username= (EditText) view.findViewById(R.id.usernameRegister);
-        password= (EditText) view.findViewById(R.id.passwordRegister);
-        email= (EditText) view.findViewById(R.id.email);
-        patient_number= (EditText) view.findViewById(R.id.patientNumberRegister);
+        username = (EditText) view.findViewById(R.id.usernameRegister);
+        password = (EditText) view.findViewById(R.id.passwordRegister);
+        email = (EditText) view.findViewById(R.id.email);
+        patient_number = (EditText) view.findViewById(R.id.patientNumberRegister);
 
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,7 +116,7 @@ public class AccountSettingsFragment  extends Fragment {
                 params.add(new BasicNameValuePair("user_id", Integer.toString(SharedPrefManager.getInstance(getContext()).getUserId())));
 
                 //returning the response
-                return jsonParser.makeHttpRequest(URLs.URL_UPDATE_USER_INFO,"POST", params);
+                return jsonParser.makeHttpRequest(URLs.URL_UPDATE_USER_INFO, "POST", params);
             }
         }
         updateAccount updateAccount = new updateAccount();

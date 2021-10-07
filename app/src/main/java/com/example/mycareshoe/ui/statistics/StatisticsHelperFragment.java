@@ -2,7 +2,6 @@ package com.example.mycareshoe.ui.statistics;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
-import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,17 +9,13 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.mycareshoe.R;
 import com.example.mycareshoe.helpers.SharedPrefManager;
 import com.example.mycareshoe.helpers.URLs;
 import com.example.mycareshoe.ui.login.JSONParser;
 
 import org.apache.http.message.BasicNameValuePair;
-import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
 import java.text.ParseException;
@@ -49,24 +44,21 @@ public abstract class StatisticsHelperFragment extends Fragment {
         this.endDateString = endDateString;
     }
 
-    public void onCreate(Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanseState)
-    {
+    public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanseState) {
 
-        View view = provideYourFragmentView(inflater,parent,savedInstanseState);
+        View view = provideYourFragmentView(inflater, parent, savedInstanseState);
         return view;
     }
 
-    public abstract View provideYourFragmentView(LayoutInflater inflater,ViewGroup parent, Bundle savedInstanceState);
+    public abstract View provideYourFragmentView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState);
 
 
-    public void setDateTextClickListener(EditText dateText, String dateType, ImageButton searchBtn){
-
+    public void setDateTextClickListener(EditText dateText, String dateType, ImageButton searchBtn) {
 
 
         dateText.setOnClickListener(new View.OnClickListener() {
@@ -84,23 +76,23 @@ public abstract class StatisticsHelperFragment extends Fragment {
                             @Override
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 
-                                dateText.setText(year+"-"+(monthOfYear + 1)+"-"+dayOfMonth);
+                                dateText.setText(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
 
-                                if(dateType.equals("start")) {
+                                if (dateType.equals("start")) {
 
                                     setStartDateString(dateText.getText().toString());
-                                }else
+                                } else
                                     setEndDateString(dateText.getText().toString());
 
-                                if(getStartDateString()!=null && getEndDateString()!=null)
+                                if (getStartDateString() != null && getEndDateString() != null)
                                     searchBtn.setEnabled(true);
                                 else
                                     searchBtn.setEnabled(false);
                             }
                         }, year, month, day);
 
-                if(dateType.equals("start")){
-                    if(getEndDateString()!=null) {
+                if (dateType.equals("start")) {
+                    if (getEndDateString() != null) {
                         try {
                             picker.getDatePicker().setMaxDate(new SimpleDateFormat("yyyy-MM-dd").parse(getEndDateString()).getTime());
                         } catch (ParseException e) {
@@ -108,8 +100,8 @@ public abstract class StatisticsHelperFragment extends Fragment {
                         }
 
                     }
-                }else {
-                    if(getStartDateString()!=null) {
+                } else {
+                    if (getStartDateString() != null) {
                         try {
                             picker.getDatePicker().setMinDate(new SimpleDateFormat("yyyy-MM-dd").parse(getStartDateString()).getTime());
                         } catch (ParseException e) {
@@ -121,12 +113,11 @@ public abstract class StatisticsHelperFragment extends Fragment {
                 picker.show();
 
 
-
             }
         });
     }
 
-    public JSONObject getReadings(String topic, String startDateStringQuery, String endDateStringQuery){
+    public JSONObject getReadings(String topic, String startDateStringQuery, String endDateStringQuery) {
 
         //creating request handler object
         JSONParser jsonParser = new JSONParser();
@@ -139,7 +130,7 @@ public abstract class StatisticsHelperFragment extends Fragment {
 
 
         //returning the response
-        return jsonParser.makeHttpRequest(URLs.URL_SEARCH_DATE,"GET", params);
+        return jsonParser.makeHttpRequest(URLs.URL_SEARCH_DATE, "GET", params);
     }
 
 }

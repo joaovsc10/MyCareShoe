@@ -1,13 +1,9 @@
 package com.example.mycareshoe.data.model;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 
 import com.example.mycareshoe.helpers.SharedPrefManager;
-import com.example.mycareshoe.ui.MainActivity;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -64,7 +60,7 @@ public class StatisticsData {
 
     public HashMap<String, String> checkStanceTime(HashMap<String, String> stanceDataMap) throws ParseException {
 
-        if(stanceDataMap.containsKey("heelStrike") && stanceDataMap.containsKey("toeOff")){
+        if (stanceDataMap.containsKey("heelStrike") && stanceDataMap.containsKey("toeOff")) {
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 
@@ -72,9 +68,9 @@ public class StatisticsData {
 
             java.util.Date toeOff = dateFormat.parse(stanceDataMap.get("toeOff"));
 
-            Long stanceTime= TimeUnit.MILLISECONDS.toSeconds(toeOff.getTime()-heelStrike.getTime());
+            Long stanceTime = TimeUnit.MILLISECONDS.toSeconds(toeOff.getTime() - heelStrike.getTime());
 
-            if(stanceTime<15) {
+            if (stanceTime < 15) {
                 stanceDataMap.put("stanceTime", String.valueOf(stanceTime));
             }
         }
@@ -111,30 +107,30 @@ public class StatisticsData {
     }
 
     public void setLiveStats(ArrayList<SensorsReading> readings, Context context) {
-        long sensorsSum=0;
-        long sensorsLeftSum=0;
-        int stepsCounter=0;
+        long sensorsSum = 0;
+        long sensorsLeftSum = 0;
+        int stepsCounter = 0;
 
-        for(int i=0; i<readings.size();i++) {
-            sensorsSum = sensorsSum+readings.get(i).getLeftFootSensorsSum() + readings.get(i).getRightFootSensorsSum();
-            sensorsLeftSum=readings.get(i).getLeftFootSensorsSum()+sensorsLeftSum;
+        for (int i = 0; i < readings.size(); i++) {
+            sensorsSum = sensorsSum + readings.get(i).getLeftFootSensorsSum() + readings.get(i).getRightFootSensorsSum();
+            sensorsLeftSum = readings.get(i).getLeftFootSensorsSum() + sensorsLeftSum;
 
 
             if (readings.get(i).getRightFootSensorsSum() == 0 && readings.get(i).getLeftFootSensorsSum() > 0)
                 stepsCounter++;
 
-            }
-        if(sensorsSum==0){
+        }
+        if (sensorsSum == 0) {
             setBalance(0);
-        }else {
+        } else {
             setBalance((sensorsLeftSum * 100) / sensorsSum);
         }
-        setCadence(stepsCounter*60);
-        setSteps(getSteps()+stepsCounter);
+        setCadence(stepsCounter * 60);
+        setSteps(getSteps() + stepsCounter);
 
 
-        if(stepsCounter>0)
-            setPace(round((100000/(stepsCounter* SharedPrefManager.getInstance(context).getStrideLength()))/60));
+        if (stepsCounter > 0)
+            setPace(round((100000 / (stepsCounter * SharedPrefManager.getInstance(context).getStrideLength())) / 60));
         else
             setPace(0);
     }

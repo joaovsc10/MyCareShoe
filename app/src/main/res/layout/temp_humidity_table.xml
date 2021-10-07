@@ -22,8 +22,8 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_weight="1"
-                android:src="@drawable/thermometer"
-                android:contentDescription="@string/temperature_en" />
+                android:contentDescription="@string/temperature_en"
+                android:src="@drawable/thermometer" />
 
             <ImageView
                 android:id="@+id/humidity"
@@ -40,26 +40,26 @@
                 android:id="@+id/leftFoot"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:src="@drawable/foot_icon"
-                android:contentDescription="@string/left_foot_en" />
+                android:contentDescription="@string/left_foot_en"
+                android:src="@drawable/foot_icon" />
 
             <TextView
                 android:id="@+id/leftFootTemperature"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_weight="1"
                 android:gravity="center"
-                android:textStyle="bold"
-                android:layout_weight="1" />
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/leftFootHumidity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_weight="1"
                 android:gravity="center"
-                android:textStyle="bold"
-                android:layout_weight="1" />
+                android:textStyle="bold" />
 
         </TableRow>
 
@@ -70,26 +70,26 @@
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_weight="0"
-                android:src="@drawable/foot_icon_inverted"
-                android:contentDescription="@string/right_foot_en" />
+                android:contentDescription="@string/right_foot_en"
+                android:src="@drawable/foot_icon_inverted" />
 
             <TextView
                 android:id="@+id/rightFootTemperature"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_weight="1"
                 android:gravity="center"
-                android:textStyle="bold"
-                android:layout_weight="1" />
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/rightFootHumidity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_weight="1"
                 android:gravity="center"
-                android:textStyle="bold"
-                android:layout_weight="1" />
+                android:textStyle="bold" />
 
         </TableRow>
 

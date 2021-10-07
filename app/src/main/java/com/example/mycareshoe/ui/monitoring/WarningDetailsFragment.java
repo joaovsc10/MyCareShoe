@@ -1,15 +1,11 @@
 package com.example.mycareshoe.ui.monitoring;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -20,21 +16,9 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.example.mycareshoe.R;
 import com.example.mycareshoe.data.model.SensorsReading;
-import com.example.mycareshoe.data.model.User;
-import com.example.mycareshoe.helpers.SharedPrefManager;
-import com.example.mycareshoe.helpers.URLs;
-import com.example.mycareshoe.ui.login.JSONParser;
 import com.google.android.material.tabs.TabLayout;
 
-import org.apache.http.message.BasicNameValuePair;
 import org.jetbrains.annotations.NotNull;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class WarningDetailsFragment extends Fragment {
 
@@ -81,14 +65,14 @@ public class WarningDetailsFragment extends Fragment {
 
         Bundle bundle = this.getArguments();
 
-        Handler h= new Handler();
+        Handler h = new Handler();
 
-        Runnable run= new Runnable() {
+        Runnable run = new Runnable() {
             @Override
             public void run() {
-                if(!mViewPagerAdapter.isInflated())
+                if (!mViewPagerAdapter.isInflated())
                     h.postDelayed(this, 0);
-                else{
+                else {
                     validateSensorValues(bundle.getString("warning_date"), bundle.getString("sensors"));
                     h.removeCallbacks(this);
                     progressBar.setVisibility(View.GONE);
@@ -96,25 +80,25 @@ public class WarningDetailsFragment extends Fragment {
             }
         };
 
-        h.postDelayed(run,0);
+        h.postDelayed(run, 0);
     }
 
-    private void validateSensorValues(String warning_date, String sensors){
+    private void validateSensorValues(String warning_date, String sensors) {
 
         SensorsReading sr = new SensorsReading();
 
         String[] individualSensors = sensors.split(",");
-        for (String sensor: individualSensors
-             ) {
+        for (String sensor : individualSensors
+        ) {
             changeSensorsColor(sr.sensorDistribution.get(sensor));
         }
 
-            hiperpressionSensorsName.setText(sensors);
-            datevalue.setText(warning_date);
+        hiperpressionSensorsName.setText(sensors);
+        datevalue.setText(warning_date);
 
     }
 
-    private void changeSensorsColor(int sensorImageId){
+    private void changeSensorsColor(int sensorImageId) {
 
 
         ImageView imageViewIcon = (ImageView) getView().findViewById(sensorImageId);

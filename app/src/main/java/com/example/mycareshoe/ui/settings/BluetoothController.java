@@ -1,18 +1,3 @@
-/*
- * Copyright (C) 2009 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package com.example.mycareshoe.ui.settings;
 
@@ -32,8 +17,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.UUID;
 
-import static com.example.mycareshoe.helpers.URLs.MY_UUID;
-
 public class BluetoothController {
     private static final String APP_NAME = "MyCareShoe";
     private static final UUID MY_UUID = URLs.MY_UUID;
@@ -48,7 +31,7 @@ public class BluetoothController {
     private ConnectThread connectThreadRight;
     private ConnectedThread connectedThreadRight;
     private BluetoothSocket leftSocket;
-    private  BluetoothSocket rightSocket;
+    private BluetoothSocket rightSocket;
     private int state;
 
     static final int STATE_NONE = 0;
@@ -98,18 +81,18 @@ public class BluetoothController {
 
 
         ConnectThread connectThread = null;
-        ConnectedThread connectedThread= null;
-        AcceptThread acceptThread= null;
+        ConnectedThread connectedThread = null;
+        AcceptThread acceptThread = null;
 
-        if(foot.equals("L")){
+        if (foot.equals("L")) {
 
-            connectThread= connectThreadLeft;
-            connectedThread= connectedThreadLeft;
+            connectThread = connectThreadLeft;
+            connectedThread = connectedThreadLeft;
             acceptThread = acceptThreadLeft;
-        }else{
+        } else {
 
-            connectThread= connectThreadRight;
-            connectedThread= connectedThreadRight;
+            connectThread = connectThreadRight;
+            connectedThread = connectedThreadRight;
             acceptThread = acceptThreadRight;
         }
 
@@ -136,22 +119,22 @@ public class BluetoothController {
     public synchronized void connect(BluetoothDevice device, String foot) throws IOException {
 
         ConnectThread connectThread = null;
-        ConnectedThread connectedThread= null;
-        AcceptThread acceptThread= null;
+        ConnectedThread connectedThread = null;
+        AcceptThread acceptThread = null;
 
-        if(foot.equals("L")){
-            if(getLeftSocket()!=null){
+        if (foot.equals("L")) {
+            if (getLeftSocket() != null) {
                 getLeftSocket().close();
             }
-            connectThread= connectThreadLeft;
-            connectedThread= connectedThreadLeft;
+            connectThread = connectThreadLeft;
+            connectedThread = connectedThreadLeft;
             acceptThread = acceptThreadLeft;
-        }else{
-            if(getRightSocket()!=null){
+        } else {
+            if (getRightSocket() != null) {
                 getRightSocket().close();
             }
-            connectThread= connectThreadRight;
-            connectedThread= connectedThreadRight;
+            connectThread = connectThreadRight;
+            connectedThread = connectedThreadRight;
             acceptThread = acceptThreadRight;
         }
 
@@ -179,16 +162,16 @@ public class BluetoothController {
     public synchronized void connected(BluetoothSocket socket, BluetoothDevice device, String foot) {
 
         ConnectThread connectThread = null;
-        ConnectedThread connectedThread= null;
-        AcceptThread acceptThread= null;
+        ConnectedThread connectedThread = null;
+        AcceptThread acceptThread = null;
 
-        if(foot.equals("L")){
-            connectThread= connectThreadLeft;
-            connectedThread= connectedThreadLeft;
+        if (foot.equals("L")) {
+            connectThread = connectThreadLeft;
+            connectedThread = connectedThreadLeft;
             acceptThread = acceptThreadLeft;
-        }else{
-            connectThread= connectThreadRight;
-            connectedThread= connectedThreadRight;
+        } else {
+            connectThread = connectThreadRight;
+            connectedThread = connectedThreadRight;
             acceptThread = acceptThreadRight;
         }
 
@@ -216,7 +199,7 @@ public class BluetoothController {
         // Send the name of the connected device back to the UI Activity
         Message msg = handler.obtainMessage(BluetoothFragment.MESSAGE_DEVICE_OBJECT);
         Bundle bundle = new Bundle();
-        if(foot.equals("L"))
+        if (foot.equals("L"))
             bundle.putParcelable(BluetoothFragment.DEVICE_OBJECT_LEFT, device);
         else
             bundle.putParcelable(BluetoothFragment.DEVICE_OBJECT_RIGHT, device);
@@ -230,21 +213,21 @@ public class BluetoothController {
     public synchronized void stop(String foot) throws IOException {
 
         ConnectThread connectThread = null;
-        ConnectedThread connectedThread= null;
-        AcceptThread acceptThread= null;
+        ConnectedThread connectedThread = null;
+        AcceptThread acceptThread = null;
 
-        if(foot.equals("L")){
-            connectThread= connectThreadLeft;
-            connectedThread= connectedThreadLeft;
+        if (foot.equals("L")) {
+            connectThread = connectThreadLeft;
+            connectedThread = connectedThreadLeft;
             acceptThread = acceptThreadLeft;
-            if(getLeftSocket()!=null){
+            if (getLeftSocket() != null) {
                 getLeftSocket().close();
             }
-        }else{
-            connectThread= connectThreadRight;
-            connectedThread= connectedThreadRight;
+        } else {
+            connectThread = connectThreadRight;
+            connectedThread = connectedThreadRight;
             acceptThread = acceptThreadRight;
-            if(getRightSocket()!=null){
+            if (getRightSocket() != null) {
                 getRightSocket().close();
             }
         }
@@ -268,12 +251,12 @@ public class BluetoothController {
     }
 
     public void write(byte[] out, String foot) {
-        ConnectedThread connectedThread= null;
+        ConnectedThread connectedThread = null;
 
-        if(foot.equals("L"))
-            connectedThread= connectedThreadLeft;
+        if (foot.equals("L"))
+            connectedThread = connectedThreadLeft;
         else
-            connectedThread= connectedThreadRight;
+            connectedThread = connectedThreadRight;
         ConnectedThread r;
         synchronized (this) {
             if (state != STATE_CONNECTED)
@@ -297,7 +280,7 @@ public class BluetoothController {
     private void connectionLost(String foot) {
         Message msg = handler.obtainMessage(BluetoothFragment.MESSAGE_TOAST);
         Bundle bundle = new Bundle();
-        bundle.putString("toast", "Device connection was lost in "+foot+" foot");
+        bundle.putString("toast", "Device connection was lost in " + foot + " foot");
         msg.setData(bundle);
         handler.sendMessage(msg);
 
@@ -307,23 +290,22 @@ public class BluetoothController {
 
 
     private class ConnectThread extends Thread {
-        private BluetoothSocket socketL=null;
-        private BluetoothDevice deviceL=null;
-        private BluetoothSocket socketR=null;
-        private BluetoothDevice deviceR=null;
+        private BluetoothSocket socketL = null;
+        private BluetoothDevice deviceL = null;
+        private BluetoothSocket socketR = null;
+        private BluetoothDevice deviceR = null;
         private String footSide;
 
 
         public ConnectThread(BluetoothDevice device, String foot) throws IOException {
             footSide = foot;
-            if(foot.equals("L")) {
+            if (foot.equals("L")) {
 
-                if(getLeftSocket()!=null){
+                if (getLeftSocket() != null) {
                     getLeftSocket().close();
                 }
                 this.deviceL = device;
-            }
-            else {
+            } else {
                 if (getRightSocket() != null) {
                     getRightSocket().close();
                 }
@@ -336,12 +318,12 @@ public class BluetoothController {
                 e.printStackTrace();
             }
 
-            if(foot.equals("L")){
+            if (foot.equals("L")) {
 
-                socketL=tmp;
-                setLeftSocket(socketL);}
-            else
-                socketR=tmp;
+                socketL = tmp;
+                setLeftSocket(socketL);
+            } else
+                socketR = tmp;
             setRightSocket(socketR);
         }
 
@@ -353,7 +335,7 @@ public class BluetoothController {
             bluetoothAdapter.cancelDiscovery();
 
             // Make a connection to the BluetoothSocket
-            if(footSide.equals("L")) {
+            if (footSide.equals("L")) {
                 try {
                     socketL.connect();
                 } catch (IOException e) {
@@ -364,7 +346,7 @@ public class BluetoothController {
                     connectionFailed(footSide);
                     return;
                 }
-            }else{
+            } else {
                 try {
                     socketR.connect();
                 } catch (IOException e) {
@@ -378,10 +360,9 @@ public class BluetoothController {
             }
 
 
-
             // Reset the ConnectThread because we're done
             synchronized (BluetoothController.this) {
-                if(footSide.equals("L"))
+                if (footSide.equals("L"))
                     connectThreadLeft = null;
                 else
                     connectThreadRight = null;
@@ -389,9 +370,9 @@ public class BluetoothController {
             }
 
             // Start the connected thread
-            if(footSide.equals("L")) {
+            if (footSide.equals("L")) {
                 connected(socketL, deviceL, footSide);
-            }else
+            } else
                 connected(socketR, deviceR, footSide);
 
         }
@@ -406,20 +387,20 @@ public class BluetoothController {
 
     // runs while listening for incoming connections
     private class AcceptThread extends Thread {
-        private  BluetoothServerSocket serverSocketL=null;
-        private  BluetoothServerSocket serverSocketR=null;
+        private BluetoothServerSocket serverSocketL = null;
+        private BluetoothServerSocket serverSocketR = null;
 
-private final String footSide;
+        private final String footSide;
 
         public AcceptThread(String foot) {
-            footSide=foot;
+            footSide = foot;
 
             BluetoothServerSocket tmp = null;
             try {
-                if(foot.equals("L")){
+                if (foot.equals("L")) {
                     tmp = bluetoothAdapter.listenUsingInsecureRfcommWithServiceRecord(APP_NAME, MY_UUID);
-                    serverSocketL=tmp;}
-                else{
+                    serverSocketL = tmp;
+                } else {
                     tmp = bluetoothAdapter.listenUsingInsecureRfcommWithServiceRecord(APP_NAME, MY_UUID2);
                     serverSocketR = tmp;
                 }
@@ -442,12 +423,10 @@ private final String footSide;
                         socketL = serverSocketL.accept();
 
                         socket = socketL;
+                    } else {
+                        socketR = serverSocketR.accept();
+                        socket = socketR;
                     }
-                    else
-                    {
-                    socketR = serverSocketR.accept();
-                    socket = socketR;
-                }
 
                 } catch (IOException e) {
                     break;
@@ -460,12 +439,12 @@ private final String footSide;
                             case STATE_LISTEN:
                             case STATE_CONNECTING:
                                 // start the connected thread.
-                                if(footSide.equals("L")) {
+                                if (footSide.equals("L")) {
                                     connected(socketL, socketL.getRemoteDevice(), footSide);
 
+                                } else {
+                                    connected(socketR, socketR.getRemoteDevice(), footSide);
                                 }
-                                else{
-                                    connected(socketR, socketR.getRemoteDevice(), footSide);}
                                 break;
                             case STATE_NONE:
                             case STATE_CONNECTED:
@@ -484,7 +463,7 @@ private final String footSide;
 
         public void cancel() {
             try {
-                if(footSide.equals("L"))
+                if (footSide.equals("L"))
                     serverSocketL.close();
                 else
                     serverSocketR.close();
@@ -506,7 +485,7 @@ private final String footSide;
             InputStream tmpIn = null;
             OutputStream tmpOut = null;
 
-            this.foot=foot;
+            this.foot = foot;
             try {
                 tmpIn = socket.getInputStream();
                 tmpOut = socket.getOutputStream();

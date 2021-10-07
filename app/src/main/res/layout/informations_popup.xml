@@ -4,20 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="350dp"
     android:layout_height="475dp"
+    android:layout_gravity="center"
     android:background="@color/dark_gray"
-    android:padding="5dp"
-    android:layout_gravity="center">
+    android:padding="5dp">
 
     <ImageView
         android:id="@+id/informations_exit"
-        android:clickable="true"
-        android:focusable="true"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_alignParentRight="true"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
         android:layout_marginRight="10dp"
+        android:clickable="true"
+        android:focusable="true"
         android:gravity="center"
         android:src="@drawable/ic_baseline_exit"
         android:textColor="@color/white"
@@ -45,10 +45,10 @@
         android:id="@+id/warningListView"
         android:layout_width="0dp"
         android:layout_height="400dp"
-        app:layout_constraintWidth_percent=".8"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" >
+        app:layout_constraintTop_toBottomOf="@+id/textView5"
+        app:layout_constraintWidth_percent=".8">
 
         <ImageView
             android:id="@+id/color_gradient"
@@ -60,10 +60,8 @@
             android:id="@+id/colorInfo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/color_gradient"
-            ></TextView>
+            app:layout_constraintTop_toBottomOf="@id/color_gradient"></TextView>
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 
     <FrameLayout
@@ -72,7 +70,6 @@
         android:layout_height="fill_parent"
         android:layout_weight="1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-    </FrameLayout>
+        app:layout_constraintTop_toTopOf="parent"></FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

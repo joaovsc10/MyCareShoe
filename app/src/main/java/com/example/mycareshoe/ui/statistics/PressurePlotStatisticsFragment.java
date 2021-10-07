@@ -54,8 +54,8 @@ public class PressurePlotStatisticsFragment extends StatisticsHelperFragment {
     private ArrayList<Integer> xRightValues;
     private ArrayList<Integer> yLeftValues;
     private ArrayList<Integer> yRightValues;
-    private TreeMap<String, Integer> meanSensorValuesLeft= new TreeMap<String, Integer>();
-    private TreeMap<String, Integer> meanSensorValuesRight= new TreeMap<String, Integer>();
+    private TreeMap<String, Integer> meanSensorValuesLeft = new TreeMap<String, Integer>();
+    private TreeMap<String, Integer> meanSensorValuesRight = new TreeMap<String, Integer>();
     private DataPoint[] dataPoints;
     private DataPoint[] dataPointsLeft;
     private DataPoint[] dataPointsRight;
@@ -157,7 +157,6 @@ public class PressurePlotStatisticsFragment extends StatisticsHelperFragment {
     }
 
 
-
     @Override
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
 
@@ -182,7 +181,7 @@ public class PressurePlotStatisticsFragment extends StatisticsHelperFragment {
         searchBtn.setEnabled(false);
 
         setDateTextClickListener(startDate, "start", searchBtn);
-        setDateTextClickListener(endDate,"end", searchBtn);
+        setDateTextClickListener(endDate, "end", searchBtn);
 
 
         if (savedInstanceState != null) {
@@ -195,7 +194,7 @@ public class PressurePlotStatisticsFragment extends StatisticsHelperFragment {
             setEndDateString(savedInstanceState.getString("endDate"));
 
         }
-        if(getyLeftValues()!=null && getyRightValues()!=null) {
+        if (getyLeftValues() != null && getyRightValues() != null) {
             try {
                 setPressureGraph(linegraphPressureLeft, meanSensorValuesLeft, "L", getStartDateString().equals(getEndDateString()));
                 setPressureGraph(linegraphPressureRight, meanSensorValuesRight, "R", getStartDateString().equals(getEndDateString()));
@@ -204,9 +203,7 @@ public class PressurePlotStatisticsFragment extends StatisticsHelperFragment {
             }
         }
 
-        searchBtn.setOnClickListener(new View.OnClickListener()
-
-        {
+        searchBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -218,7 +215,6 @@ public class PressurePlotStatisticsFragment extends StatisticsHelperFragment {
         });
 
     }
-
 
 
     private void readSensorsEntry(String startDateString, String endDateString) {
@@ -238,18 +234,18 @@ public class PressurePlotStatisticsFragment extends StatisticsHelperFragment {
             protected void onPostExecute(JSONObject objs) {
 
                 try {
-                    JSONArray array= objs.getJSONArray("records");
-                    int numWarnings=0;
-                    for(int i=0; i<array.length();i++){
+                    JSONArray array = objs.getJSONArray("records");
+                    int numWarnings = 0;
+                    for (int i = 0; i < array.length(); i++) {
 
-                        JsonElement mJson =  JsonParser.parseString(String.valueOf(array.getJSONObject(i)));
+                        JsonElement mJson = JsonParser.parseString(String.valueOf(array.getJSONObject(i)));
                         Gson gson = new Gson();
                         SensorsReading object = gson.fromJson(mJson, SensorsReading.class);
 
-                        if(object!=null) {
+                        if (object != null) {
                             meanSensorValuesLeft.put(object.getDate(), object.getLeftFootSensorsMean());
                             meanSensorValuesRight.put(object.getDate(), object.getRightFootSensorsMean());
-                            if (object.getHiperpressionSensors()!=null) {
+                            if (object.getHiperpressionSensors() != null) {
                                 numWarnings++;
                             }
                         }
@@ -260,20 +256,18 @@ public class PressurePlotStatisticsFragment extends StatisticsHelperFragment {
                     e.printStackTrace();
                 }
 
-                    if(meanSensorValuesLeft.size()==0 && meanSensorValuesRight.size()==0 && getyLeftValues()==null && getyRightValues()==null){
+                if (meanSensorValuesLeft.size() == 0 && meanSensorValuesRight.size() == 0 && getyLeftValues() == null && getyRightValues() == null) {
 
-                            removeGraphData(true);
-                    }else{
-                        try {
-                            setPressureGraph(linegraphPressureLeft,meanSensorValuesLeft, "L", startDateString.equals(endDateString));
-                            setPressureGraph(linegraphPressureRight,meanSensorValuesRight, "R", startDateString.equals(endDateString));
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-
+                    removeGraphData(true);
+                } else {
+                    try {
+                        setPressureGraph(linegraphPressureLeft, meanSensorValuesLeft, "L", startDateString.equals(endDateString));
+                        setPressureGraph(linegraphPressureRight, meanSensorValuesRight, "R", startDateString.equals(endDateString));
+                    } catch (ParseException e) {
+                        e.printStackTrace();
                     }
 
-
+                }
 
 
                 progressBar.setVisibility(View.GONE);
@@ -293,19 +287,20 @@ public class PressurePlotStatisticsFragment extends StatisticsHelperFragment {
         warnings.execute();
     }
 
-    private void removeGraphData(boolean showNoReadingsMessage){
+    private void removeGraphData(boolean showNoReadingsMessage) {
 
-        if(linegraphPressureLeft!=null)
+        if (linegraphPressureLeft != null)
             linegraphPressureLeft.removeAllSeries();
 
-        if(linegraphPressureRight!=null)
+        if (linegraphPressureRight != null)
             linegraphPressureRight.removeAllSeries();
-        if(showNoReadingsMessage) {
+        if (showNoReadingsMessage) {
             linegraphPressureRight.setTitle(getResources().getString(R.string.empty_graph_en));
             linegraphPressureLeft.setTitle(getResources().getString(R.string.empty_graph_en));
             Toast.makeText(getActivity(), getResources().getString(R.string.no_records_message_en), Toast.LENGTH_SHORT).show();
         }
     }
+
     private void setPressureGraph(GraphView linegraph, TreeMap<String, Integer> meanSensorValues, String foot, boolean oneDay) throws ParseException {
 
         Date date;
@@ -314,42 +309,42 @@ public class PressurePlotStatisticsFragment extends StatisticsHelperFragment {
         ArrayList<Integer> valueList;
         ArrayList<String> keyList = null;
 
-        if (getyLeftValues() != null && getyRightValues() != null){
+        if (getyLeftValues() != null && getyRightValues() != null) {
 
             if (foot.equals("L"))
                 valueList = getyLeftValues();
             else
                 valueList = getyRightValues();
-    }else {
+        } else {
             valueList = new ArrayList<Integer>(meanSensorValues.values());
             keyList = new ArrayList<String>(meanSensorValues.keySet());
         }
-        TreeMap<Integer,Integer> sensorValueByHour= new TreeMap<>();
+        TreeMap<Integer, Integer> sensorValueByHour = new TreeMap<>();
         GridLabelRenderer gridLabel = linegraph.getGridLabelRenderer();
 
-        if(!oneDay) {
-            dataPoints= new DataPoint[valueList.size()];
+        if (!oneDay) {
+            dataPoints = new DataPoint[valueList.size()];
             for (int i = 0; i < valueList.size(); i++) {
 
                 dataPoints[i] = new DataPoint(i, valueList.get(i));
 
             }
             gridLabel.setHorizontalAxisTitle(getResources().getString(R.string.sensor_reading_xtitle_en));
-        }else{
+        } else {
 
-            dataPoints= new DataPoint[23];
-                Calendar calendar = GregorianCalendar.getInstance(); // creates a new calendar instance
+            dataPoints = new DataPoint[23];
+            Calendar calendar = GregorianCalendar.getInstance(); // creates a new calendar instance
 
 
-            for(int j=0; j<23;j++){
-                if(keyList==null){
+            for (int j = 0; j < 23; j++) {
+                if (keyList == null) {
                     sensorValueByHour.put(j, valueList.get(j));
-                }else {
+                } else {
                     sensorValueByHour.put(j, 0);
                 }
             }
 
-            if(keyList!=null) {
+            if (keyList != null) {
                 for (int i = 0; i < valueList.size(); i++) {
 
 
@@ -367,7 +362,7 @@ public class PressurePlotStatisticsFragment extends StatisticsHelperFragment {
 
             for (TreeMap.Entry<Integer, Integer> entry : sensorValueByHour.entrySet()) {
 
-                dataPoints[dataPointPos]= new DataPoint(entry.getKey(), entry.getValue());
+                dataPoints[dataPointPos] = new DataPoint(entry.getKey(), entry.getValue());
                 dataPointPos++;
             }
 
@@ -385,16 +380,16 @@ public class PressurePlotStatisticsFragment extends StatisticsHelperFragment {
         //          gridLabel.setVerticalAxisTitle(getResources().getString(R.string.pressure_ytitle_en));
 
 
-        if(foot.equals("L")){
+        if (foot.equals("L")) {
             setDataPointsLeft(dataPoints);
-            linegraph.setTitle(getResources().getString(R.string.mean_pressure_left_en));}
-        else{
+            linegraph.setTitle(getResources().getString(R.string.mean_pressure_left_en));
+        } else {
             setDataPointsRight(dataPoints);
-            linegraph.setTitle(getResources().getString(R.string.mean_pressure_right_en));}
+            linegraph.setTitle(getResources().getString(R.string.mean_pressure_right_en));
+        }
         //     linegraph.getViewport().setMinX(0);
         //  linegraph.getGridLabelRenderer().setHorizontalLabelsVisible(false);
         linegraph.addSeries(lineSeries);
-
 
 
     }
@@ -404,7 +399,7 @@ public class PressurePlotStatisticsFragment extends StatisticsHelperFragment {
 
         super.onSaveInstanceState(outState);
 
-        if(getDataPoints()!=null) {
+        if (getDataPoints() != null) {
             xLeftValues = new ArrayList<Integer>();
             yLeftValues = new ArrayList<Integer>();
             xRightValues = new ArrayList<Integer>();
@@ -443,7 +438,6 @@ public class PressurePlotStatisticsFragment extends StatisticsHelperFragment {
         }
 
     }
-
 
 
 }

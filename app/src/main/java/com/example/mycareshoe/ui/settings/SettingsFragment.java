@@ -1,48 +1,30 @@
 package com.example.mycareshoe.ui.settings;
 
-import android.app.DatePickerDialog;
 import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
 import android.os.Bundle;
 import android.os.ParcelUuid;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.example.mycareshoe.R;
-import com.example.mycareshoe.ui.monitoring.MonitoringFragment;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Set;
 
 public class SettingsFragment extends Fragment {
 
-        public BluetoothFragment bluetoothFragment= new BluetoothFragment();
-        private AccountSettingsFragment accountSettingsFragment= new AccountSettingsFragment();
-        private Button accountSettings;
+    public BluetoothFragment bluetoothFragment = new BluetoothFragment();
+    private AccountSettingsFragment accountSettingsFragment = new AccountSettingsFragment();
+    private Button accountSettings;
 
     @Override
     public View onCreateView(@NonNull @NotNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
@@ -60,7 +42,7 @@ public class SettingsFragment extends Fragment {
 
         getActivity().setTitle(getResources().getString(R.string.settings_en));
 
-        Button bluetooth= (Button) view.findViewById(R.id.bluetooth);
+        Button bluetooth = (Button) view.findViewById(R.id.bluetooth);
 
         accountSettings = (Button) view.findViewById(R.id.accountSettingsBtn);
         try {
@@ -68,11 +50,11 @@ public class SettingsFragment extends Fragment {
             Method getUuidsMethod = BluetoothAdapter.class.getDeclaredMethod("getUuids", null);
             ParcelUuid[] uuids = (ParcelUuid[]) getUuidsMethod.invoke(adapter, null);
 
-            if(uuids != null) {
+            if (uuids != null) {
                 for (ParcelUuid uuid : uuids) {
                     System.out.println("UUID: " + uuid.getUuid().toString());
                 }
-            }else{
+            } else {
                 System.out.println("Uuids not found, be sure to enable Bluetooth!");
             }
 
@@ -91,7 +73,7 @@ public class SettingsFragment extends Fragment {
                 FrameLayout frameLayout = (FrameLayout) view.findViewById(R.id.contentFragmente);
 
                 frameLayout.removeAllViews();
-                getParentFragmentManager().beginTransaction().replace(((ViewGroup)getView().getParent()).getId(), bluetoothFragment).addToBackStack("Bluetooth").commit();
+                getParentFragmentManager().beginTransaction().replace(((ViewGroup) getView().getParent()).getId(), bluetoothFragment).addToBackStack("Bluetooth").commit();
 
             }
         });
@@ -102,19 +84,18 @@ public class SettingsFragment extends Fragment {
                 FrameLayout frameLayout = (FrameLayout) view.findViewById(R.id.contentFragmente);
 
                 frameLayout.removeAllViews();
-                getParentFragmentManager().beginTransaction().replace(((ViewGroup)getView().getParent()).getId(), accountSettingsFragment).addToBackStack("AccountSettings").commit();
+                getParentFragmentManager().beginTransaction().replace(((ViewGroup) getView().getParent()).getId(), accountSettingsFragment).addToBackStack("AccountSettings").commit();
 
             }
         });
 
 
-}
+    }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
 
         super.onSaveInstanceState(outState);
-
 
 
     }
@@ -129,8 +110,6 @@ public class SettingsFragment extends Fragment {
         }
 
     }
-
-
 
 
 }

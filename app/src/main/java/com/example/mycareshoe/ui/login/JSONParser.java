@@ -1,10 +1,6 @@
 package com.example.mycareshoe.ui.login;
 
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.http.HttpsConnection;
 import android.util.Log;
-import android.widget.Toast;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -28,7 +24,6 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.ConnectException;
 import java.net.NoRouteToHostException;
-import java.net.URLConnection;
 import java.util.ArrayList;
 
 public class JSONParser {
@@ -47,13 +42,13 @@ public class JSONParser {
     // function get json from url
     // by making HTTP POST or GET mehtod
     public JSONObject makeHttpRequest(String url, String method,
-                                      ArrayList params)  {
+                                      ArrayList params) {
 
         // Making HTTP request
         try {
 
             // check for request method
-            if(method.equals("POST")){
+            if (method.equals("POST")) {
                 // request method is POST
                 // defaultHttpClient
                 HttpResponse httpResponse = null;
@@ -61,8 +56,8 @@ public class JSONParser {
                 HttpPost httpPost = new HttpPost(url);
                 httpPost.setEntity(new UrlEncodedFormEntity(params));
                 try {
-                    Log.e("API123", " " +convertStreamToString(httpPost.getEntity().getContent()));
-                    Log.e("API123",httpPost.getURI().toString());
+                    Log.e("API123", " " + convertStreamToString(httpPost.getEntity().getContent()));
+                    Log.e("API123", httpPost.getURI().toString());
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -74,15 +69,13 @@ public class JSONParser {
 
 
                 httpResponse = httpClient.execute(httpPost);
-                Log.e("API123",""+httpResponse.getStatusLine().getStatusCode());
-                error= String.valueOf(httpResponse.getStatusLine().getStatusCode());
+                Log.e("API123", "" + httpResponse.getStatusLine().getStatusCode());
+                error = String.valueOf(httpResponse.getStatusLine().getStatusCode());
                 HttpEntity httpEntity = httpResponse.getEntity();
                 is = httpEntity.getContent();
 
 
-
-
-            }else if(method.equals("GET") || method.equals("PUT")){
+            } else if (method.equals("GET") || method.equals("PUT")) {
                 // request method is GET
                 DefaultHttpClient httpClient = new DefaultHttpClient();
                 String paramString = URLEncodedUtils.format(params, "utf-8");
@@ -99,21 +92,18 @@ public class JSONParser {
             e.printStackTrace();
         } catch (ClientProtocolException e) {
             e.printStackTrace();
-        }
-        catch (NoRouteToHostException e) {
+        } catch (NoRouteToHostException e) {
             e.printStackTrace();
-        }
-        catch (ConnectException e){
+        } catch (ConnectException e) {
             JSONObject json = new JSONObject();
             try {
                 json.put("success", "0");
                 json.put("message", "No internet connection");
             } catch (JSONException exception) {
-            Log.e("JSON Parser", "Error parsing data " + e.toString());
-        }
+                Log.e("JSON Parser", "Error parsing data " + e.toString());
+            }
             return json;
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
@@ -127,7 +117,7 @@ public class JSONParser {
             }
             is.close();
             json = sb.toString();
-            Log.d("API123",json);
+            Log.d("API123", json);
 
 
         } catch (Exception e) {
@@ -137,7 +127,7 @@ public class JSONParser {
         // try to parse the string to a JSON object
         try {
             jObj = new JSONObject(json);
-            jObj.put("error_code",error);
+            jObj.put("error_code", error);
         } catch (JSONException e) {
             Log.e("JSON Parser", "Error parsing data " + e.toString());
         }

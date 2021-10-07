@@ -8,8 +8,8 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="dark_cyan">#FF116756</color>
-    <color name="grey_toolbar"> #DCDCDC </color>
-    <color name="dark_gray"> #838383 </color>
+    <color name="grey_toolbar">#DCDCDC</color>
+    <color name="dark_gray">#838383</color>
     <color name="red">#FF0000</color>
     <color name="dark_green">#00FF00</color>
     <color name="yellow">#FFFF00</color>

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -17,193 +17,178 @@
             android:layout_height="?attr/actionBarSize"
             android:background="@color/dark_gray"
             android:elevation="4dp"
-            app:title="@string/action_create_account"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:titleMarginStart="20dp"/>
+            app:title="@string/action_create_account"
+            app:titleMarginStart="20dp" />
 
 
         <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/left_guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.03" />
+            android:id="@+id/left_guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.03" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/right_guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.87" />
-
-
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/left_guideline_after_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.13" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/right_guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.87" />
 
 
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/left_guideline_after_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.13" />
 
 
+        <ImageView
+            android:id="@+id/nameIcon"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/ic_baseline_account_box_24"
+            app:layout_constraintHeight_percent=".05"
+            app:layout_constraintLeft_toRightOf="@id/left_guideline"
+            app:layout_constraintTop_toTopOf="@+id/usernameRegister"
+            app:layout_constraintWidth_percent=".08" />
+
+        <EditText
+            android:id="@+id/usernameRegister"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/drawable_rounded_edittext"
+            android:ems="10"
+            android:hint="@string/username_en"
+            android:paddingStart="5dp"
+            android:paddingLeft="5dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/left_guideline_after_icon"
+            app:layout_constraintRight_toLeftOf="@id/right_guideline"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.13" />
 
 
-    <ImageView
-        android:id="@+id/nameIcon"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintWidth_percent=".08"
-        app:layout_constraintHeight_percent=".05"
-        app:layout_constraintLeft_toRightOf="@id/left_guideline"
-        android:layout_marginEnd="10dp"
-        android:layout_marginRight="10dp"
-        android:src="@drawable/ic_baseline_account_box_24"
-        app:layout_constraintTop_toTopOf="@+id/usernameRegister" />
+        <EditText
+            android:id="@+id/patientNumberRegister"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/drawable_rounded_edittext"
+            android:ems="10"
+            android:hint="@string/patientNumber_en"
+            android:inputType="number"
+            android:maxLength="9"
+            android:paddingStart="5dp"
+            android:paddingLeft="5dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/left_guideline_after_icon"
+            app:layout_constraintRight_toLeftOf="@id/right_guideline"
+            app:layout_constraintTop_toBottomOf="@id/usernameRegister"
+            app:layout_constraintVertical_bias="0.1"
 
-    <EditText
-        android:id="@+id/usernameRegister"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
-        android:paddingStart="5dp"
-        android:paddingLeft="5dp"
-        app:layout_constraintRight_toLeftOf="@id/right_guideline"
-        android:background="@drawable/drawable_rounded_edittext"
-        app:layout_constraintLeft_toRightOf="@id/left_guideline_after_icon"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0.13"
-        android:ems="10"
-        android:hint="@string/username_en"
-        />
+            />
 
 
-
-    <EditText
-        android:id="@+id/patientNumberRegister"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
-        android:paddingStart="5dp"
-        android:paddingLeft="5dp"
-        app:layout_constraintRight_toLeftOf="@id/right_guideline"
-        android:background="@drawable/drawable_rounded_edittext"
-        android:ems="10"
-        android:hint="@string/patientNumber_en"
-        android:inputType="number"
-        android:maxLength="9"
-        app:layout_constraintTop_toBottomOf="@id/usernameRegister"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0.1"
-        app:layout_constraintLeft_toRightOf="@id/left_guideline_after_icon"
-
-        />
+        <ImageView
+            android:id="@+id/patientNumberIcon"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:src="@drawable/ic_baseline_local_hospital_24"
+            app:layout_constraintBottom_toBottomOf="@+id/patientNumberRegister"
+            app:layout_constraintHeight_percent=".05"
+            app:layout_constraintLeft_toRightOf="@id/left_guideline"
+            app:layout_constraintTop_toTopOf="@+id/patientNumberRegister"
+            app:layout_constraintWidth_percent=".08" />
 
 
+        <EditText
+            android:id="@+id/email"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/drawable_rounded_edittext"
+            android:ems="10"
+            android:hint="@string/email_en"
+            android:inputType="textEmailAddress"
+            android:paddingStart="5dp"
+            android:paddingLeft="5dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/left_guideline_after_icon"
+            app:layout_constraintRight_toLeftOf="@id/right_guideline"
+            app:layout_constraintTop_toBottomOf="@id/patientNumberRegister"
+            app:layout_constraintVertical_bias="0.13"
 
-    <ImageView
-        android:id="@+id/patientNumberIcon"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintWidth_percent=".08"
-        app:layout_constraintHeight_percent=".05"
-        app:layout_constraintLeft_toRightOf="@id/left_guideline"
-        android:src="@drawable/ic_baseline_local_hospital_24"
-        app:layout_constraintBottom_toBottomOf="@+id/patientNumberRegister"
-        app:layout_constraintTop_toTopOf="@+id/patientNumberRegister" />
-
-
-    <EditText
-        android:id="@+id/email"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
-        android:paddingStart="5dp"
-        android:paddingLeft="5dp"
-        app:layout_constraintRight_toLeftOf="@id/right_guideline"
-        android:background="@drawable/drawable_rounded_edittext"
-        android:ems="10"
-        android:hint="@string/email_en"
-        android:inputType="textEmailAddress"
-        app:layout_constraintTop_toBottomOf="@id/patientNumberRegister"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0.13"
-        app:layout_constraintLeft_toRightOf="@id/left_guideline_after_icon"
-
-        />
+            />
 
 
-
-    <ImageView
-        android:id="@+id/emailIcon"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintWidth_percent=".08"
-        app:layout_constraintHeight_percent=".05"
-        app:layout_constraintLeft_toRightOf="@id/left_guideline"
-        android:src="@drawable/ic_baseline_email"
-        app:layout_constraintBottom_toBottomOf="@+id/email"
-        app:layout_constraintTop_toTopOf="@+id/email" />
-
-
-    <EditText
-        android:id="@+id/passwordRegister"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/drawable_rounded_edittext"
-        android:ems="10"
-        android:hint="@string/prompt_password"
-        android:inputType="textPassword"
-        android:paddingStart="5dp"
-        android:paddingLeft="5dp"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toRightOf="@id/left_guideline_after_icon"
-        app:layout_constraintRight_toLeftOf="@id/right_guideline"
-        app:layout_constraintTop_toBottomOf="@id/email"
-
-        app:layout_constraintVertical_bias="0.165" />
-
-    <ImageView
-        android:id="@+id/passwordIcon"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintWidth_percent=".08"
-        app:layout_constraintHeight_percent=".05"
-        app:layout_constraintLeft_toRightOf="@id/left_guideline"
-        android:src="@drawable/ic_baseline_password"
-        app:layout_constraintBottom_toBottomOf="@+id/passwordRegister"
-        app:layout_constraintTop_toTopOf="@+id/passwordRegister" />
-
-    <Button
-        android:id="@+id/checkIcon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/save_en"
-        app:layout_constraintRight_toLeftOf="@id/right_guideline"
-        app:layout_constraintTop_toTopOf="@+id/cancelIcon" />
-
-    <Button
-        android:id="@+id/cancelIcon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/cancel_en"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/left_guideline_after_icon"
-        />
+        <ImageView
+            android:id="@+id/emailIcon"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:src="@drawable/ic_baseline_email"
+            app:layout_constraintBottom_toBottomOf="@+id/email"
+            app:layout_constraintHeight_percent=".05"
+            app:layout_constraintLeft_toRightOf="@id/left_guideline"
+            app:layout_constraintTop_toTopOf="@+id/email"
+            app:layout_constraintWidth_percent=".08" />
 
 
+        <EditText
+            android:id="@+id/passwordRegister"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/drawable_rounded_edittext"
+            android:ems="10"
+            android:hint="@string/prompt_password"
+            android:inputType="textPassword"
+            android:paddingStart="5dp"
+            android:paddingLeft="5dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toRightOf="@id/left_guideline_after_icon"
+            app:layout_constraintRight_toLeftOf="@id/right_guideline"
+            app:layout_constraintTop_toBottomOf="@id/email"
 
+            app:layout_constraintVertical_bias="0.165" />
 
+        <ImageView
+            android:id="@+id/passwordIcon"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:src="@drawable/ic_baseline_password"
+            app:layout_constraintBottom_toBottomOf="@+id/passwordRegister"
+            app:layout_constraintHeight_percent=".05"
+            app:layout_constraintLeft_toRightOf="@id/left_guideline"
+            app:layout_constraintTop_toTopOf="@+id/passwordRegister"
+            app:layout_constraintWidth_percent=".08" />
 
+        <Button
+            android:id="@+id/checkIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/save_en"
+            app:layout_constraintRight_toLeftOf="@id/right_guideline"
+            app:layout_constraintTop_toTopOf="@+id/cancelIcon" />
+
+        <Button
+            android:id="@+id/cancelIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cancel_en"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/left_guideline_after_icon" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

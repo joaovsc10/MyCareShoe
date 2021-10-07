@@ -1,16 +1,8 @@
 package com.example.mycareshoe.ui;
 
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.os.PersistableBundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -20,15 +12,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.NotificationCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
 
 import com.example.mycareshoe.R;
-import com.example.mycareshoe.data.model.SensorsReading;
-import com.example.mycareshoe.data.model.StatisticsData;
-import com.example.mycareshoe.helpers.ChronometerHelper;
 import com.example.mycareshoe.helpers.SharedPrefManager;
 import com.example.mycareshoe.ui.login.LoginActivity;
 import com.example.mycareshoe.ui.monitoring.MonitoringFragment;
@@ -40,14 +27,14 @@ import com.google.android.material.navigation.NavigationView;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawer;
-    private SettingsFragment settingsFragment= new SettingsFragment();
-    private MonitoringFragment monitoringFragment= new MonitoringFragment();
-    private StatisticsFragment statisticsFragment= new StatisticsFragment();
+    private SettingsFragment settingsFragment = new SettingsFragment();
+    private MonitoringFragment monitoringFragment = new MonitoringFragment();
+    private StatisticsFragment statisticsFragment = new StatisticsFragment();
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
@@ -78,10 +65,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             System.out.println(e);
         }
 */
-       super.onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState);
 
 
-        if(savedInstanceState!=null){
+        if (savedInstanceState != null) {
             monitoringFragment = (MonitoringFragment) getSupportFragmentManager().getFragment(savedInstanceState, "monitorization");
             settingsFragment = (SettingsFragment) getSupportFragmentManager().getFragment(savedInstanceState, "settings");
             statisticsFragment = (StatisticsFragment) getSupportFragmentManager().getFragment(savedInstanceState, "statistics");
@@ -91,12 +78,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        drawer= findViewById(R.id.drawer_layout);
+        drawer = findViewById(R.id.drawer_layout);
 
 
-        NavigationView navView= findViewById(R.id.nav_view);
+        NavigationView navView = findViewById(R.id.nav_view);
         navView.setNavigationItemSelectedListener(this);
-        ActionBarDrawerToggle toggle= new ActionBarDrawerToggle(this, drawer, toolbar,
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
                 R.string.navigations_drawer_open, R.string.navigations_drawer_close);
 
         drawer.addDrawerListener(toggle);
@@ -127,7 +114,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
 
 
-
             @Override
             public void onDrawerStateChanged(int newState) {
                 // Called when the drawer motion state changes. The new state will be one of STATE_IDLE, STATE_DRAGGING or STATE_SETTLING.
@@ -135,11 +121,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
 
 
-
-
-
-
-        if(savedInstanceState==null) {
+        if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, monitoringFragment).commit();
             navView.setCheckedItem(R.id.monitorization);
 
@@ -147,11 +129,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-
     @Override
     public boolean onNavigationItemSelected(@NonNull @NotNull MenuItem item) {
 
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.monitorization:
 
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, monitoringFragment).addToBackStack("monitorization").commit();
@@ -159,20 +140,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.statistics:
 
-                if(statisticsFragment==null)
+                if (statisticsFragment == null)
                     statisticsFragment = new StatisticsFragment();
-               getSupportFragmentManager().beginTransaction().hide(new MonitoringFragment()).replace(R.id.fragment_container,statisticsFragment).addToBackStack("statistics").commit();
+                getSupportFragmentManager().beginTransaction().hide(new MonitoringFragment()).replace(R.id.fragment_container, statisticsFragment).addToBackStack("statistics").commit();
                 setTitle(R.string.statistics_en);
                 break;
             case R.id.settings:
 
-                if(settingsFragment==null)
-                    settingsFragment= new SettingsFragment();
-                getSupportFragmentManager().beginTransaction().hide(new MonitoringFragment()).replace(R.id.fragment_container,settingsFragment).addToBackStack("settings").commit();
+                if (settingsFragment == null)
+                    settingsFragment = new SettingsFragment();
+                getSupportFragmentManager().beginTransaction().hide(new MonitoringFragment()).replace(R.id.fragment_container, settingsFragment).addToBackStack("settings").commit();
                 setTitle(R.string.settings_en);
-                break;
-            case R.id.about:
-               setTitle(R.string.about_en);
                 break;
             case R.id.personalInfo:
                 getSupportFragmentManager().beginTransaction().hide(new MonitoringFragment()).replace(R.id.fragment_container, new PersonalInfoFragment()).addToBackStack("personal_info").commit();
@@ -181,7 +159,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.logout:
                 SharedPrefManager.getInstance(getApplicationContext()).logout();
                 Intent intent = new Intent(this, LoginActivity.class);
-                if(settingsFragment!=null) {
+                if (settingsFragment != null) {
                     if (settingsFragment.bluetoothFragment != null) {
                         if (settingsFragment.bluetoothFragment.getBluetoothControllerRight() != null && settingsFragment.bluetoothFragment.getBluetoothControllerLeft() != null) {
                             if (settingsFragment.bluetoothFragment.getBluetoothControllerRight().getRightSocket() != null || settingsFragment.bluetoothFragment.getBluetoothControllerLeft().getLeftSocket() != null) {
@@ -207,7 +185,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onBackPressed() {
 
-        if(drawer.isDrawerOpen(GravityCompat.START)){
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
@@ -221,10 +199,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //Save the fragment's instance
         getSupportFragmentManager().putFragment(outState, "monitorization", monitoringFragment);
-        if(getSupportFragmentManager().getFragment(outState, "settings")!=null)
+        if (getSupportFragmentManager().getFragment(outState, "settings") != null)
             getSupportFragmentManager().putFragment(outState, "settings", settingsFragment);
 
-        if(getSupportFragmentManager().getFragment(outState, "statistics")!=null)
+        if (getSupportFragmentManager().getFragment(outState, "statistics") != null)
             getSupportFragmentManager().putFragment(outState, "statistics", statisticsFragment);
     }
 
@@ -237,7 +215,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onResume() {
         super.onResume();
     }
-
 
 
 }

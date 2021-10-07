@@ -1,20 +1,10 @@
 package com.example.mycareshoe.helpers;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 
 import com.example.mycareshoe.data.model.Patient;
-import com.example.mycareshoe.data.model.User;
-import com.example.mycareshoe.ui.login.LoginActivity;
 
-import static android.accounts.AccountManager.KEY_PASSWORD;
-
-/**
- * Created by Belal on 9/5/2017.
- */
-
-//here for this class we are using a singleton pattern
 
 public class SharedPrefManager {
 
@@ -69,27 +59,27 @@ public class SharedPrefManager {
         System.out.println(sharedPreferences.getAll());
     }
 
-    public void updatePersonalInfo(Patient patient){
+    public void updatePersonalInfo(Patient patient) {
 
         SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(KEY_GENDER, patient.getGender());
         editor.putString(KEY_BIRTH, patient.getBirth());
-        putDouble(editor,KEY_HEIGHT, patient.getHeight());
-        putDouble(editor,KEY_WEIGHT, patient.getWeight());
+        putDouble(editor, KEY_HEIGHT, patient.getHeight());
+        putDouble(editor, KEY_WEIGHT, patient.getWeight());
         editor.putInt(KEY_FEET_SIZE, patient.getFeetSize());
         editor.putString(KEY_DIABETES, patient.getDiabetesStatus());
         editor.putString(KEY_FEET_TYPE, patient.getFeetType());
         editor.putString(KEY_NAME, patient.getName());
-        putDouble(editor,KEY_STRIDE_LENGTH, patient.getStrideLength());
+        putDouble(editor, KEY_STRIDE_LENGTH, patient.getStrideLength());
 
-        if(patient.getPressureThreshold()==0){
+        if (patient.getPressureThreshold() == 0) {
             patient.setPressureThreshold(200);
         }
-        if(patient.getOccurencesNumber()==0){
+        if (patient.getOccurencesNumber() == 0) {
             patient.setOccurencesNumber(5);
         }
-        if(patient.getTimeInterval()==0){
+        if (patient.getTimeInterval() == 0) {
             patient.setTimeInterval(10);
         }
         editor.putInt(KEY_OVERPRESSURE_VALUE, patient.getPressureThreshold());
@@ -105,31 +95,31 @@ public class SharedPrefManager {
         return sharedPreferences.getString(KEY_USERNAME, null) != null;
     }
 
-    public int getOverPressureValue(){
+    public int getOverPressureValue() {
         SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
 
         return sharedPreferences.getInt(KEY_OVERPRESSURE_VALUE, -1);
     }
 
-    public int getUserId(){
+    public int getUserId() {
         SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
 
         return sharedPreferences.getInt(KEY_ID, -1);
     }
 
-    public double getStrideLength(){
+    public double getStrideLength() {
         SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
 
         return getDouble(sharedPreferences, KEY_STRIDE_LENGTH, -1);
     }
 
-    public int getOccurrencesNumber(){
+    public int getOccurrencesNumber() {
         SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
 
         return sharedPreferences.getInt(KEY_OCCURRENCES_NUMBER, -1);
     }
 
-    public int getTimeInterval(){
+    public int getTimeInterval() {
         SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
 
         return sharedPreferences.getInt(KEY_TIME_INTERVAL, -1);
@@ -139,7 +129,7 @@ public class SharedPrefManager {
     public Patient getPatient(boolean personalInfo) {
         SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
 
-        if(personalInfo) {
+        if (personalInfo) {
             System.out.println(sharedPreferences.getAll());
             return new Patient(
                     sharedPreferences.getInt(KEY_ID, -1),
@@ -150,8 +140,8 @@ public class SharedPrefManager {
                     sharedPreferences.getInt(KEY_PATIENT_NUMBER, -1),
                     sharedPreferences.getString(KEY_GENDER, null),
                     sharedPreferences.getString(KEY_BIRTH, null),
-                    getDouble(sharedPreferences,KEY_HEIGHT, -1),
-                    getDouble(sharedPreferences,KEY_WEIGHT, -1),
+                    getDouble(sharedPreferences, KEY_HEIGHT, -1),
+                    getDouble(sharedPreferences, KEY_WEIGHT, -1),
                     sharedPreferences.getInt(KEY_FEET_SIZE, -1),
                     sharedPreferences.getString(KEY_DIABETES, null),
                     sharedPreferences.getString(KEY_FEET_TYPE, null),
@@ -160,7 +150,7 @@ public class SharedPrefManager {
                     sharedPreferences.getInt(KEY_OCCURRENCES_NUMBER, -1),
                     sharedPreferences.getInt(KEY_TIME_INTERVAL, -1)
             );
-        }else{
+        } else {
             return new Patient(
                     sharedPreferences.getInt(KEY_ID, -1),
                     sharedPreferences.getString(KEY_USERNAME, null),

@@ -17,7 +17,7 @@ public class Patient extends User implements Serializable {
     private int occurencesNumber;
     private int timeInterval;
 
-    public Patient ( int userId, String username, int profile_id, String email, String password, int patient_number){
+    public Patient(int userId, String username, int profile_id, String email, String password, int patient_number) {
 
         super(userId, username, profile_id, email, password, patient_number);
     }
@@ -33,9 +33,9 @@ public class Patient extends User implements Serializable {
         this.diabetesStatus = diabetesStatus;
         this.feetType = feetType;
         this.name = name;
-        this.pressureThreshold= pressureThreshold;
-        this.occurencesNumber=occurencesNumber;
-        this.timeInterval=timeInterval;
+        this.pressureThreshold = pressureThreshold;
+        this.occurencesNumber = occurencesNumber;
+        this.timeInterval = timeInterval;
     }
 
     public Patient(String gender, String birth, double height, double weight, int feetSize, String diabetesStatus, String feetType, String name, int pressureThreshold, int occurencesNumber, int timeInterval) {
@@ -48,20 +48,20 @@ public class Patient extends User implements Serializable {
         this.diabetesStatus = diabetesStatus;
         this.feetType = feetType;
         this.name = name;
-        this.pressureThreshold= pressureThreshold;
-        this.occurencesNumber=occurencesNumber;
-        this.timeInterval=timeInterval;
+        this.pressureThreshold = pressureThreshold;
+        this.occurencesNumber = occurencesNumber;
+        this.timeInterval = timeInterval;
     }
 
     public double getStrideLength() {
-        if(getHeight()>0 && getGender()!=null){
-            if(getGender().equals("Male")){
-                setStrideLength(getHeight()*100*0.415);
-            }else{
-                setStrideLength(getHeight()*100*0.413);
+        if (getHeight() > 0 && getGender() != null) {
+            if (getGender().equals("Male")) {
+                setStrideLength(getHeight() * 100 * 0.415);
+            } else {
+                setStrideLength(getHeight() * 100 * 0.413);
             }
-        }else{
-            setStrideLength(165*0.414);
+        } else {
+            setStrideLength(165 * 0.414);
         }
         return strideLength;
     }
@@ -116,11 +116,11 @@ public class Patient extends User implements Serializable {
 
     public void setHeight(double height) {
         this.height = height;
-        if(getHeight()>0 && getGender()!=null){
-            if(getGender().equals("Male")){
-                setStrideLength(getHeight()*100*0.415);
-            }else{
-                setStrideLength(getHeight()*100*0.413);
+        if (getHeight() > 0 && getGender() != null) {
+            if (getGender().equals("Male")) {
+                setStrideLength(getHeight() * 100 * 0.415);
+            } else {
+                setStrideLength(getHeight() * 100 * 0.413);
             }
         }
     }

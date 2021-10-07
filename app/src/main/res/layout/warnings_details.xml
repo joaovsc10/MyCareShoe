@@ -11,33 +11,33 @@
         android:layout_width="match_parent"
         android:layout_height="268dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias=".03"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias=".03">
 
 
-           </androidx.viewpager.widget.ViewPager>
+    </androidx.viewpager.widget.ViewPager>
 
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"></ProgressBar>
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"></ProgressBar>
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#26957F"
         app:layout_constraintTop_toBottomOf="@+id/viewPagerDetails"
         app:tabBackground="@drawable/tab_selector"
         app:tabGravity="center"
-        app:tabIndicatorHeight="0dp"
-        android:background="#26957F"/>
+        app:tabIndicatorHeight="0dp" />
 
     <TextView
         android:id="@+id/hiperpressionSensors"
@@ -47,12 +47,12 @@
         android:text="@string/sensors_en"
         android:textAppearance="@style/TextAppearance.AppCompat.Title"
         android:textSize="15sp"
-        app:layout_constraintVertical_bias=".1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias=".1"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintHorizontal_bias=".1"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tab_layout" />
+        app:layout_constraintTop_toBottomOf="@+id/tab_layout"
+        app:layout_constraintVertical_bias=".1" />
 
     <TextView
         android:id="@+id/sensorsName"
@@ -60,35 +60,35 @@
         android:layout_height="wrap_content"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textSize="15sp"
-        app:layout_constraintVertical_bias=".2"
-        app:layout_constraintLeft_toLeftOf="@id/hiperpressionSensors"
         app:layout_constraintBottom_toBottomOf="@id/dateText"
-        app:layout_constraintTop_toBottomOf="@+id/hiperpressionSensors" />
+        app:layout_constraintLeft_toLeftOf="@id/hiperpressionSensors"
+        app:layout_constraintTop_toBottomOf="@+id/hiperpressionSensors"
+        app:layout_constraintVertical_bias=".2" />
 
     <TextView
         android:id="@+id/dateText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintVertical_bias=".2"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintHorizontal_bias=".05"
-        app:layout_constraintBottom_toBottomOf="parent"
         android:text="@string/date_en"
         android:textAppearance="@style/TextAppearance.AppCompat.Title"
         android:textSize="15sp"
-        app:layout_constraintTop_toBottomOf="@+id/sensorsName" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias=".05"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sensorsName"
+        app:layout_constraintVertical_bias=".2" />
 
 
     <TextView
         android:id="@+id/dateValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="@id/dateText"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textSize="15sp"
-        app:layout_constraintVertical_bias=".1"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dateText" />
+        app:layout_constraintLeft_toLeftOf="@id/dateText"
+        app:layout_constraintTop_toBottomOf="@+id/dateText"
+        app:layout_constraintVertical_bias=".1" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,29 +4,26 @@
 
     <item
         android:id="@+id/information"
-        android:title="Information"
         android:icon="@drawable/ic_baseline_question_24"
+        android:title="Information"
         app:showAsAction="always"
 
         ></item>
-    
+
     <item
         android:id="@+id/temperatureHumidity"
-        android:title="Temperature and Humidity"
         android:icon="@drawable/ic_baseline_ac_unit_24"
-        app:showAsAction="always"
-        />
+        android:title="Temperature and Humidity"
+        app:showAsAction="always" />
 
 
     <item
         android:id="@+id/warnings"
-        android:title="Warnings"
         android:icon="@drawable/ic_baseline_warnings"
+        android:title="Warnings"
         app:showAsAction="always"
 
         ></item>
-
-
 
 
 </menu>

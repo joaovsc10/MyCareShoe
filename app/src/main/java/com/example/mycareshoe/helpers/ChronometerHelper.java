@@ -18,7 +18,7 @@ public class ChronometerHelper implements Serializable {
     public void setTimeWhenStopped(long timeWhenStopped) {
         this.timeWhenStopped = timeWhenStopped;
         getChrono().setBase(SystemClock.elapsedRealtime() - getTimeWhenStopped());
-  //      long a= SystemClock.elapsedRealtime();
+        //      long a= SystemClock.elapsedRealtime();
     }
 
     public ChronometerHelper() {
@@ -39,6 +39,7 @@ public class ChronometerHelper implements Serializable {
     private final String getTimeKey() {
         return "KEY_TIMER_TIME" + getChrono().getId();
     }
+
     private final String getIsRunningKey() {
         return "KEY_TIMER_RUNNING" + getChrono().getId();
     }
@@ -76,14 +77,14 @@ public class ChronometerHelper implements Serializable {
 
     public void setCurrentTime(long time) {
         setTimeWhenStopped(time);
-        long a=SystemClock.elapsedRealtime();
-        long b=getTimeWhenStopped();
+        long a = SystemClock.elapsedRealtime();
+        long b = getTimeWhenStopped();
         getChrono().setBase(SystemClock.elapsedRealtime() - getTimeWhenStopped());
 
     }
 
     public void saveInstanceState(Bundle outState) {
-        if(getChrono()!=null) {
+        if (getChrono() != null) {
             if (isRunning) {
                 setTimeWhenStopped(SystemClock.elapsedRealtime() - getChrono().getBase());
             }

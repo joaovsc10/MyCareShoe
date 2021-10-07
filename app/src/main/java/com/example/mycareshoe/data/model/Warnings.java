@@ -1,6 +1,5 @@
 package com.example.mycareshoe.data.model;
 
-import java.util.Date;
 
 public class Warnings {
 

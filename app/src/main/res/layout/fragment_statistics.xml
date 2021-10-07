@@ -11,31 +11,30 @@
         android:layout_width="match_parent"
         android:layout_height="71dp"
         android:layout_alignParentTop="true"
+        android:drawableStart="@drawable/ic_baseline_show_chart_24"
+        android:drawableLeft="@drawable/ic_baseline_show_chart_24"
+        android:text="@string/plot_mean_pressure_en"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:text="@string/plot_mean_pressure_en"
-        android:drawableLeft="@drawable/ic_baseline_show_chart_24"
-        android:drawableStart="@drawable/ic_baseline_show_chart_24" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/illustrated_pressure_stats_btn"
-            android:layout_width="match_parent"
-            android:layout_height="71dp"
-            app:layout_constraintVertical_bias=".1"
-            app:layout_constraintTop_toBottomOf="@id/plotted_pressure_stats_btn"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:drawableLeft="@drawable/ic_baseline_image_24"
-            android:drawableStart="@drawable/ic_baseline_image_24"
-            android:text="@string/mean_pressure_illustration_en" />
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/illustrated_pressure_stats_btn"
+        android:layout_width="match_parent"
+        android:layout_height="71dp"
+        android:drawableStart="@drawable/ic_baseline_image_24"
+        android:drawableLeft="@drawable/ic_baseline_image_24"
+        android:text="@string/mean_pressure_illustration_en"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/plotted_pressure_stats_btn"
+        app:layout_constraintVertical_bias=".1" />
 
 
     <FrameLayout
         android:id="@+id/contentFragment"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_weight="1">
-    </FrameLayout>
+        android:layout_weight="1"></FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

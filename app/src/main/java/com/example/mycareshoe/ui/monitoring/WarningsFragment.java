@@ -32,8 +32,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class WarningsFragment extends DialogFragment
-{
+public class WarningsFragment extends DialogFragment {
     private ImageView closeButton;
     private
     // Initializing a new String Array
@@ -59,15 +58,12 @@ public class WarningsFragment extends DialogFragment
         this.warnings_list = warnings_list;
     }
 
-    public WarningsFragment()
-    {
+    public WarningsFragment() {
     }
 
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState)
-    {
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
         View view = getActivity().getLayoutInflater().inflate(R.layout.warning_popup, new LinearLayout(getActivity()), false);
-
 
 
         // Build dialog
@@ -97,7 +93,7 @@ public class WarningsFragment extends DialogFragment
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 dismiss();
-                WarningDetailsFragment detailsFragment= new WarningDetailsFragment();
+                WarningDetailsFragment detailsFragment = new WarningDetailsFragment();
                 Bundle bundle = new Bundle();
                 bundle.putString("warning_date", warningsTreeMap.keySet().toArray()[position].toString());
                 bundle.putString("sensors", warningsTreeMap.get(warningsTreeMap.keySet().toArray()[position]));
@@ -127,12 +123,12 @@ public class WarningsFragment extends DialogFragment
             protected void onPostExecute(JSONObject objs) {
 
                 try {
-                    JSONArray array= objs.optJSONArray("readings");
-                    if(array!=null) {
+                    JSONArray array = objs.optJSONArray("readings");
+                    if (array != null) {
                         for (int i = 0; i < array.length(); i++) {
-                            if(warningsTreeMap.containsKey(array.getJSONObject(i).getString("warning_date"))){
-                                warningsTreeMap.replace(array.getJSONObject(i).getString("warning_date"), warningsTreeMap.get(array.getJSONObject(i).getString("warning_date"))+","+array.getJSONObject(i).getString("sensor"));
-                            }else {
+                            if (warningsTreeMap.containsKey(array.getJSONObject(i).getString("warning_date"))) {
+                                warningsTreeMap.replace(array.getJSONObject(i).getString("warning_date"), warningsTreeMap.get(array.getJSONObject(i).getString("warning_date")) + "," + array.getJSONObject(i).getString("sensor"));
+                            } else {
                                 warningsTreeMap.put(array.getJSONObject(i).getString("warning_date"), array.getJSONObject(i).getString("sensor"));
                             }
                         }
@@ -141,7 +137,7 @@ public class WarningsFragment extends DialogFragment
                         setWarnings_date_list(new ArrayList<String>(warningsTreeMap.keySet()));
 
 
-                        if (warningsTreeMap.size() > 0 && getContext()!=null) {
+                        if (warningsTreeMap.size() > 0 && getContext() != null) {
                             // Create an ArrayAdapter from List
                             final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>
                                     (getActivity(), android.R.layout.simple_list_item_1, getWarnings_date_list());
@@ -160,7 +156,7 @@ public class WarningsFragment extends DialogFragment
             }
 
 
-                @Override
+            @Override
             protected JSONObject doInBackground(Void... voids) {
                 //creating request handler object
                 JSONParser jsonParser = new JSONParser();
@@ -169,7 +165,7 @@ public class WarningsFragment extends DialogFragment
                 params.add(new BasicNameValuePair("patient_number", Integer.toString(SharedPrefManager.getInstance(getContext()).getPatient(true).getPatient_number())));
 
                 //returning the response
-                return jsonParser.makeHttpRequest(URLs.URL_GET_WARNINGS,"GET", params);
+                return jsonParser.makeHttpRequest(URLs.URL_GET_WARNINGS, "GET", params);
             }
         }
         loadWarnings warnings = new loadWarnings();
@@ -205,7 +201,7 @@ public class WarningsFragment extends DialogFragment
                 params.add(new BasicNameValuePair("warning_date", date));
 
                 //returning the response
-                return jsonParser.makeHttpRequest(URLs.URL_CREATE_WARNING,"PUT", params);
+                return jsonParser.makeHttpRequest(URLs.URL_CREATE_WARNING, "PUT", params);
             }
         }
         createWarning createWarning = new createWarning();

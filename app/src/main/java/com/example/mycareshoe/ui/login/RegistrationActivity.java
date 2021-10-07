@@ -3,8 +3,6 @@ package com.example.mycareshoe.ui.login;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,7 +13,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.mycareshoe.R;
 import com.example.mycareshoe.helpers.PersonalDataHelper;
-import com.example.mycareshoe.helpers.SharedPrefManager;
 import com.example.mycareshoe.helpers.URLs;
 
 import org.apache.http.message.BasicNameValuePair;
@@ -23,7 +20,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 public class RegistrationActivity extends AppCompatActivity {
@@ -43,10 +39,10 @@ public class RegistrationActivity extends AppCompatActivity {
         cancelButton = (Button) findViewById(R.id.cancelIcon);
         saveButton = (Button) findViewById(R.id.checkIcon);
         saveButton.setEnabled(false);
-        username= (EditText) findViewById(R.id.usernameRegister);
-        password= (EditText) findViewById(R.id.passwordRegister);
-        email= (EditText) findViewById(R.id.email);
-        patient_number= (EditText) findViewById(R.id.patientNumberRegister);
+        username = (EditText) findViewById(R.id.usernameRegister);
+        password = (EditText) findViewById(R.id.passwordRegister);
+        email = (EditText) findViewById(R.id.email);
+        patient_number = (EditText) findViewById(R.id.patientNumberRegister);
 
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,9 +63,6 @@ public class RegistrationActivity extends AppCompatActivity {
         personalDataHelper.validateFields(username, email, password, patient_number, saveButton);
 
     }
-
-
-
 
 
     private void createAccount(Map<String, String> registerForm) {
@@ -107,12 +100,12 @@ public class RegistrationActivity extends AppCompatActivity {
                 JSONParser jsonParser = new JSONParser();
                 //creating request parameters
                 ArrayList params = new ArrayList();
-               for (Map.Entry<String, String> editedField : registerForm.entrySet()) {
+                for (Map.Entry<String, String> editedField : registerForm.entrySet()) {
                     params.add(new BasicNameValuePair(editedField.getKey(), editedField.getValue()));
                 }
 
                 //returning the response
-                return jsonParser.makeHttpRequest(URLs.URL_CREATE_USER,"POST", params);
+                return jsonParser.makeHttpRequest(URLs.URL_CREATE_USER, "POST", params);
             }
         }
         createAccount createAcc = new createAccount();

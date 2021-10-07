@@ -1,37 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <group android:checkableBehavior="single">
-    <item
-        android:title="@string/monitorization_en"
-        android:id="@+id/monitorization"
-        android:icon="@drawable/ic_walk"/>
-
-    <item
-        android:title="@string/statistics_en"
-        android:id="@+id/statistics"
-        android:icon="@drawable/ic_baseline_stats"/>
-
-    <item
-        android:title="@string/personalInfo_en"
-        android:id="@+id/personalInfo"
-        android:icon="@drawable/ic_baseline_account_box_24"/>
+        <item
+            android:id="@+id/monitorization"
+            android:icon="@drawable/ic_walk"
+            android:title="@string/monitorization_en" />
 
         <item
-        android:title="@string/settings_en"
-        android:id="@+id/settings"
-        android:icon="@drawable/ic_baseline_settings"/>
+            android:id="@+id/statistics"
+            android:icon="@drawable/ic_baseline_stats"
+            android:title="@string/statistics_en" />
 
-    <item
-        android:title="@string/about_en"
-        android:id="@+id/about"
-        android:icon="@drawable/ic_baseline_about"/>
+        <item
+            android:id="@+id/personalInfo"
+            android:icon="@drawable/ic_baseline_account_box_24"
+            android:title="@string/personalInfo_en" />
 
-    <item
-        android:title="@string/logout_en"
-        android:id="@+id/logout"
-        android:icon="@drawable/ic_twotone_logout"/>
+        <item
+            android:id="@+id/settings"
+            android:icon="@drawable/ic_baseline_settings"
+            android:title="@string/settings_en" />
+
+        <item
+            android:id="@+id/logout"
+            android:icon="@drawable/ic_twotone_logout"
+            android:title="@string/logout_en" />
 
     </group>
 </menu>

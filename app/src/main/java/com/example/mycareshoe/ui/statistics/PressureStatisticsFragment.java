@@ -93,7 +93,7 @@ public class PressureStatisticsFragment extends StatisticsHelperFragment {
 
         getActivity().setTitle(getResources().getString(R.string.illustrated_statistics_name_en));
 
-        View view = inflater.inflate(R.layout.fragment_pressure_stats,parent,false);
+        View view = inflater.inflate(R.layout.fragment_pressure_stats, parent, false);
 
         // Initializing the ViewPager Object
         mViewPager = (ViewPager) view.findViewById(R.id.viewPagerStats);
@@ -108,14 +108,14 @@ public class PressureStatisticsFragment extends StatisticsHelperFragment {
         TabLayout tabLayout = (TabLayout) view.findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(mViewPager, true);
 
-        Handler h= new Handler();
+        Handler h = new Handler();
 
-        Runnable run= new Runnable() {
+        Runnable run = new Runnable() {
             @Override
             public void run() {
-                if(!mViewPagerAdapter.isInflated())
+                if (!mViewPagerAdapter.isInflated())
                     h.postDelayed(this, 0);
-                else{
+                else {
                     setSensorsStatValues(new SensorsReading(SharedPrefManager.getInstance(getContext()).getOverPressureValue()), getView());
                     setOtherStatsInfo();
                     h.removeCallbacks(this);
@@ -124,11 +124,11 @@ public class PressureStatisticsFragment extends StatisticsHelperFragment {
         };
 
 
-        cadenceMean= view.findViewById(R.id.cadenceStats);
+        cadenceMean = view.findViewById(R.id.cadenceStats);
         stepsCount = view.findViewById(R.id.stepsStats);
         startDate = view.findViewById(R.id.start_date_text);
         endDate = view.findViewById(R.id.end_date_text);
-        balance= view.findViewById(R.id.balanceBar);
+        balance = view.findViewById(R.id.balanceBar);
         leftFootTemperature = (TextView) view.findViewById(R.id.leftFootTemperature);
         rightFootTemperature = (TextView) view.findViewById(R.id.rightFootTemperature);
         leftFootHumidity = (TextView) view.findViewById(R.id.leftFootHumidity);
@@ -137,7 +137,7 @@ public class PressureStatisticsFragment extends StatisticsHelperFragment {
         startDate.setInputType(InputType.TYPE_NULL);
         endDate.setInputType(InputType.TYPE_NULL);
 
-        if(savedInstanceState!=null){
+        if (savedInstanceState != null) {
 
             setMeanSensorValues((Map<String, Integer>) savedInstanceState.getSerializable("meanSensors"));
             setMeanTempHumidityValues((Map<String, Float>) savedInstanceState.getSerializable("meanTempHumidity"));
@@ -146,8 +146,8 @@ public class PressureStatisticsFragment extends StatisticsHelperFragment {
         }
 
 
-        if(getMeanSensorValues()!=null)
-            h.postDelayed(run,0);
+        if (getMeanSensorValues() != null)
+            h.postDelayed(run, 0);
 
 
         //Now specific components here (you can initialize Buttons etc)
@@ -159,23 +159,20 @@ public class PressureStatisticsFragment extends StatisticsHelperFragment {
         progressBar.setVisibility(View.GONE);
 
         super.setDateTextClickListener(startDate, "start", searchBtn);
-        super.setDateTextClickListener(endDate,"end", searchBtn);
+        super.setDateTextClickListener(endDate, "end", searchBtn);
 
-        searchBtn.setOnClickListener(new View.OnClickListener()
-
-        {
+        searchBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
 
                 meanSensorValues = null;
-                meanTempHumidityValues=null;
+                meanTempHumidityValues = null;
                 readSensorsEntry(getStartDateString(), getEndDateString());
                 readStatsEntry(getStartDateString(), getEndDateString());
 
             }
         });
-
 
 
         return view;
@@ -198,29 +195,28 @@ public class PressureStatisticsFragment extends StatisticsHelperFragment {
                 try {
                     Map<String, Integer> sensorsValueRecord;
                     Map<String, Float> tempHumidityRecord;
-                    JSONArray array= objs.getJSONArray("records");
+                    JSONArray array = objs.getJSONArray("records");
 
 
-                    for(int i=0; i<array.length();i++){
+                    for (int i = 0; i < array.length(); i++) {
 
-                        JsonElement mJson =  JsonParser.parseString(String.valueOf(array.getJSONObject(i)));
+                        JsonElement mJson = JsonParser.parseString(String.valueOf(array.getJSONObject(i)));
                         Gson gson = new Gson();
                         object = gson.fromJson(mJson, SensorsReading.class);
                         setSensorsReadingObject(object);
-                        sensorsValueRecord=object.getSensors();
-                        tempHumidityRecord=object.getSensorsTempHumidity();
+                        sensorsValueRecord = object.getSensors();
+                        tempHumidityRecord = object.getSensorsTempHumidity();
 
-                        if(meanSensorValues==null) {
+                        if (meanSensorValues == null) {
                             meanSensorValues = sensorsValueRecord;
                             meanTempHumidityValues = tempHumidityRecord;
-                        }
-                        else{
+                        } else {
                             for (String key : meanSensorValues.keySet()) {
-                                meanSensorValues.replace(key,(sensorsValueRecord.get(key)+meanSensorValues.get(key))/2);
+                                meanSensorValues.replace(key, (sensorsValueRecord.get(key) + meanSensorValues.get(key)) / 2);
                             }
 
-                            for(String key2 : meanTempHumidityValues.keySet()){
-                                meanTempHumidityValues.replace(key2,(tempHumidityRecord.get(key2)+meanTempHumidityValues.get(key2))/2);
+                            for (String key2 : meanTempHumidityValues.keySet()) {
+                                meanTempHumidityValues.replace(key2, (tempHumidityRecord.get(key2) + meanTempHumidityValues.get(key2)) / 2);
                             }
                         }
 
@@ -250,8 +246,8 @@ public class PressureStatisticsFragment extends StatisticsHelperFragment {
     }
 
 
-    private void setSensorsStatValues(SensorsReading object, View view){
-        if(meanSensorValues!=null) {
+    private void setSensorsStatValues(SensorsReading object, View view) {
+        if (meanSensorValues != null) {
 
             object.setPressureThreshold(SharedPrefManager.getInstance(getContext()).getOverPressureValue());
 
@@ -260,20 +256,19 @@ public class PressureStatisticsFragment extends StatisticsHelperFragment {
                 object.changeSensorsColor(object.sensorDistribution.get(key), view, (int) meanSensorValues.get(key), getContext());
 
             }
-            if (meanTempHumidityValues != null)
-            {
+            if (meanTempHumidityValues != null) {
                 leftFootTemperature.setText(new StringBuilder().append(String.format("%.2f", meanTempHumidityValues.get("T1"))).append("ºC").toString());
                 rightFootTemperature.setText(new StringBuilder().append(String.format("%.2f", meanTempHumidityValues.get("T2"))).append("ºC").toString());
                 leftFootHumidity.setText(new StringBuilder().append(String.format("%.2f", meanTempHumidityValues.get("H1"))).append("%").toString());
                 rightFootHumidity.setText(new StringBuilder().append(String.format("%.2f", meanTempHumidityValues.get("H2"))).append("%").toString());
 
             }
-        }
-        else{
+        } else {
             Toast.makeText(getContext(), getResources().getString(R.string.no_records_message_en),
                     Toast.LENGTH_SHORT).show();
         }
     }
+
     private void readStatsEntry(String startDateString, String endDateString) {
         class readStatsEntry extends AsyncTask<Void, Void, JSONObject> {
 
@@ -290,25 +285,24 @@ public class PressureStatisticsFragment extends StatisticsHelperFragment {
                 StatisticsData object = null;
                 try {
                     Map<String, Long> statsRecord;
-                    JSONArray array= objs.getJSONArray("records");
+                    JSONArray array = objs.getJSONArray("records");
 
 
-                    for(int i=0; i<array.length();i++){
+                    for (int i = 0; i < array.length(); i++) {
 
-                        JsonElement mJson =  JsonParser.parseString(String.valueOf(array.getJSONObject(i)));
+                        JsonElement mJson = JsonParser.parseString(String.valueOf(array.getJSONObject(i)));
                         Gson gson = new Gson();
                         object = gson.fromJson(mJson, StatisticsData.class);
-                        statsRecord=object.getStatInfo();
+                        statsRecord = object.getStatInfo();
 
-                        if(meanStats==null) {
+                        if (meanStats == null) {
                             meanStats = statsRecord;
-                        }
-                        else{
+                        } else {
                             for (String key : meanStats.keySet()) {
-                                if(key.equals("steps"))
-                                    meanStats.replace(key,statsRecord.get(key)+meanStats.get(key));
+                                if (key.equals("steps"))
+                                    meanStats.replace(key, statsRecord.get(key) + meanStats.get(key));
                                 else
-                                    meanStats.replace(key,(statsRecord.get(key)+meanStats.get(key))/2);
+                                    meanStats.replace(key, (statsRecord.get(key) + meanStats.get(key)) / 2);
                             }
                         }
 
@@ -337,8 +331,8 @@ public class PressureStatisticsFragment extends StatisticsHelperFragment {
         meanStats.execute();
     }
 
-    private void setOtherStatsInfo(){
-        if(meanStats!=null) {
+    private void setOtherStatsInfo() {
+        if (meanStats != null) {
 
             cadenceMean.setText(new StringBuilder().append(getResources().getString(R.string.cadence_mean_en)).append(" : ").append(meanStats.get("cadence")).toString());
             stepsCount.setText(new StringBuilder().append(getResources().getString(R.string.steps_count_stats_en)).append(" : ").append(meanStats.get("steps")).toString());
@@ -358,6 +352,7 @@ public class PressureStatisticsFragment extends StatisticsHelperFragment {
 
         super.onSaveInstanceState(outState);
     }
+
     @Override
     public void onActivityCreated(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -367,11 +362,11 @@ public class PressureStatisticsFragment extends StatisticsHelperFragment {
             setMeanSensorValues((Map<String, Integer>) savedInstanceState.getSerializable("meanSensors"));
             setMeanTempHumidityValues((Map<String, Float>) savedInstanceState.getSerializable("meanTempHumidity"));
             setMeanStats((Map<String, Long>) savedInstanceState.getSerializable("meanStats"));
-  //          setSensorsReadingObject((SensorsReading) savedInstanceState.getSerializable("sensorsReadingObject"));
+            //          setSensorsReadingObject((SensorsReading) savedInstanceState.getSerializable("sensorsReadingObject"));
         }
 
 
-        }
+    }
 
 
 }

@@ -2,9 +2,7 @@ package com.example.mycareshoe.data.model;
 
 import java.io.Serializable;
 
-/**
- * Data class that captures user information for logged in users retrieved from LoginRepository
- */
+
 public class User implements Serializable {
 
     private int userId;
@@ -32,7 +30,6 @@ public class User implements Serializable {
         this.password = null;
         this.patient_number = -1;
     }
-
 
 
     public int getUserId() {
