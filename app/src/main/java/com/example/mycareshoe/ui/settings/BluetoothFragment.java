@@ -22,7 +22,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.mycareshoe.R;
-import com.example.mycareshoe.data.model.SensorsReading;
+import com.example.mycareshoe.model.SensorsReading;
 import com.example.mycareshoe.helpers.SharedPrefManager;
 import com.example.mycareshoe.ui.monitoring.MonitoringFragment;
 import com.example.mycareshoe.ui.monitoring.WarningsFragment;
@@ -396,22 +396,6 @@ public class BluetoothFragment extends Fragment {
         return handler;
     }
 
-
-    Thread one = new Thread() {
-        public void run() {
-            while (arrayListLeft.size() != 0 && arrayListRight.size() != 0) {
-                System.out.println(arrayListLeft.size());
-                System.out.println(arrayListRight.size());
-                sr.setLeftFootSensors(arrayListLeft.get(0));
-                sr.setRightFootSensors(arrayListRight.get(0));
-                monitoring.createReading(sr);
-                sr = new SensorsReading(SharedPrefManager.getInstance(getContext()).getOverPressureValue());
-                arrayListLeft.remove(0);
-                arrayListRight.remove(0);
-            }
-
-        }
-    };
 
     @Override
     public void onStart() {

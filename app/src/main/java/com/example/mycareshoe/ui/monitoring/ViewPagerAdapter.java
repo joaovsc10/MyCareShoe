@@ -13,7 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import com.example.mycareshoe.data.model.SensorsReading;
+import com.example.mycareshoe.model.SensorsReading;
 
 import org.jetbrains.annotations.NotNull;
 

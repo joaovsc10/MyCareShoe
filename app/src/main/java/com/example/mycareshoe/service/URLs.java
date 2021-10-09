@@ -1,10 +1,10 @@
-package com.example.mycareshoe.helpers;
+package com.example.mycareshoe.service;
 
 import java.util.UUID;
 
 public class URLs {
 
-    private static final String ROOT_URL = "http://10.8.129.207/mycareshoeapi/";
+    private static final String ROOT_URL = "http://192.168.0.104/mycareshoeapi/";
 
     public static final String URL_LOGIN = ROOT_URL + "user/login.php";
 

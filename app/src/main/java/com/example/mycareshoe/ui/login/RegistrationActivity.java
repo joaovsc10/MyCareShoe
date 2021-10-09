@@ -13,7 +13,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.mycareshoe.R;
 import com.example.mycareshoe.helpers.PersonalDataHelper;
-import com.example.mycareshoe.helpers.URLs;
+import com.example.mycareshoe.service.URLs;
+import com.example.mycareshoe.service.JSONParser;
 
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;

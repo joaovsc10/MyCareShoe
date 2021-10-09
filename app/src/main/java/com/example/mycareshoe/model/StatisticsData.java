@@ -1,4 +1,4 @@
-package com.example.mycareshoe.data.model;
+package com.example.mycareshoe.model;
 
 import android.content.Context;
 
@@ -70,7 +70,7 @@ public class StatisticsData {
 
             Long stanceTime = TimeUnit.MILLISECONDS.toSeconds(toeOff.getTime() - heelStrike.getTime());
 
-            if (stanceTime < 15) {
+            if (stanceTime < 15 && stanceTime>0) {
                 stanceDataMap.put("stanceTime", String.valueOf(stanceTime));
             }
         }

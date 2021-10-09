@@ -10,7 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
-import com.example.mycareshoe.helpers.URLs;
+import com.example.mycareshoe.service.URLs;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -522,8 +522,8 @@ public class BluetoothController {
         public void write(byte[] buffer) {
             try {
                 outputStream.write(buffer);
-                System.out.println(handler.obtainMessage(BluetoothFragment.MESSAGE_WRITE, -1, -1,
-                        buffer).toString());
+                //System.out.println(handler.obtainMessage(BluetoothFragment.MESSAGE_WRITE, -1, -1,
+               //         buffer).toString());
                 handler.obtainMessage(BluetoothFragment.MESSAGE_WRITE, -1, -1,
                         buffer).sendToTarget();
             } catch (IOException e) {

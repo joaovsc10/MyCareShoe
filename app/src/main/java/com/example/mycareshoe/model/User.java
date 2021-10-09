@@ -1,4 +1,4 @@
-package com.example.mycareshoe.data.model;
+package com.example.mycareshoe.model;
 
 import java.io.Serializable;
 

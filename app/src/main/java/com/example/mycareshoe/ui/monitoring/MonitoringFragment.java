@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -24,13 +25,13 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.mycareshoe.R;
-import com.example.mycareshoe.data.model.SensorsReading;
-import com.example.mycareshoe.data.model.StatisticsData;
-import com.example.mycareshoe.data.model.Warnings;
+import com.example.mycareshoe.model.SensorsReading;
+import com.example.mycareshoe.model.StatisticsData;
+import com.example.mycareshoe.model.Warnings;
 import com.example.mycareshoe.helpers.ChronometerHelper;
 import com.example.mycareshoe.helpers.SharedPrefManager;
-import com.example.mycareshoe.helpers.URLs;
-import com.example.mycareshoe.ui.login.JSONParser;
+import com.example.mycareshoe.service.URLs;
+import com.example.mycareshoe.service.JSONParser;
 import com.google.android.material.tabs.TabLayout;
 
 import org.apache.http.message.BasicNameValuePair;
@@ -130,7 +131,9 @@ public class MonitoringFragment extends Fragment {
     // Creating Object of ViewPagerAdapter
     ViewPagerAdapter mViewPagerAdapter;
 
-    private Handler handler = new Handler();
+    private Handler handler = new Handler((Looper.getMainLooper()));
+    private Handler handler2 = new Handler((Looper.getMainLooper()));
+    private Handler handler3 = new Handler((Looper.getMainLooper()));
 
     public long getLeftStance() {
         return leftStance;
@@ -156,7 +159,6 @@ public class MonitoringFragment extends Fragment {
 
     public void setSteps(long steps, TextView stepsText) {
         this.steps = steps;
-        System.out.println(Long.toString(steps));
         stepsText.setText(Long.toString(steps));
     }
 
@@ -304,11 +306,13 @@ public class MonitoringFragment extends Fragment {
             rightStanceText.setText(Long.toString(savedInstanceState.getLong("rightStance")));
             paceText.setText(Double.toString(savedInstanceState.getDouble("pace")));
         } else {
+
             stepsText.setText(Long.toString(getSteps()));
             cadenceText.setText(Long.toString(getCadence()));
             leftStanceText.setText(Long.toString(getLeftStance()));
             rightStanceText.setText(Long.toString(getRightStance()));
             paceText.setText(Double.toString(getPace()));
+
         }
 
         ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
@@ -331,7 +335,7 @@ public class MonitoringFragment extends Fragment {
             }
         };
 
-        handler.postDelayed(runnable, 0);
+ //       handler.postDelayed(runnable, 0);
 
 
         updateStats = new Runnable() {
@@ -339,78 +343,26 @@ public class MonitoringFragment extends Fragment {
             public void run() {
 
                 if (chronometer.isRunning()) {
-                    if (sensorsReadingArrayList.size() != 0) {
-                        StatisticsData stats = new StatisticsData(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime()), 1, sensorsReadingArrayList, getContext());
-                        statisticsDataArrayList.add(stats);
 
-
-                        checkStancePhase(sensorsReadingArrayList, getLeftStanceTime(), getRightStanceTime());
-
-                        try {
-                            setLeftStanceTime(stats.checkStanceTime(getLeftStanceTime()));
-                            setRightStanceTime(stats.checkStanceTime(getRightStanceTime()));
-
-                            if (getLeftStanceTime().containsKey("stanceTime")) {
-                                setLeftStance(Long.parseLong(getLeftStanceTime().get("stanceTime")), leftStanceText);
-                                stats.setLeftStanceTime(Long.parseLong(getLeftStanceTime().get("stanceTime")));
-                                getLeftStanceTime().clear();
-                            }
-
-                            if (getRightStanceTime().containsKey("stanceTime")) {
-                                setRightStance(Long.parseLong(getRightStanceTime().get("stanceTime")), rightStanceText);
-                                stats.setRightStanceTime(Long.parseLong(getRightStanceTime().get("stanceTime")));
-                                getRightStanceTime().clear();
-                            }
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-
-                        createStatistics(stats);
-
-                        setSteps(getSteps() + stats.getSteps(), stepsText);
-                        sensorsReadingArrayList.clear();
-                    }
+                    updateStatisticsThread(view, leftStanceText, rightStanceText);
 
                 }
 
-                handler.postDelayed(this, 1000);
+                handler2.postDelayed(this, 1000);
             }
         };
 
         updateLiveStats = new Runnable() {
+
             @Override
             public void run() {
 
-                double paceUI = 0;
-                long cadenceUI = 0;
-
                 if (chronometer.isRunning()) {
-                    if (statisticsDataArrayList.size() != 0) {
 
-                        for (int i = 0; i < statisticsDataArrayList.size(); i++) {
-
-                            if (i == 0) {
-                                paceUI = statisticsDataArrayList.get(i).getPace();
-                                cadenceUI = statisticsDataArrayList.get(i).getCadence();
-                            } else {
-                                paceUI = (paceUI + statisticsDataArrayList.get(i).getPace()) / 2;
-                                cadenceUI = (cadenceUI + statisticsDataArrayList.get(i).getCadence()) / 2;
-                            }
-                        }
-
-
-                        setPace(paceUI, paceText);
-                        setCadence(cadenceUI, cadenceText);
-                        statisticsDataArrayList.clear();
-                    } else {
-                        setPace(0, paceText);
-                        setCadence(0, cadenceText);
-                    }
-
+                    updateLiveStatisticsThread(view, paceText, cadenceText);
 
                 }
-
-                handler.postDelayed(this, 2000);
+                handler3.postDelayed(this, 3000);
             }
         };
 
@@ -421,10 +373,11 @@ public class MonitoringFragment extends Fragment {
 
                 if (!getRunningStatus()) {
 
-                    handler.postDelayed(updateStats, 1000);
-                    handler.postDelayed(updateLiveStats, 2000);
+                    handler2.postDelayed(updateStats, 1000);
+                    handler3.postDelayed(updateLiveStats, 3000);
                     chronometer.start();
                     setRunningStatus(true);
+                    SharedPrefManager.getInstance(getContext()).setChronoRunningStatus(true);
                 }
             }
         });
@@ -436,9 +389,10 @@ public class MonitoringFragment extends Fragment {
 
                 if (chronometer.isRunning()) {
                     setRunningStatus(false);
+                    SharedPrefManager.getInstance(getContext()).setChronoRunningStatus(false);
                     timeWhenStopped = chronometer.stop();
-                    handler.removeCallbacks(updateStats);
-                    handler.removeCallbacks(updateLiveStats);
+                    handler2.removeCallbacks(updateStats);
+                    handler3.removeCallbacks(updateLiveStats);
                     t.cancel();
                     t = new Timer();
                 }
@@ -449,16 +403,28 @@ public class MonitoringFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 setRunningStatus(false);
+                SharedPrefManager.getInstance(getContext()).setChronoRunningStatus(false);
                 timeWhenStopped = chronometer.reset();
                 setSteps(0, stepsText);
                 setCadence(0, cadenceText);
                 setPace(0, paceText);
-                handler.removeCallbacks(updateStats);
-                handler.removeCallbacks(updateLiveStats);
+                handler2.removeCallbacks(updateStats);
+                handler3.removeCallbacks(updateLiveStats);
                 t.cancel();
                 t = new Timer();
+                sensorsReadingArrayList.clear();
+                statisticsDataArrayList.clear();
+                sr=null;
+                leftStanceTime.clear();
+                rightStanceTime.clear();
             }
         });
+
+
+        if(chronometer.isRunning()){
+            handler2.postDelayed(updateStats, 1000);
+            handler3.postDelayed(updateLiveStats, 3000);
+        }
     }
 
 
@@ -489,6 +455,129 @@ public class MonitoringFragment extends Fragment {
 
     }
 
+    public void updateLiveStatisticsThread(View view,TextView paceText, TextView cadenceText) {
+
+        class updateLiveStatisticsThread extends AsyncTask<Void, Void, Double[]> {
+
+            @Override
+            protected void onPostExecute(Double[] stats) {
+
+                if (chronometer.isRunning() && stats!=null) {
+                    setPace(stats[0], paceText);
+                    setCadence(Math.round(stats[1]), cadenceText);
+                    statisticsDataArrayList.clear();
+                } else {
+                    setPace(0, (TextView) view.findViewById(R.id.pace));
+                    setCadence(0, (TextView) view.findViewById(R.id.cadence));
+                }
+
+
+            }
+
+
+            @Override
+            protected Double[] doInBackground(Void... voids) {
+                //creating request handler object
+
+                double paceUI = 0;
+                long cadenceUI = 0;
+
+                if (chronometer.isRunning()) {
+                    if (statisticsDataArrayList.size() != 0) {
+
+                        for (int i = 0; i < statisticsDataArrayList.size(); i++) {
+
+                            if (i == 0) {
+                                paceUI = statisticsDataArrayList.get(i).getPace();
+                                cadenceUI = statisticsDataArrayList.get(i).getCadence();
+                            } else {
+                                paceUI = (paceUI + statisticsDataArrayList.get(i).getPace()) / 2;
+                                cadenceUI = (cadenceUI + statisticsDataArrayList.get(i).getCadence()) / 2;
+                            }
+                        }
+
+
+                    }
+
+                    return new Double[]{paceUI, Double.valueOf(cadenceUI)};
+
+
+                }
+
+                return null;
+            }
+
+        }
+            updateLiveStatisticsThread updateLiveStatisticsThread = new updateLiveStatisticsThread();
+            updateLiveStatisticsThread.execute();
+
+
+    }
+
+    public void updateStatisticsThread(View view,TextView leftStanceText, TextView rightStanceText) {
+
+        class updateStatisticsThread extends AsyncTask<Void, Void, StatisticsData> {
+
+             @Override
+            protected void onPostExecute(StatisticsData stats) {
+
+                if (stats != null) {
+                    try {
+                        setSteps(getSteps() + stats.getSteps(), (TextView) view.findViewById(R.id.steps));
+                        statisticsDataArrayList.add(stats);
+                        setLeftStanceTime(stats.checkStanceTime(getLeftStanceTime()));
+                        setRightStanceTime(stats.checkStanceTime(getRightStanceTime()));
+
+                        if (getLeftStanceTime().containsKey("stanceTime")) {
+                            setLeftStance(Long.parseLong(getLeftStanceTime().get("stanceTime")), leftStanceText);
+                            stats.setLeftStanceTime(Long.parseLong(getLeftStanceTime().get("stanceTime")));
+                            getLeftStanceTime().clear();
+                        }
+
+                        if (getRightStanceTime().containsKey("stanceTime")) {
+                            setRightStance(Long.parseLong(getRightStanceTime().get("stanceTime")), rightStanceText);
+                            stats.setRightStanceTime(Long.parseLong(getRightStanceTime().get("stanceTime")));
+                            getRightStanceTime().clear();
+                        }
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
+
+
+                    sensorsReadingArrayList.clear();
+
+
+
+                }
+            }
+
+            @Override
+            protected StatisticsData doInBackground(Void... voids) {
+                //creating request handler object
+
+                if (chronometer.isRunning()) {
+                    if (sensorsReadingArrayList.size() != 0) {
+                        StatisticsData stats = new StatisticsData(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime()), 1, sensorsReadingArrayList, getContext());
+
+                        checkStancePhase(sensorsReadingArrayList, getLeftStanceTime(), getRightStanceTime());
+                        createStatistics(stats);
+
+                        return  stats;
+
+                    }
+
+                }
+
+        return null;
+            }
+        }
+
+        updateStatisticsThread updateStatisticsThread = new updateStatisticsThread();
+        updateStatisticsThread.execute();
+
+    }
+
     public void createReading(SensorsReading reading) {
 
         class createReading extends AsyncTask<Void, Void, JSONObject> {
@@ -514,6 +603,7 @@ public class MonitoringFragment extends Fragment {
 
             @Override
             protected void onPostExecute(JSONObject obj) {
+
 
                 super.onPostExecute(obj);
 
@@ -564,7 +654,9 @@ public class MonitoringFragment extends Fragment {
         }
 
         createReading readingCreation = new createReading(getContext());
-        readingCreation.execute();
+
+        if(SharedPrefManager.getInstance(getContext()).isChronoRunning())
+            readingCreation.execute();
 
 
     }
@@ -668,8 +760,8 @@ public class MonitoringFragment extends Fragment {
             setLeftStance(savedInstanceState.getLong("leftStance"));
             setRightStance(savedInstanceState.getLong("rightStance"));
             setWarningsLeftToRead(savedInstanceState.getBoolean("warningsLeftToRead"));
-            handler.postDelayed(updateStats, 1000);
-            handler.postDelayed(updateLiveStats, 2000);
+            handler2.postDelayed(updateStats, 1000);
+            handler3.postDelayed(updateLiveStats, 2000);
         }
 
     }

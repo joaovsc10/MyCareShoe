@@ -2,8 +2,9 @@ package com.example.mycareshoe.helpers;
 
 import android.content.Context;
 
-import com.example.mycareshoe.data.model.Patient;
-import com.example.mycareshoe.ui.login.JSONParser;
+import com.example.mycareshoe.model.Patient;
+import com.example.mycareshoe.service.JSONParser;
+import com.example.mycareshoe.service.URLs;
 
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;

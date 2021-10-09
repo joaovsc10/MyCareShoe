@@ -3,7 +3,7 @@ package com.example.mycareshoe.helpers;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.example.mycareshoe.data.model.Patient;
+import com.example.mycareshoe.model.Patient;
 
 
 public class SharedPrefManager {
@@ -28,6 +28,7 @@ public class SharedPrefManager {
     private static final String KEY_TIME_INTERVAL = "keytimeinterval";
     private static final String KEY_OCCURRENCES_NUMBER = "keyoccurrencesnumber";
     private static final String KEY_STRIDE_LENGTH = "keystride";
+    private static final String KEY_CHRONO_RUNNING_STATUS = "keychronorunning";
 
     private static SharedPrefManager mInstance;
     private static Context mCtx;
@@ -56,7 +57,7 @@ public class SharedPrefManager {
         editor.putInt(KEY_PATIENT_NUMBER, patient.getPatient_number());
         editor.putString(KEY_PASSWORD, patient.getPassword());
         editor.apply();
-        System.out.println(sharedPreferences.getAll());
+   //     System.out.println(sharedPreferences.getAll());
     }
 
     public void updatePersonalInfo(Patient patient) {
@@ -86,13 +87,25 @@ public class SharedPrefManager {
         editor.putInt(KEY_OCCURRENCES_NUMBER, patient.getOccurencesNumber());
         editor.putInt(KEY_TIME_INTERVAL, patient.getTimeInterval());
         editor.apply();
-        System.out.println(sharedPreferences.getAll());
+   //     System.out.println(sharedPreferences.getAll());
     }
 
     //this method will checker whether user is already logged in or not
     public boolean isLoggedIn() {
         SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         return sharedPreferences.getString(KEY_USERNAME, null) != null;
+    }
+
+    public void setChronoRunningStatus(boolean status) {
+        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(KEY_CHRONO_RUNNING_STATUS, status);
+        editor.apply();
+    }
+
+    public boolean isChronoRunning() {
+        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        return sharedPreferences.getBoolean(KEY_CHRONO_RUNNING_STATUS, false);
     }
 
     public int getOverPressureValue() {
@@ -130,7 +143,7 @@ public class SharedPrefManager {
         SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
 
         if (personalInfo) {
-            System.out.println(sharedPreferences.getAll());
+            //System.out.println(sharedPreferences.getAll());
             return new Patient(
                     sharedPreferences.getInt(KEY_ID, -1),
                     sharedPreferences.getString(KEY_USERNAME, null),

@@ -16,7 +16,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.mycareshoe.R;
-import com.example.mycareshoe.data.model.SensorsReading;
+import com.example.mycareshoe.helpers.StatisticsHelperFragment;
+import com.example.mycareshoe.model.SensorsReading;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;

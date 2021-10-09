@@ -15,10 +15,11 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.mycareshoe.R;
-import com.example.mycareshoe.data.model.Patient;
+import com.example.mycareshoe.model.Patient;
 import com.example.mycareshoe.helpers.PatientHelper;
 import com.example.mycareshoe.helpers.SharedPrefManager;
-import com.example.mycareshoe.helpers.URLs;
+import com.example.mycareshoe.service.URLs;
+import com.example.mycareshoe.service.JSONParser;
 import com.example.mycareshoe.ui.MainActivity;
 
 import org.apache.http.message.BasicNameValuePair;

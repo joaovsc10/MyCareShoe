@@ -1,4 +1,4 @@
-package com.example.mycareshoe.ui.statistics;
+package com.example.mycareshoe.helpers;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
@@ -12,8 +12,8 @@ import android.widget.ImageButton;
 import androidx.fragment.app.Fragment;
 
 import com.example.mycareshoe.helpers.SharedPrefManager;
-import com.example.mycareshoe.helpers.URLs;
-import com.example.mycareshoe.ui.login.JSONParser;
+import com.example.mycareshoe.service.URLs;
+import com.example.mycareshoe.service.JSONParser;
 
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;

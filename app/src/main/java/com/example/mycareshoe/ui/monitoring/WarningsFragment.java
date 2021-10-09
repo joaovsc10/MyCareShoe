@@ -18,8 +18,8 @@ import androidx.fragment.app.DialogFragment;
 
 import com.example.mycareshoe.R;
 import com.example.mycareshoe.helpers.SharedPrefManager;
-import com.example.mycareshoe.helpers.URLs;
-import com.example.mycareshoe.ui.login.JSONParser;
+import com.example.mycareshoe.service.URLs;
+import com.example.mycareshoe.service.JSONParser;
 
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;

@@ -21,11 +21,11 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.mycareshoe.R;
-import com.example.mycareshoe.data.model.Patient;
+import com.example.mycareshoe.model.Patient;
 import com.example.mycareshoe.helpers.PatientHelper;
 import com.example.mycareshoe.helpers.SharedPrefManager;
-import com.example.mycareshoe.helpers.URLs;
-import com.example.mycareshoe.ui.login.JSONParser;
+import com.example.mycareshoe.service.URLs;
+import com.example.mycareshoe.service.JSONParser;
 import com.example.mycareshoe.ui.login.LoginActivity;
 
 import org.apache.http.message.BasicNameValuePair;

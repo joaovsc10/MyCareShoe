@@ -15,7 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 
 import com.example.mycareshoe.R;
-import com.example.mycareshoe.data.model.SensorsReading;
+import com.example.mycareshoe.model.SensorsReading;
 
 import org.jetbrains.annotations.NotNull;
 

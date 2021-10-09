@@ -1,4 +1,4 @@
-package com.example.mycareshoe.ui.login;
+package com.example.mycareshoe.service;
 
 import android.util.Log;
 
@@ -13,7 +13,6 @@ import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -30,7 +29,6 @@ public class JSONParser {
 
     static InputStream is = null;
     static JSONObject jObj = null;
-    static JSONArray jArr = null;
     static String json = "";
     static String error = "";
 
@@ -40,7 +38,7 @@ public class JSONParser {
     }
 
     // function get json from url
-    // by making HTTP POST or GET mehtod
+    // by making HTTP POST or GET method
     public JSONObject makeHttpRequest(String url, String method,
                                       ArrayList params) {
 
@@ -56,8 +54,8 @@ public class JSONParser {
                 HttpPost httpPost = new HttpPost(url);
                 httpPost.setEntity(new UrlEncodedFormEntity(params));
                 try {
-                    Log.e("API123", " " + convertStreamToString(httpPost.getEntity().getContent()));
-                    Log.e("API123", httpPost.getURI().toString());
+           //         Log.e("API", " " + convertStreamToString(httpPost.getEntity().getContent()));
+           //         Log.e("API", httpPost.getURI().toString());
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -69,7 +67,7 @@ public class JSONParser {
 
 
                 httpResponse = httpClient.execute(httpPost);
-                Log.e("API123", "" + httpResponse.getStatusLine().getStatusCode());
+            //    Log.e("API", "" + httpResponse.getStatusLine().getStatusCode());
                 error = String.valueOf(httpResponse.getStatusLine().getStatusCode());
                 HttpEntity httpEntity = httpResponse.getEntity();
                 is = httpEntity.getContent();
@@ -80,7 +78,7 @@ public class JSONParser {
                 DefaultHttpClient httpClient = new DefaultHttpClient();
                 String paramString = URLEncodedUtils.format(params, "utf-8");
                 url += "?" + paramString;
-                System.out.println(paramString);
+                //System.out.println(paramString);
                 HttpGet httpGet = new HttpGet(url);
 
                 HttpResponse httpResponse = httpClient.execute(httpGet);
@@ -117,7 +115,7 @@ public class JSONParser {
             }
             is.close();
             json = sb.toString();
-            Log.d("API123", json);
+        //    Log.d("API", json);
 
 
         } catch (Exception e) {

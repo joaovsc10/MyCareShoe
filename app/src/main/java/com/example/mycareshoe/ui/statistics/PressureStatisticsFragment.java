@@ -17,8 +17,9 @@ import androidx.annotation.Nullable;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.mycareshoe.R;
-import com.example.mycareshoe.data.model.SensorsReading;
-import com.example.mycareshoe.data.model.StatisticsData;
+import com.example.mycareshoe.helpers.StatisticsHelperFragment;
+import com.example.mycareshoe.model.SensorsReading;
+import com.example.mycareshoe.model.StatisticsData;
 import com.example.mycareshoe.helpers.SharedPrefManager;
 import com.example.mycareshoe.ui.monitoring.ViewPagerAdapter;
 import com.google.android.material.tabs.TabLayout;
