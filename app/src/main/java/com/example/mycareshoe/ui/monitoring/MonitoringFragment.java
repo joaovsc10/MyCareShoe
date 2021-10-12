@@ -61,7 +61,7 @@ public class MonitoringFragment extends Fragment {
     private static SensorsReading sr;
     private ArrayList<Warnings> warningsArrayList = new ArrayList<>();
     public ChronometerHelper chronometer = new ChronometerHelper();
-    private Runnable updateStats, updateLiveStats;
+    private Runnable updateStats, updateTimeDependentStats;
 
     private HashMap<String, String> leftStanceTime = new HashMap<>();
     private HashMap<String, String> rightStanceTime = new HashMap<>();
@@ -335,7 +335,7 @@ public class MonitoringFragment extends Fragment {
             }
         };
 
- //       handler.postDelayed(runnable, 0);
+        handler.postDelayed(runnable, 0);
 
 
         updateStats = new Runnable() {
@@ -352,7 +352,7 @@ public class MonitoringFragment extends Fragment {
             }
         };
 
-        updateLiveStats = new Runnable() {
+        updateTimeDependentStats = new Runnable() {
 
             @Override
             public void run() {
@@ -374,7 +374,7 @@ public class MonitoringFragment extends Fragment {
                 if (!getRunningStatus()) {
 
                     handler2.postDelayed(updateStats, 1000);
-                    handler3.postDelayed(updateLiveStats, 3000);
+                    handler3.postDelayed(updateTimeDependentStats, 3000);
                     chronometer.start();
                     setRunningStatus(true);
                     SharedPrefManager.getInstance(getContext()).setChronoRunningStatus(true);
@@ -392,7 +392,7 @@ public class MonitoringFragment extends Fragment {
                     SharedPrefManager.getInstance(getContext()).setChronoRunningStatus(false);
                     timeWhenStopped = chronometer.stop();
                     handler2.removeCallbacks(updateStats);
-                    handler3.removeCallbacks(updateLiveStats);
+                    handler3.removeCallbacks(updateTimeDependentStats);
                     t.cancel();
                     t = new Timer();
                 }
@@ -408,8 +408,10 @@ public class MonitoringFragment extends Fragment {
                 setSteps(0, stepsText);
                 setCadence(0, cadenceText);
                 setPace(0, paceText);
+                setLeftStance(0);
+                setRightStance(0);
                 handler2.removeCallbacks(updateStats);
-                handler3.removeCallbacks(updateLiveStats);
+                handler3.removeCallbacks(updateTimeDependentStats);
                 t.cancel();
                 t = new Timer();
                 sensorsReadingArrayList.clear();
@@ -423,7 +425,7 @@ public class MonitoringFragment extends Fragment {
 
         if(chronometer.isRunning()){
             handler2.postDelayed(updateStats, 1000);
-            handler3.postDelayed(updateLiveStats, 3000);
+            handler3.postDelayed(updateTimeDependentStats, 3000);
         }
     }
 
@@ -761,7 +763,7 @@ public class MonitoringFragment extends Fragment {
             setRightStance(savedInstanceState.getLong("rightStance"));
             setWarningsLeftToRead(savedInstanceState.getBoolean("warningsLeftToRead"));
             handler2.postDelayed(updateStats, 1000);
-            handler3.postDelayed(updateLiveStats, 2000);
+            handler3.postDelayed(updateTimeDependentStats, 2000);
         }
 
     }
