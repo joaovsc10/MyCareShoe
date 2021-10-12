@@ -385,8 +385,9 @@ public class BluetoothFragment extends Fragment {
                         setConnectionStatus(leftFootStatusTextView, rightFootStatusTextView, device, true);
                         break;
                     case MESSAGE_TOAST:
-                        Toast.makeText(getContext(), msg.getData().getString("toast"),
-                                Toast.LENGTH_SHORT).show();
+                        if(getContext()!=null)
+                            Toast.makeText(getContext(), msg.getData().getString("toast"),
+                                    Toast.LENGTH_SHORT).show();
                         break;
                 }
                 return false;
@@ -440,29 +441,31 @@ public class BluetoothFragment extends Fragment {
 
 
     private void setConnectionStatus(TextView textViewLeft, TextView textViewRight, String foot, boolean connected) {
-
-
         TextView textView;
-        String status = getResources().getString(R.string.disconnected_status_en);
+        String status;
 
-        if (foot.equals(DEVICE_OBJECT_LEFT)) {
+        if(getContext()!=null) {
 
-            textView = textViewLeft;
-        } else {
+            status = getResources().getString(R.string.disconnected_status_en);
 
-            textView = textViewRight;
+            if (foot.equals(DEVICE_OBJECT_LEFT)) {
+
+                textView = textViewLeft;
+            } else {
+
+                textView = textViewRight;
+            }
+
+
+            if (foot.equals(DEVICE_OBJECT_LEFT)) {
+                setLeftFootConnected(connected);
+
+            } else {
+                setRightFootConnected(connected);
+            }
+
+            setConnectionStatus(connected, textView);
         }
-
-
-        if (foot.equals(DEVICE_OBJECT_LEFT)) {
-            setLeftFootConnected(connected);
-
-        } else {
-            setRightFootConnected(connected);
-        }
-
-        setConnectionStatus(connected, textView);
-
 
     }
 
