@@ -253,7 +253,8 @@ public class BluetoothFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                getActivity().getSupportFragmentManager().popBackStackImmediate();
+                if (getActivity().getSupportFragmentManager().getBackStackEntryCount() > 1)
+                    getActivity().getSupportFragmentManager().popBackStackImmediate();
 
             }
         });

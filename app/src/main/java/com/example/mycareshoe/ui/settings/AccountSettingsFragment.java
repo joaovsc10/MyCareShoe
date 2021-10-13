@@ -66,7 +66,8 @@ public class AccountSettingsFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                getActivity().getSupportFragmentManager().popBackStackImmediate();
+                if (getActivity().getSupportFragmentManager().getBackStackEntryCount() > 1)
+                    getActivity().getSupportFragmentManager().popBackStackImmediate();
             }
         });
 
