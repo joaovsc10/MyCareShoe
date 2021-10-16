@@ -13,15 +13,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.mycareshoe.R;
 import com.example.mycareshoe.helpers.PersonalDataHelper;
+import com.example.mycareshoe.service.HTTPRequest;
 import com.example.mycareshoe.service.URLs;
-import com.example.mycareshoe.service.JSONParser;
 
-import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.Map;
+
+import okhttp3.FormBody;
 
 public class RegistrationActivity extends AppCompatActivity {
 
@@ -78,18 +78,23 @@ public class RegistrationActivity extends AppCompatActivity {
 
             @Override
             protected void onPostExecute(JSONObject obj) {
-                try {
-                    Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                try {
-                    if (obj.getString("success").equals("1")) {
-                        finish();
-                        startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                if (obj == null) {
+                    Toast.makeText(getApplicationContext(), "Error in account creation!",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    try {
+                        Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                    try {
+                        if (obj.getString("success").equals("1")) {
+                            finish();
+                            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
                 super.onPostExecute(obj);
 
@@ -98,15 +103,16 @@ public class RegistrationActivity extends AppCompatActivity {
             @Override
             protected JSONObject doInBackground(Void... voids) {
                 //creating request handler object
-                JSONParser jsonParser = new JSONParser();
-                //creating request parameters
-                ArrayList params = new ArrayList();
+                HTTPRequest httpRequest = new HTTPRequest();
+
+                FormBody.Builder formBuilder = new FormBody.Builder();
+
                 for (Map.Entry<String, String> editedField : registerForm.entrySet()) {
-                    params.add(new BasicNameValuePair(editedField.getKey(), editedField.getValue()));
+                    formBuilder.add(editedField.getKey(), editedField.getValue());
                 }
 
                 //returning the response
-                return jsonParser.makeHttpRequest(URLs.URL_CREATE_USER, "POST", params);
+                return httpRequest.makeHttpRequest(URLs.URL_CREATE_USER, "POST", formBuilder, null);
             }
         }
         createAccount createAcc = new createAccount();

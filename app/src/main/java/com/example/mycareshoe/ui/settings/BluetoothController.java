@@ -523,7 +523,7 @@ public class BluetoothController {
             try {
                 outputStream.write(buffer);
                 //System.out.println(handler.obtainMessage(BluetoothFragment.MESSAGE_WRITE, -1, -1,
-               //         buffer).toString());
+                //         buffer).toString());
                 handler.obtainMessage(BluetoothFragment.MESSAGE_WRITE, -1, -1,
                         buffer).sendToTarget();
             } catch (IOException e) {

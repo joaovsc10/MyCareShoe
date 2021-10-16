@@ -17,6 +17,8 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
+import okhttp3.FormBody;
+
 public class SensorsReading implements Serializable {
 
     private int reading_id;
@@ -57,7 +59,7 @@ public class SensorsReading implements Serializable {
     private boolean sensorColorPrinted;
     private int pressureThreshold;
     private ArrayList<String> hiperpressionSensors;
-    private ArrayList<BasicNameValuePair> sensorsQueryParams = new ArrayList<>();
+    private FormBody.Builder sensorsQueryParams = new FormBody.Builder();
 
     public Map<String, Integer> sensorDistribution = new HashMap<String, Integer>() {{
         put(Sensors.S1.toString(), R.id.hallux_l);
@@ -87,6 +89,38 @@ public class SensorsReading implements Serializable {
         put(Sensors.S25.toString(), R.id.metatarsal3_l_upper);
         put(Sensors.S26.toString(), R.id.dorsal_l_upper);
     }};
+
+    public FormBody.Builder getSensorsQueryParams() {
+        sensorsQueryParams
+                .add(Sensors.S1.toString(), Integer.toString(getS1()))
+                .add(Sensors.S2.toString(), Integer.toString(getS2()))
+                .add(Sensors.S3.toString(), Integer.toString(getS3()))
+                .add(Sensors.S4.toString(), Integer.toString(getS4()))
+                .add(Sensors.S5.toString(), Integer.toString(getS5()))
+                .add(Sensors.S6.toString(), Integer.toString(getS6()))
+                .add(Sensors.S7.toString(), Integer.toString(getS7()))
+                .add(Sensors.S8.toString(), Integer.toString(getS8()))
+                .add(Sensors.S9.toString(), Integer.toString(getS9()))
+                .add(Sensors.S10.toString(), Integer.toString(getS10()))
+                .add(Sensors.S11.toString(), Integer.toString(getS11()))
+                .add(Sensors.S12.toString(), Integer.toString(getS12()))
+                .add(Sensors.S13.toString(), Integer.toString(getS13()))
+                .add(Sensors.S14.toString(), Integer.toString(getS14()))
+                .add(Sensors.S15.toString(), Integer.toString(getS15()))
+                .add(Sensors.S16.toString(), Integer.toString(getS16()))
+                .add(Sensors.S17.toString(), Integer.toString(getS17()))
+                .add(Sensors.S18.toString(), Integer.toString(getS18()))
+                .add(Sensors.S19.toString(), Integer.toString(getS19()))
+                .add(Sensors.S20.toString(), Integer.toString(getS20()))
+                .add(Sensors.S21.toString(), Integer.toString(getS21()))
+                .add(Sensors.S22.toString(), Integer.toString(getS22()))
+                .add(Sensors.S23.toString(), Integer.toString(getS23()))
+                .add(Sensors.S24.toString(), Integer.toString(getS24()))
+                .add(Sensors.S25.toString(), Integer.toString(getS25()))
+                .add(Sensors.S26.toString(), Integer.toString(getS26()));
+
+        return sensorsQueryParams;
+    }
 
     public SensorsReading() {
     }
@@ -208,10 +242,6 @@ public class SensorsReading implements Serializable {
         this.pressureThreshold = pressureThreshold;
     }
 
-    public ArrayList<BasicNameValuePair> getsensorsQueryParams() {
-        return sensorsQueryParams;
-    }
-
     public void setsensorsQueryParamsParams(ArrayList<String> sensorsQueryParamsParams) {
         this.sensorsQueryParams = sensorsQueryParams;
     }
@@ -328,6 +358,38 @@ public class SensorsReading implements Serializable {
         return S18;
     }
 
+    public int getS19() {
+        return S19;
+    }
+
+    public int getS20() {
+        return S20;
+    }
+
+    public int getS21() {
+        return S21;
+    }
+
+    public int getS22() {
+        return S22;
+    }
+
+    public int getS23() {
+        return S23;
+    }
+
+    public int getS24() {
+        return S24;
+    }
+
+    public int getS25() {
+        return S25;
+    }
+
+    public int getS26() {
+        return S26;
+    }
+
     public int getLeftFootSensorsSum() {
 
         return S10 + S11 + S12 + S13 + S14 + S15 + S16 + S17 + S18;
@@ -384,157 +446,131 @@ public class SensorsReading implements Serializable {
     public void setS1(int s1) {
         S1 = s1;
         checkHiperpressionSensors(s1, Sensors.S1.toString());
-        sensorsQueryParams.add(new BasicNameValuePair(Sensors.S1.toString(), Integer.toString(s1)));
     }
 
     public void setS2(int s2) {
         S2 = s2;
         checkHiperpressionSensors(s2, Sensors.S2.toString());
-        sensorsQueryParams.add(new BasicNameValuePair(Sensors.S2.toString(), Integer.toString(s2)));
     }
 
     public void setS3(int s3) {
         S3 = s3;
         checkHiperpressionSensors(s3, Sensors.S3.toString());
-        sensorsQueryParams.add(new BasicNameValuePair(Sensors.S3.toString(), Integer.toString(s3)));
     }
 
     public void setS4(int s4) {
         S4 = s4;
         checkHiperpressionSensors(s4, Sensors.S4.toString());
-        sensorsQueryParams.add(new BasicNameValuePair(Sensors.S4.toString(), Integer.toString(s4)));
     }
 
     public void setS5(int s5) {
         S5 = s5;
         checkHiperpressionSensors(s5, Sensors.S5.toString());
-        sensorsQueryParams.add(new BasicNameValuePair(Sensors.S5.toString(), Integer.toString(s5)));
     }
 
     public void setS6(int s6) {
         S6 = s6;
         checkHiperpressionSensors(s6, Sensors.S6.toString());
-        sensorsQueryParams.add(new BasicNameValuePair(Sensors.S6.toString(), Integer.toString(s6)));
     }
 
     public void setS7(int s7) {
         S7 = s7;
         checkHiperpressionSensors(s7, Sensors.S7.toString());
-        sensorsQueryParams.add(new BasicNameValuePair(Sensors.S7.toString(), Integer.toString(s7)));
     }
 
     public void setS8(int s8) {
         S8 = s8;
         checkHiperpressionSensors(s8, Sensors.S8.toString());
-        sensorsQueryParams.add(new BasicNameValuePair(Sensors.S8.toString(), Integer.toString(s8)));
     }
 
     public void setS9(int s9) {
         S9 = s9;
         checkHiperpressionSensors(s9, Sensors.S9.toString());
-        sensorsQueryParams.add(new BasicNameValuePair(Sensors.S9.toString(), Integer.toString(s9)));
     }
 
     public void setS10(int s10) {
         S10 = s10;
         checkHiperpressionSensors(s10, Sensors.S10.toString());
-        sensorsQueryParams.add(new BasicNameValuePair(Sensors.S10.toString(), Integer.toString(s10)));
     }
 
     public void setS11(int s11) {
         S11 = s11;
         checkHiperpressionSensors(s11, Sensors.S11.toString());
-        sensorsQueryParams.add(new BasicNameValuePair(Sensors.S11.toString(), Integer.toString(s11)));
     }
 
     public void setS12(int s12) {
         S12 = s12;
         checkHiperpressionSensors(s12, Sensors.S12.toString());
-        sensorsQueryParams.add(new BasicNameValuePair(Sensors.S12.toString(), Integer.toString(s12)));
     }
 
     public void setS13(int s13) {
         S13 = s13;
         checkHiperpressionSensors(s13, Sensors.S13.toString());
-        sensorsQueryParams.add(new BasicNameValuePair(Sensors.S13.toString(), Integer.toString(s13)));
     }
 
     public void setS14(int s14) {
         S14 = s14;
         checkHiperpressionSensors(s14, Sensors.S14.toString());
-        sensorsQueryParams.add(new BasicNameValuePair(Sensors.S14.toString(), Integer.toString(s14)));
     }
 
     public void setS15(int s15) {
         S15 = s15;
         checkHiperpressionSensors(s15, Sensors.S15.toString());
-        sensorsQueryParams.add(new BasicNameValuePair(Sensors.S15.toString(), Integer.toString(s15)));
     }
 
     public void setS16(int s16) {
         S16 = s16;
         checkHiperpressionSensors(s16, Sensors.S16.toString());
-        sensorsQueryParams.add(new BasicNameValuePair(Sensors.S16.toString(), Integer.toString(s16)));
     }
 
     public void setS17(int s17) {
         S17 = s17;
         checkHiperpressionSensors(s17, Sensors.S17.toString());
-        sensorsQueryParams.add(new BasicNameValuePair(Sensors.S17.toString(), Integer.toString(s17)));
     }
 
     public void setS18(int s18) {
         S18 = s18;
         checkHiperpressionSensors(s18, Sensors.S18.toString());
-        sensorsQueryParams.add(new BasicNameValuePair(Sensors.S18.toString(), Integer.toString(s18)));
     }
 
     public void setS19(int s19) {
         S19 = s19;
         checkHiperpressionSensors(s19, Sensors.S19.toString());
-        sensorsQueryParams.add(new BasicNameValuePair(Sensors.S19.toString(), Integer.toString(s19)));
     }
 
     public void setS20(int s20) {
         S20 = s20;
         checkHiperpressionSensors(s20, Sensors.S20.toString());
-        sensorsQueryParams.add(new BasicNameValuePair(Sensors.S20.toString(), Integer.toString(s20)));
     }
 
     public void setS21(int s21) {
         S21 = s21;
         checkHiperpressionSensors(s21, Sensors.S21.toString());
-        sensorsQueryParams.add(new BasicNameValuePair(Sensors.S21.toString(), Integer.toString(s21)));
     }
 
     public void setS22(int s22) {
         S22 = s22;
         checkHiperpressionSensors(s22, Sensors.S22.toString());
-        sensorsQueryParams.add(new BasicNameValuePair(Sensors.S22.toString(), Integer.toString(s22)));
     }
 
     public void setS23(int s23) {
         S23 = s23;
         checkHiperpressionSensors(s23, Sensors.S23.toString());
-        sensorsQueryParams.add(new BasicNameValuePair(Sensors.S23.toString(), Integer.toString(s23)));
     }
 
     public void setS24(int s24) {
         S24 = s24;
         checkHiperpressionSensors(s24, Sensors.S24.toString());
-        sensorsQueryParams.add(new BasicNameValuePair(Sensors.S24.toString(), Integer.toString(s24)));
     }
 
     public void setS25(int s25) {
         S25 = s25;
         checkHiperpressionSensors(s25, Sensors.S25.toString());
-        sensorsQueryParams.add(new BasicNameValuePair(Sensors.S25.toString(), Integer.toString(s25)));
     }
 
     public void setS26(int s26) {
         S26 = s26;
         checkHiperpressionSensors(s26, Sensors.S26.toString());
-        sensorsQueryParams.add(new BasicNameValuePair(Sensors.S26.toString(), Integer.toString(s26)));
     }
 
     public Map<String, Integer> getSensors() {

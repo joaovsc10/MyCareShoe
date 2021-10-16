@@ -17,16 +17,16 @@ import androidx.fragment.app.Fragment;
 import com.example.mycareshoe.R;
 import com.example.mycareshoe.helpers.PersonalDataHelper;
 import com.example.mycareshoe.helpers.SharedPrefManager;
+import com.example.mycareshoe.service.HTTPRequest;
 import com.example.mycareshoe.service.URLs;
-import com.example.mycareshoe.service.JSONParser;
 
-import org.apache.http.message.BasicNameValuePair;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.Map;
+
+import okhttp3.FormBody;
 
 public class AccountSettingsFragment extends Fragment {
 
@@ -94,10 +94,16 @@ public class AccountSettingsFragment extends Fragment {
 
             @Override
             protected void onPostExecute(JSONObject obj) {
-                try {
-                    Toast.makeText(getContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                if (obj == null) {
+                    Toast.makeText(getContext(), "Error updating your account information!",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+
+                    try {
+                        Toast.makeText(getContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
 
                 super.onPostExecute(obj);
@@ -106,18 +112,19 @@ public class AccountSettingsFragment extends Fragment {
 
             @Override
             protected JSONObject doInBackground(Void... voids) {
+
                 //creating request handler object
-                JSONParser jsonParser = new JSONParser();
-                //creating request parameters
-                ArrayList params = new ArrayList();
+                HTTPRequest httpRequest = new HTTPRequest();
+                FormBody.Builder formBuilder = new FormBody.Builder();
+
                 for (Map.Entry<String, String> editedField : registerForm.entrySet()) {
-                    params.add(new BasicNameValuePair(editedField.getKey(), editedField.getValue()));
+                    formBuilder.add(editedField.getKey(), editedField.getValue());
                 }
 
-                params.add(new BasicNameValuePair("user_id", Integer.toString(SharedPrefManager.getInstance(getContext()).getUserId())));
+                formBuilder.add("user_id", Integer.toString(SharedPrefManager.getInstance(getContext()).getUserId()));
 
                 //returning the response
-                return jsonParser.makeHttpRequest(URLs.URL_UPDATE_USER_INFO, "POST", params);
+                return httpRequest.makeHttpRequest(URLs.URL_UPDATE_USER_INFO, "PUT", formBuilder, null);
             }
         }
         updateAccount updateAccount = new updateAccount();

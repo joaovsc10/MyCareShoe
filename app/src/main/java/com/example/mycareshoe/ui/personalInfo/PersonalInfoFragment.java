@@ -24,20 +24,20 @@ import com.example.mycareshoe.R;
 import com.example.mycareshoe.model.Patient;
 import com.example.mycareshoe.helpers.PatientHelper;
 import com.example.mycareshoe.helpers.SharedPrefManager;
+import com.example.mycareshoe.service.HTTPRequest;
 import com.example.mycareshoe.service.URLs;
-import com.example.mycareshoe.service.JSONParser;
 import com.example.mycareshoe.ui.login.LoginActivity;
 
-import org.apache.http.message.BasicNameValuePair;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import okhttp3.FormBody;
 
 public class PersonalInfoFragment extends Fragment {
 
@@ -101,8 +101,6 @@ public class PersonalInfoFragment extends Fragment {
         getActivity().setTitle(getResources().getString(R.string.personalInfo_en));
 
 
-//https://code.tutsplus.com/tutorials/android-essentials-creating-simple-user-forms--mobile-1758
-
         //if the user is not logged in
         //starting the login activity
         if (!SharedPrefManager.getInstance(getActivity()).isLoggedIn()) {
@@ -135,7 +133,6 @@ public class PersonalInfoFragment extends Fragment {
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 updatePersonalInfo(updateArguments);
 
             }
@@ -145,7 +142,7 @@ public class PersonalInfoFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-               if (getActivity().getSupportFragmentManager().getBackStackEntryCount() > 1)
+                if (getActivity().getSupportFragmentManager().getBackStackEntryCount() > 1)
                     getActivity().getSupportFragmentManager().popBackStackImmediate();
             }
         });
@@ -364,10 +361,15 @@ public class PersonalInfoFragment extends Fragment {
 
             @Override
             protected void onPostExecute(JSONObject obj) {
-                try {
-                    Toast.makeText(getContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                if (obj == null) {
+                    Toast.makeText(getContext(), "Error updating your personal information!",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    try {
+                        Toast.makeText(getContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
                 super.onPostExecute(obj);
 
@@ -376,16 +378,16 @@ public class PersonalInfoFragment extends Fragment {
             @Override
             protected JSONObject doInBackground(Void... voids) {
                 //creating request handler object
-                JSONParser jsonParser = new JSONParser();
-                //creating request parameters
-                ArrayList params = new ArrayList();
-                params.add(new BasicNameValuePair("patient_number", Integer.toString(SharedPrefManager.getInstance(getContext()).getPatient(true).getPatient_number())));
+                HTTPRequest httpRequest = new HTTPRequest();
+                FormBody.Builder formBuilder = new FormBody.Builder();
+
+                formBuilder.add("patient_number", Integer.toString(SharedPrefManager.getInstance(getContext()).getPatient(true).getPatient_number()));
                 for (Map.Entry<String, String> editedField : updatedata.entrySet()) {
-                    params.add(new BasicNameValuePair(editedField.getKey(), editedField.getValue()));
+                    formBuilder.add(editedField.getKey(), editedField.getValue());
                 }
 
                 //returning the response
-                return jsonParser.makeHttpRequest(URLs.URL_UPDATE_PATIENT_INFO, "PUT", params);
+                return httpRequest.makeHttpRequest(URLs.URL_UPDATE_PATIENT_INFO, "PUT", formBuilder, null);
             }
         }
         updatePersonalInfo pinfo = new updatePersonalInfo();

@@ -50,14 +50,6 @@ public class SettingsFragment extends Fragment {
             Method getUuidsMethod = BluetoothAdapter.class.getDeclaredMethod("getUuids", null);
             ParcelUuid[] uuids = (ParcelUuid[]) getUuidsMethod.invoke(adapter, null);
 
-            if (uuids != null) {
-                for (ParcelUuid uuid : uuids) {
-                    System.out.println("UUID: " + uuid.getUuid().toString());
-                }
-            } else {
-                System.out.println("Uuids not found, be sure to enable Bluetooth!");
-            }
-
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {

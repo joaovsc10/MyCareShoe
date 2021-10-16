@@ -26,7 +26,6 @@ public class StatisticsFragment extends Fragment {
 
         return inflater.inflate(R.layout.fragment_statistics, container, false);
 
-
     }
 
 

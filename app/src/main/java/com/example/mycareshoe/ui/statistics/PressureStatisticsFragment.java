@@ -193,39 +193,44 @@ public class PressureStatisticsFragment extends StatisticsHelperFragment {
             @Override
             protected void onPostExecute(JSONObject objs) {
                 SensorsReading object = null;
-                try {
-                    Map<String, Integer> sensorsValueRecord;
-                    Map<String, Float> tempHumidityRecord;
-                    JSONArray array = objs.getJSONArray("records");
+                if (objs == null) {
+                    Toast.makeText(getContext(), "Error retrieving sensor entries!",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    try {
+                        Map<String, Integer> sensorsValueRecord;
+                        Map<String, Float> tempHumidityRecord;
+                        JSONArray array = objs.getJSONArray("records");
 
 
-                    for (int i = 0; i < array.length(); i++) {
+                        for (int i = 0; i < array.length(); i++) {
 
-                        JsonElement mJson = JsonParser.parseString(String.valueOf(array.getJSONObject(i)));
-                        Gson gson = new Gson();
-                        object = gson.fromJson(mJson, SensorsReading.class);
-                        setSensorsReadingObject(object);
-                        sensorsValueRecord = object.getSensors();
-                        tempHumidityRecord = object.getSensorsTempHumidity();
+                            JsonElement mJson = JsonParser.parseString(String.valueOf(array.getJSONObject(i)));
+                            Gson gson = new Gson();
+                            object = gson.fromJson(mJson, SensorsReading.class);
+                            setSensorsReadingObject(object);
+                            sensorsValueRecord = object.getSensors();
+                            tempHumidityRecord = object.getSensorsTempHumidity();
 
-                        if (meanSensorValues == null) {
-                            meanSensorValues = sensorsValueRecord;
-                            meanTempHumidityValues = tempHumidityRecord;
-                        } else {
-                            for (String key : meanSensorValues.keySet()) {
-                                meanSensorValues.replace(key, (sensorsValueRecord.get(key) + meanSensorValues.get(key)) / 2);
+                            if (meanSensorValues == null) {
+                                meanSensorValues = sensorsValueRecord;
+                                meanTempHumidityValues = tempHumidityRecord;
+                            } else {
+                                for (String key : meanSensorValues.keySet()) {
+                                    meanSensorValues.replace(key, (sensorsValueRecord.get(key) + meanSensorValues.get(key)) / 2);
+                                }
+
+                                for (String key2 : meanTempHumidityValues.keySet()) {
+                                    meanTempHumidityValues.replace(key2, (tempHumidityRecord.get(key2) + meanTempHumidityValues.get(key2)) / 2);
+                                }
                             }
 
-                            for (String key2 : meanTempHumidityValues.keySet()) {
-                                meanTempHumidityValues.replace(key2, (tempHumidityRecord.get(key2) + meanTempHumidityValues.get(key2)) / 2);
-                            }
                         }
 
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 }
 
                 setSensorsStatValues(object, getView());
@@ -284,34 +289,39 @@ public class PressureStatisticsFragment extends StatisticsHelperFragment {
             @Override
             protected void onPostExecute(JSONObject objs) {
                 StatisticsData object = null;
-                try {
-                    Map<String, Long> statsRecord;
-                    JSONArray array = objs.getJSONArray("records");
+                if (objs == null) {
+                    Toast.makeText(getContext(), "Error updating your statistics!",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    try {
+                        Map<String, Long> statsRecord;
+                        JSONArray array = objs.getJSONArray("records");
 
 
-                    for (int i = 0; i < array.length(); i++) {
+                        for (int i = 0; i < array.length(); i++) {
 
-                        JsonElement mJson = JsonParser.parseString(String.valueOf(array.getJSONObject(i)));
-                        Gson gson = new Gson();
-                        object = gson.fromJson(mJson, StatisticsData.class);
-                        statsRecord = object.getStatInfo();
+                            JsonElement mJson = JsonParser.parseString(String.valueOf(array.getJSONObject(i)));
+                            Gson gson = new Gson();
+                            object = gson.fromJson(mJson, StatisticsData.class);
+                            statsRecord = object.getStatInfo();
 
-                        if (meanStats == null) {
-                            meanStats = statsRecord;
-                        } else {
-                            for (String key : meanStats.keySet()) {
-                                if (key.equals("steps"))
-                                    meanStats.replace(key, statsRecord.get(key) + meanStats.get(key));
-                                else
-                                    meanStats.replace(key, (statsRecord.get(key) + meanStats.get(key)) / 2);
+                            if (meanStats == null) {
+                                meanStats = statsRecord;
+                            } else {
+                                for (String key : meanStats.keySet()) {
+                                    if (key.equals("steps"))
+                                        meanStats.replace(key, statsRecord.get(key) + meanStats.get(key));
+                                    else
+                                        meanStats.replace(key, (statsRecord.get(key) + meanStats.get(key)) / 2);
+                                }
                             }
+
                         }
 
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 }
 
                 setOtherStatsInfo();

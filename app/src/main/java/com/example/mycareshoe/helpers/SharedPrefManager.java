@@ -57,7 +57,7 @@ public class SharedPrefManager {
         editor.putInt(KEY_PATIENT_NUMBER, patient.getPatient_number());
         editor.putString(KEY_PASSWORD, patient.getPassword());
         editor.apply();
-   //     System.out.println(sharedPreferences.getAll());
+        //     System.out.println(sharedPreferences.getAll());
     }
 
     public void updatePersonalInfo(Patient patient) {
@@ -87,7 +87,7 @@ public class SharedPrefManager {
         editor.putInt(KEY_OCCURRENCES_NUMBER, patient.getOccurencesNumber());
         editor.putInt(KEY_TIME_INTERVAL, patient.getTimeInterval());
         editor.apply();
-   //     System.out.println(sharedPreferences.getAll());
+        //     System.out.println(sharedPreferences.getAll());
     }
 
     //this method will checker whether user is already logged in or not

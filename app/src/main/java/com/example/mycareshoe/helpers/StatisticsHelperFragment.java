@@ -11,17 +11,16 @@ import android.widget.ImageButton;
 
 import androidx.fragment.app.Fragment;
 
-import com.example.mycareshoe.helpers.SharedPrefManager;
+import com.example.mycareshoe.service.HTTPRequest;
 import com.example.mycareshoe.service.URLs;
-import com.example.mycareshoe.service.JSONParser;
 
-import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
+
+import okhttp3.HttpUrl;
 
 public abstract class StatisticsHelperFragment extends Fragment {
 
@@ -76,7 +75,7 @@ public abstract class StatisticsHelperFragment extends Fragment {
                             @Override
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 
-                                dateText.setText(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
+                                dateText.setText(new StringBuilder().append(year).append("-").append(monthOfYear + 1).append("-").append(dayOfMonth).toString());
 
                                 if (dateType.equals("start")) {
 
@@ -120,17 +119,18 @@ public abstract class StatisticsHelperFragment extends Fragment {
     public JSONObject getReadings(String topic, String startDateStringQuery, String endDateStringQuery) {
 
         //creating request handler object
-        JSONParser jsonParser = new JSONParser();
-        //creating request parameters
-        ArrayList params = new ArrayList();
-        params.add(new BasicNameValuePair("patient_number", Integer.toString(SharedPrefManager.getInstance(getContext()).getPatient(true).getPatient_number())));
-        params.add(new BasicNameValuePair("start_date", startDateStringQuery));
-        params.add(new BasicNameValuePair("end_date", endDateStringQuery));
-        params.add(new BasicNameValuePair("topic", topic));
+        HTTPRequest httpRequest = new HTTPRequest();
+        HttpUrl.Builder urlBuilder
+                = HttpUrl.parse(URLs.URL_SEARCH_DATE).newBuilder();
+
+        urlBuilder.addQueryParameter("patient_number", Integer.toString(SharedPrefManager.getInstance(getContext()).getPatient(true).getPatient_number()));
+        urlBuilder.addQueryParameter("start_date", startDateStringQuery);
+        urlBuilder.addQueryParameter("end_date", endDateStringQuery);
+        urlBuilder.addQueryParameter("topic", topic);
 
 
         //returning the response
-        return jsonParser.makeHttpRequest(URLs.URL_SEARCH_DATE, "GET", params);
+        return httpRequest.makeHttpRequest(URLs.URL_SEARCH_DATE, "GET", null, urlBuilder);
     }
 
 }

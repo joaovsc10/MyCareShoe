@@ -18,15 +18,14 @@ import com.example.mycareshoe.R;
 import com.example.mycareshoe.model.Patient;
 import com.example.mycareshoe.helpers.PatientHelper;
 import com.example.mycareshoe.helpers.SharedPrefManager;
+import com.example.mycareshoe.service.HTTPRequest;
 import com.example.mycareshoe.service.URLs;
-import com.example.mycareshoe.service.JSONParser;
 import com.example.mycareshoe.ui.MainActivity;
 
-import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
+import okhttp3.FormBody;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -110,7 +109,7 @@ public class LoginActivity extends AppCompatActivity {
                 progressBar.setVisibility(View.GONE);
 
                 try {
-                    if(obj!=null) {
+                    if (obj != null) {
                         //if no error in response
                         if (obj.getString("success").equals("1")) {
 
@@ -150,7 +149,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
                         }
-                    }else{
+                    } else {
                         Toast.makeText(getApplicationContext(), "Unable to connect with the host.", Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
@@ -161,20 +160,16 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             protected JSONObject doInBackground(Void... voids) {
                 //creating request handler object
-                JSONParser jsonParser = new JSONParser();
+                HTTPRequest httpRequest = new HTTPRequest();
                 JSONObject result = null;
 
-                ArrayList params = new ArrayList();
+                FormBody.Builder formBuilder = new FormBody.Builder()
+                        .add("usernameEmail", usernameEmail)
+                        .add("password", password);
 
-
-                params.add(new BasicNameValuePair("usernameEmail", usernameEmail));
-
-                params.add(new BasicNameValuePair("password", password));
-
-
-                //returing the response
+                //returning the response
                 try {
-                    result = jsonParser.makeHttpRequest(URLs.URL_LOGIN, "POST", params);
+                    result = httpRequest.makeHttpRequest(URLs.URL_LOGIN, "POST", formBuilder, null);
                     if (result != null && result.getString("success").equals("1")) {
                         patientHelper.getPersonalInfo(getApplicationContext(), result.getJSONObject("user").getInt("patient_number"));
                     }

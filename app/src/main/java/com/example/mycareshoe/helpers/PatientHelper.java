@@ -3,26 +3,26 @@ package com.example.mycareshoe.helpers;
 import android.content.Context;
 
 import com.example.mycareshoe.model.Patient;
-import com.example.mycareshoe.service.JSONParser;
+import com.example.mycareshoe.service.HTTPRequest;
 import com.example.mycareshoe.service.URLs;
 
-import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
+import okhttp3.HttpUrl;
 
 public class PatientHelper {
 
     public JSONObject getPersonalInfo(Context context, int patientNumber) {
         //creating request handler object
-        JSONParser jsonParser = new JSONParser();
+        HTTPRequest httpRequest = new HTTPRequest();
+        HttpUrl.Builder urlBuilder
+                = HttpUrl.parse(URLs.URL_READ_PATIENT_INFO).newBuilder();
 
-        //creating request parameters
-        ArrayList params = new ArrayList();
+        urlBuilder.addQueryParameter("p", Integer.toString(SharedPrefManager.getInstance(context).getPatient(true).getPatient_number()));
 
-        params.add(new BasicNameValuePair("p", Integer.toString(SharedPrefManager.getInstance(context).getPatient(true).getPatient_number())));
+
         //returning the response
-        JSONObject obj = jsonParser.makeHttpRequest(URLs.URL_READ_PATIENT_INFO, "GET", params);
+        JSONObject obj = httpRequest.makeHttpRequest(URLs.URL_READ_PATIENT_INFO, "GET", null, urlBuilder);
 
         Patient patient = null;
         patient = new Patient(

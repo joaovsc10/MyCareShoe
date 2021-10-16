@@ -234,27 +234,28 @@ public class PressurePlotStatisticsFragment extends StatisticsHelperFragment {
             @Override
             protected void onPostExecute(JSONObject objs) {
 
-                try {
-                    JSONArray array = objs.getJSONArray("records");
-                    int numWarnings = 0;
-                    for (int i = 0; i < array.length(); i++) {
+                if (objs == null) {
+                    Toast.makeText(getContext(), "Error retrieving sensors entries!",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    try {
+                        JSONArray array = objs.getJSONArray("records");
+                        for (int i = 0; i < array.length(); i++) {
 
-                        JsonElement mJson = JsonParser.parseString(String.valueOf(array.getJSONObject(i)));
-                        Gson gson = new Gson();
-                        SensorsReading object = gson.fromJson(mJson, SensorsReading.class);
+                            JsonElement mJson = JsonParser.parseString(String.valueOf(array.getJSONObject(i)));
+                            Gson gson = new Gson();
+                            SensorsReading object = gson.fromJson(mJson, SensorsReading.class);
 
-                        if (object != null) {
-                            meanSensorValuesLeft.put(object.getDate(), object.getLeftFootSensorsMean());
-                            meanSensorValuesRight.put(object.getDate(), object.getRightFootSensorsMean());
-                            if (object.getHiperpressionSensors() != null) {
-                                numWarnings++;
+                            if (object != null) {
+                                meanSensorValuesLeft.put(object.getDate(), object.getLeftFootSensorsMean());
+                                meanSensorValuesRight.put(object.getDate(), object.getRightFootSensorsMean());
                             }
                         }
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 }
 
                 if (meanSensorValuesLeft.size() == 0 && meanSensorValuesRight.size() == 0 && getyLeftValues() == null && getyRightValues() == null) {

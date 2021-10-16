@@ -268,6 +268,7 @@ public class BluetoothFragment extends Fragment {
 
                 try {
                     connectToDevice(rightFootDevice, leftFootDevice);
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -386,7 +387,7 @@ public class BluetoothFragment extends Fragment {
                         setConnectionStatus(leftFootStatusTextView, rightFootStatusTextView, device, true);
                         break;
                     case MESSAGE_TOAST:
-                        if(getContext()!=null)
+                        if (getContext() != null)
                             Toast.makeText(getContext(), msg.getData().getString("toast"),
                                     Toast.LENGTH_SHORT).show();
                         break;
@@ -445,7 +446,7 @@ public class BluetoothFragment extends Fragment {
         TextView textView;
         String status;
 
-        if(getContext()!=null) {
+        if (getContext() != null) {
 
             status = getResources().getString(R.string.disconnected_status_en);
 

@@ -1,5 +1,6 @@
 package com.example.mycareshoe.ui.monitoring;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -30,11 +31,10 @@ import com.example.mycareshoe.model.StatisticsData;
 import com.example.mycareshoe.model.Warnings;
 import com.example.mycareshoe.helpers.ChronometerHelper;
 import com.example.mycareshoe.helpers.SharedPrefManager;
+import com.example.mycareshoe.service.HTTPRequest;
 import com.example.mycareshoe.service.URLs;
-import com.example.mycareshoe.service.JSONParser;
 import com.google.android.material.tabs.TabLayout;
 
-import org.apache.http.message.BasicNameValuePair;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -45,6 +45,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Timer;
+
+import okhttp3.FormBody;
 
 public class MonitoringFragment extends Fragment {
 
@@ -222,6 +224,7 @@ public class MonitoringFragment extends Fragment {
 
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -416,14 +419,14 @@ public class MonitoringFragment extends Fragment {
                 t = new Timer();
                 sensorsReadingArrayList.clear();
                 statisticsDataArrayList.clear();
-                sr=null;
+                sr = null;
                 leftStanceTime.clear();
                 rightStanceTime.clear();
             }
         });
 
 
-        if(chronometer.isRunning()){
+        if (chronometer.isRunning()) {
             handler2.postDelayed(updateStats, 1000);
             handler3.postDelayed(updateTimeDependentStats, 3000);
         }
@@ -457,14 +460,14 @@ public class MonitoringFragment extends Fragment {
 
     }
 
-    public void updateLiveStatisticsThread(View view,TextView paceText, TextView cadenceText) {
+    public void updateLiveStatisticsThread(View view, TextView paceText, TextView cadenceText) {
 
         class updateLiveStatisticsThread extends AsyncTask<Void, Void, Double[]> {
 
             @Override
             protected void onPostExecute(Double[] stats) {
 
-                if (chronometer.isRunning() && stats!=null) {
+                if (chronometer.isRunning() && stats != null) {
                     setPace(stats[0], paceText);
                     setCadence(Math.round(stats[1]), cadenceText);
                     statisticsDataArrayList.clear();
@@ -510,17 +513,17 @@ public class MonitoringFragment extends Fragment {
             }
 
         }
-            updateLiveStatisticsThread updateLiveStatisticsThread = new updateLiveStatisticsThread();
-            updateLiveStatisticsThread.execute();
+        updateLiveStatisticsThread updateLiveStatisticsThread = new updateLiveStatisticsThread();
+        updateLiveStatisticsThread.execute();
 
 
     }
 
-    public void updateStatisticsThread(View view,TextView leftStanceText, TextView rightStanceText) {
+    public void updateStatisticsThread(View view, TextView leftStanceText, TextView rightStanceText) {
 
         class updateStatisticsThread extends AsyncTask<Void, Void, StatisticsData> {
 
-             @Override
+            @Override
             protected void onPostExecute(StatisticsData stats) {
 
                 if (stats != null) {
@@ -546,9 +549,7 @@ public class MonitoringFragment extends Fragment {
                     }
 
 
-
                     sensorsReadingArrayList.clear();
-
 
 
                 }
@@ -565,13 +566,13 @@ public class MonitoringFragment extends Fragment {
                         checkStancePhase(sensorsReadingArrayList, getLeftStanceTime(), getRightStanceTime());
                         createStatistics(stats);
 
-                        return  stats;
+                        return stats;
 
                     }
 
                 }
 
-        return null;
+                return null;
             }
         }
 
@@ -606,27 +607,30 @@ public class MonitoringFragment extends Fragment {
             @Override
             protected void onPostExecute(JSONObject obj) {
 
-
+                if (obj == null)
+                    Toast.makeText(getContext(), "Error saving your sensors reading record!",
+                            Toast.LENGTH_SHORT).show();
                 super.onPostExecute(obj);
 
             }
 
             @Override
             protected JSONObject doInBackground(Void... voids) {
+
                 //creating request handler object
+                HTTPRequest httpRequest = new HTTPRequest();
+                FormBody.Builder formBuilder = new FormBody.Builder();
+                formBuilder = reading.getSensorsQueryParams();
+                formBuilder.add("patient_number", Integer.toString(SharedPrefManager.getInstance(getContext()).getPatient(true).getPatient_number()));
+                formBuilder.add("date", reading.getDate());
+                formBuilder.add("T1", Float.toString(reading.getT1()));
+                formBuilder.add("T2", Float.toString(reading.getT2()));
+                formBuilder.add("H1", Float.toString(reading.getH1()));
+                formBuilder.add("H2", Float.toString(reading.getH2()));
 
-                JSONParser jsonParser = new JSONParser();
-                //creating request parameters
-                ArrayList params = reading.getsensorsQueryParams();
-                params.add(new BasicNameValuePair("patient_number", Integer.toString(SharedPrefManager.getInstance(getContext()).getPatient(true).getPatient_number())));
-                params.add(new BasicNameValuePair("date", reading.getDate()));
-                params.add(new BasicNameValuePair("T1", Float.toString(reading.getT1())));
-                params.add(new BasicNameValuePair("T2", Float.toString(reading.getT2())));
-                params.add(new BasicNameValuePair("H1", Float.toString(reading.getH1())));
-                params.add(new BasicNameValuePair("H2", Float.toString(reading.getH2())));
 
+                JSONObject readingJson = httpRequest.makeHttpRequest(URLs.URL_CREATE_READING, "POST", formBuilder, null);
 
-                JSONObject readingJson = jsonParser.makeHttpRequest(URLs.URL_CREATE_READING, "PUT", params);
 
                 try {
                     if (readingJson.getString("success").equals("1")) {
@@ -657,7 +661,7 @@ public class MonitoringFragment extends Fragment {
 
         createReading readingCreation = new createReading(getContext());
 
-        if(SharedPrefManager.getInstance(getContext()).isChronoRunning())
+        if (SharedPrefManager.getInstance(getContext()).isChronoRunning())
             readingCreation.execute();
 
 
@@ -697,27 +701,31 @@ public class MonitoringFragment extends Fragment {
             @Override
             protected void onPostExecute(JSONObject obj) {
 
+                if (obj == null)
+                    Toast.makeText(getContext(), "Error saving your statistics record!",
+                            Toast.LENGTH_SHORT).show();
                 super.onPostExecute(obj);
 
             }
 
             @Override
             protected JSONObject doInBackground(Void... voids) {
+
                 //creating request handler object
-                JSONParser jsonParser = new JSONParser();
-                //creating request parameters
-                ArrayList params = new ArrayList();
-                params.add(new BasicNameValuePair("patient_number", Integer.toString(SharedPrefManager.getInstance(getContext()).getPatient(true).getPatient_number())));
-                params.add(new BasicNameValuePair("date", statisticsData.getDate()));
-                params.add(new BasicNameValuePair("cadence", Float.toString(statisticsData.getCadence())));
-                params.add(new BasicNameValuePair("balance", Float.toString(statisticsData.getBalance())));
-                params.add(new BasicNameValuePair("steps", Float.toString(statisticsData.getSteps())));
-                params.add(new BasicNameValuePair("left_foot_stance", Float.toString(statisticsData.getLeftStanceTime())));
-                params.add(new BasicNameValuePair("right_foot_stance", Float.toString(statisticsData.getRightStanceTime())));
+                HTTPRequest httpRequest = new HTTPRequest();
+                FormBody.Builder formBuilder = new FormBody.Builder();
+
+                formBuilder.add("patient_number", Integer.toString(SharedPrefManager.getInstance(getContext()).getPatient(true).getPatient_number()));
+                formBuilder.add("date", statisticsData.getDate());
+                formBuilder.add("cadence", Float.toString(statisticsData.getCadence()));
+                formBuilder.add("balance", Float.toString(statisticsData.getBalance()));
+                formBuilder.add("steps", Float.toString(statisticsData.getSteps()));
+                formBuilder.add("left_foot_stance", Float.toString(statisticsData.getLeftStanceTime()));
+                formBuilder.add("right_foot_stance", Float.toString(statisticsData.getRightStanceTime()));
 
 
                 //returning the response
-                return jsonParser.makeHttpRequest(URLs.URL_CREATE_STATISTIC, "PUT", params);
+                return httpRequest.makeHttpRequest(URLs.URL_CREATE_STATISTIC, "POST", formBuilder, null);
             }
         }
         createStatistics createStatistics = new createStatistics();
