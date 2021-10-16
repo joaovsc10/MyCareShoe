@@ -43,11 +43,7 @@ public class InformationsFragment extends DialogFragment {
         int overPressureValue = SharedPrefManager.getInstance(getContext()).getOverPressureValue();
         int yellowValue = overPressureValue / 3;
 
-        colorInfo.setText("In the gradient above, there are presented two color " +
-                "gradients, that depend on the sensor reading value (in kPa):\n" +
-                "- From point 1 to point 2, represents the gradient from green to yellow, where the lowest value is 0 and the highest is " + yellowValue + ";\n" +
-                "- From point 2 to point 3, represents the gradient from yellow to red, where the lowest value is " + yellowValue + " and the highest is " + overPressureValue + ";\n" +
-                "- All values above " + overPressureValue + ", have its sensor painted as red.");
+        colorInfo.setText(new StringBuilder().append("In the gradient above, there are presented two color ").append("gradients, that depend on the sensor reading value (in kPa):\n").append("- From point 1 to point 2, represents the gradient from green to yellow, where the lowest value is 0 and the highest is ").append(yellowValue).append(";\n").append("- From point 2 to point 3, represents the gradient from yellow to red, where the lowest value is ").append(yellowValue).append(" and the highest is ").append(overPressureValue).append(";\n").append("- All values above ").append(overPressureValue).append(", have its sensor painted as red.").toString());
 
         return builder;
 
