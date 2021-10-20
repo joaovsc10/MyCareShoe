@@ -96,7 +96,14 @@ public class HTTPRequest {
             }
             return json;
         } catch (IOException e) {
-            e.printStackTrace();
+            JSONObject json = new JSONObject();
+            try {
+                json.put("success", "0");
+                json.put("message", "Error connecting to the server");
+            } catch (JSONException exception) {
+                Log.e("JSON Parser", "Error parsing data " + e.toString());
+            }
+            return json;
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
@@ -110,7 +117,6 @@ public class HTTPRequest {
         } catch (JSONException e) {
             Log.e("JSON Parser", "Error parsing data " + e.toString());
         }
-
 
         return jObj;
     }

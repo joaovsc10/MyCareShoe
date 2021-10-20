@@ -56,12 +56,12 @@ public class Patient extends User implements Serializable {
     public double getStrideLength() {
         if (getHeight() > 0 && getGender() != null) {
             if (getGender().equals("Male")) {
-                setStrideLength(getHeight() * 100 * 0.415);
+                setStrideLength(getHeight() * 0.415);
             } else {
-                setStrideLength(getHeight() * 100 * 0.413);
+                setStrideLength(getHeight() * 0.413);
             }
         } else {
-            setStrideLength(165 * 0.414);
+            setStrideLength(1.65 * 0.414);
         }
         return strideLength;
     }

@@ -689,7 +689,7 @@ public class SensorsReading implements Serializable {
         return false;
     }
 
-    public boolean isLeftFootToeOff() {
+    public boolean isLeftFootMidSwing() {
         if (getLeftFootSensorsSum() == 0)
             return true;
         return false;
@@ -703,8 +703,20 @@ public class SensorsReading implements Serializable {
         return false;
     }
 
-    public boolean isRightFootToeOff() {
+    public boolean isRightFootMidSwing() {
         if (getRightFootSensorsSum() == 0)
+            return true;
+        return false;
+    }
+
+    public boolean isRightFootToeOff() {
+        if (this.getS1()>0 && (this.getS3()+this.getS4()+this.getS5()+this.getS6()+this.getS7()+this.getS8()+this.getS9()==0))
+            return true;
+        return false;
+    }
+
+    public boolean isLeftFootToeOff() {
+        if (this.getS10()>0 && (this.getS12()+this.getS13()+this.getS14()+this.getS15()+this.getS16()+this.getS17()+this.getS18()==0))
             return true;
         return false;
     }

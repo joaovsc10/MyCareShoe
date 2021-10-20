@@ -39,6 +39,9 @@ import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -312,8 +315,8 @@ public class MonitoringFragment extends Fragment {
 
             stepsText.setText(Long.toString(getSteps()));
             cadenceText.setText(Long.toString(getCadence()));
-            leftStanceText.setText(Long.toString(getLeftStance()));
-            rightStanceText.setText(Long.toString(getRightStance()));
+            leftStanceText.setText(Long.toString(getLeftStance()) + " s");
+            rightStanceText.setText(Long.toString(getRightStance())+ " s");
             paceText.setText(Double.toString(getPace()));
 
         }
@@ -411,8 +414,8 @@ public class MonitoringFragment extends Fragment {
                 setSteps(0, stepsText);
                 setCadence(0, cadenceText);
                 setPace(0, paceText);
-                setLeftStance(0);
-                setRightStance(0);
+                setLeftStance(0, leftStanceText);
+                setRightStance(0, rightStanceText);
                 handler2.removeCallbacks(updateStats);
                 handler3.removeCallbacks(updateTimeDependentStats);
                 t.cancel();
@@ -442,17 +445,24 @@ public class MonitoringFragment extends Fragment {
 
             if (sensorsReading.isLeftHeelStrike())
                 leftStanceMap.put("heelStrike", sensorsReading.getDate());
-            if (sensorsReading.isLeftFootToeOff()) {
-                if (leftStanceMap.containsKey("heelStrike"))
-                    leftStanceMap.put("toeOff", sensorsReading.getDate());
+            if (sensorsReading.isLeftFootToeOff())
+                leftStanceMap.put("toeOff", sensorsReading.getDate());
+
+            if (sensorsReading.isLeftFootMidSwing()) {
+                if (leftStanceMap.containsKey("heelStrike") && leftStanceMap.containsKey("toeOff"))
+                    leftStanceMap.put("midSwing", sensorsReading.getDate());
             }
 
             if (sensorsReading.isRightHeelStrike())
                 rightStanceMap.put("heelStrike", sensorsReading.getDate());
-            if (sensorsReading.isRightFootToeOff()) {
-                if (rightStanceMap.containsKey("heelStrike"))
-                    rightStanceMap.put("toeOff", sensorsReading.getDate());
+            if (sensorsReading.isRightFootToeOff())
+                rightStanceMap.put("toeOff", sensorsReading.getDate());
+
+            if (sensorsReading.isRightFootMidSwing()) {
+                if (rightStanceMap.containsKey("heelStrike") && rightStanceMap.containsKey("toeOff"))
+                    rightStanceMap.put("midSwing", sensorsReading.getDate());
             }
+
         }
 
         setLeftStanceTime(leftStanceMap);
@@ -483,28 +493,53 @@ public class MonitoringFragment extends Fragment {
             @Override
             protected Double[] doInBackground(Void... voids) {
                 //creating request handler object
-
+                String paceUIString;
                 double paceUI = 0;
                 long cadenceUI = 0;
-
+                int steps=0;
                 if (chronometer.isRunning()) {
                     if (statisticsDataArrayList.size() != 0) {
 
                         for (int i = 0; i < statisticsDataArrayList.size(); i++) {
 
-                            if (i == 0) {
+                            steps+= statisticsDataArrayList.get(i).getSteps();
+
+                      /*      if (i == 0) {
                                 paceUI = statisticsDataArrayList.get(i).getPace();
                                 cadenceUI = statisticsDataArrayList.get(i).getCadence();
                             } else {
                                 paceUI = (paceUI + statisticsDataArrayList.get(i).getPace()) / 2;
                                 cadenceUI = (cadenceUI + statisticsDataArrayList.get(i).getCadence()) / 2;
                             }
+                            */
+
+                        }
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        long time=0;
+                        try {
+                            time=(dateFormat.parse(statisticsDataArrayList.get(statisticsDataArrayList.size()-1).getDate()).getTime()-dateFormat.parse(statisticsDataArrayList.get(0).getDate()).getTime());
+                        } catch (ParseException e) {
+                            e.printStackTrace();
                         }
 
+                        if(time==0)
+                            time=1500;
 
+                        if(steps!=0) {
+
+                            paceUI = (time / 60) / (steps * SharedPrefManager.getInstance(getContext()).getStrideLength());
+                            cadenceUI= (steps*60)/(time/1000);
+                        }
+                        else{
+                            paceUI=getPace();
+                            cadenceUI=getCadence();
+                        }
+
+                        if(getPace()!=0)
+                            paceUI=(paceUI+getPace())/2;
                     }
 
-                    return new Double[]{paceUI, Double.valueOf(cadenceUI)};
+                    return new Double[]{new BigDecimal(Double.toString(paceUI)).setScale(2, RoundingMode.HALF_UP).doubleValue() , Double.valueOf(cadenceUI)};
 
 
                 }
@@ -526,10 +561,11 @@ public class MonitoringFragment extends Fragment {
             @Override
             protected void onPostExecute(StatisticsData stats) {
 
+                int priorsensorListSize=0;
                 if (stats != null) {
                     try {
                         setSteps(getSteps() + stats.getSteps(), (TextView) view.findViewById(R.id.steps));
-                        statisticsDataArrayList.add(stats);
+                        priorsensorListSize= sensorsReadingArrayList.size();
                         setLeftStanceTime(stats.checkStanceTime(getLeftStanceTime()));
                         setRightStanceTime(stats.checkStanceTime(getRightStanceTime()));
 
@@ -548,8 +584,7 @@ public class MonitoringFragment extends Fragment {
                         e.printStackTrace();
                     }
 
-
-                    sensorsReadingArrayList.clear();
+                    sensorsReadingArrayList.subList(0, priorsensorListSize).clear();
 
 
                 }
@@ -563,6 +598,7 @@ public class MonitoringFragment extends Fragment {
                     if (sensorsReadingArrayList.size() != 0) {
                         StatisticsData stats = new StatisticsData(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime()), 1, sensorsReadingArrayList, getContext());
 
+                        statisticsDataArrayList.add(stats);
                         checkStancePhase(sensorsReadingArrayList, getLeftStanceTime(), getRightStanceTime());
                         createStatistics(stats);
 
@@ -617,6 +653,10 @@ public class MonitoringFragment extends Fragment {
             @Override
             protected JSONObject doInBackground(Void... voids) {
 
+                if(reading!=null) {
+                    setSr(reading);
+                    sensorsReadingArrayList.add(getSr());
+                }
                 //creating request handler object
                 HTTPRequest httpRequest = new HTTPRequest();
                 FormBody.Builder formBuilder = new FormBody.Builder();
@@ -645,8 +685,6 @@ public class MonitoringFragment extends Fragment {
 
                         }
 
-                        setSr(reading);
-                        sensorsReadingArrayList.add(getSr());
 
                     }
                 } catch (JSONException e) {

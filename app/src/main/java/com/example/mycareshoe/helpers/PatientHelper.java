@@ -28,8 +28,8 @@ public class PatientHelper {
         patient = new Patient(
                 obj.optString("gender", ""),
                 obj.optString("birth", ""),
-                obj.optLong("height", 0),
-                obj.optLong("weight", 0),
+                obj.optDouble("height", 0),
+                obj.optDouble("weight", 0),
                 obj.optInt("feet_size", 0),
                 obj.optString("diabetes", ""),
                 obj.optString("type_feet", ""),

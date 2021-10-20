@@ -4,6 +4,8 @@ import android.content.Context;
 
 import com.example.mycareshoe.helpers.SharedPrefManager;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -60,7 +62,7 @@ public class StatisticsData {
 
     public HashMap<String, String> checkStanceTime(HashMap<String, String> stanceDataMap) throws ParseException {
 
-        if (stanceDataMap.containsKey("heelStrike") && stanceDataMap.containsKey("toeOff")) {
+        if (stanceDataMap.containsKey("heelStrike") && stanceDataMap.containsKey("toeOff") && stanceDataMap.containsKey("midSwing")) {
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 
@@ -74,7 +76,6 @@ public class StatisticsData {
                 stanceDataMap.put("stanceTime", String.valueOf(stanceTime));
             }
         }
-
         return stanceDataMap;
     }
 
@@ -125,14 +126,15 @@ public class StatisticsData {
         } else {
             setBalance((sensorsLeftSum * 100) / sensorsSum);
         }
-        setCadence(stepsCounter * 60);
+        setCadence((stepsCounter * 60)/3);
         setSteps(getSteps() + stepsCounter);
 
-
-        if (stepsCounter > 0)
-            setPace(round((100000 / (stepsCounter * SharedPrefManager.getInstance(context).getStrideLength())) / 60));
+   /*     if (stepsCounter > 0)
+            setPace(round(50/(stepsCounter * SharedPrefManager.getInstance(context).getStrideLength())));
         else
             setPace(0);
+            */
+
     }
 
     public long getSteps() {
@@ -164,9 +166,7 @@ public class StatisticsData {
     }
 
     public static double round(double value) {
-        DecimalFormat df = new DecimalFormat("#,##");
-        value = Double.valueOf(df.format(value));
 
-        return value;
+        return new BigDecimal(Double.toString(value)).setScale(2, RoundingMode.HALF_UP).doubleValue();
     }
 }
