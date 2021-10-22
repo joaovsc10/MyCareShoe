@@ -201,7 +201,7 @@ public class WarningsFragment extends DialogFragment {
             @Override
             protected void onPostExecute(JSONObject objs) {
 
-                if (objs == null && getContext()!=null)
+                if (objs == null && getContext() != null)
                     Toast.makeText(getContext(), "Error creating a warning!",
                             Toast.LENGTH_SHORT).show();
                 super.onPostExecute(objs);

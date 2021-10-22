@@ -18,7 +18,7 @@ public class PatientHelper {
         HttpUrl.Builder urlBuilder
                 = HttpUrl.parse(URLs.URL_READ_PATIENT_INFO).newBuilder();
 
-        urlBuilder.addQueryParameter("p", Integer.toString(SharedPrefManager.getInstance(context).getPatient(true).getPatient_number()));
+        urlBuilder.addQueryParameter("p", String.valueOf(patientNumber));
 
 
         //returning the response

@@ -126,7 +126,7 @@ public class StatisticsData {
         } else {
             setBalance((sensorsLeftSum * 100) / sensorsSum);
         }
-        setCadence((stepsCounter * 60)/3);
+        setCadence((stepsCounter * 60) / 3);
         setSteps(getSteps() + stepsCounter);
 
    /*     if (stepsCounter > 0)

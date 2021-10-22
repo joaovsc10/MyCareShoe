@@ -45,9 +45,6 @@ public class BluetoothFragment extends Fragment {
     Set<BluetoothDevice> pairedDevices;
     private boolean leftDeviceSelected = false;
     private boolean rightDeviceSelected = false;
-    private int aa = 0;
-    private int bb = 0;
-    private int cc = 0;
     public static final int MESSAGE_STATE_CHANGE = 1;
     public static final int MESSAGE_READ = 2;
     public static final int MESSAGE_WRITE = 3;
@@ -268,6 +265,7 @@ public class BluetoothFragment extends Fragment {
 
                 try {
                     connectToDevice(rightFootDevice, leftFootDevice);
+
 
                 } catch (IOException e) {
                     e.printStackTrace();
