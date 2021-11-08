@@ -342,7 +342,7 @@ public class PersonalInfoFragment extends Fragment {
             @Override
             protected JSONObject doInBackground(Void... voids) {
 
-                return patientHelper.getPersonalInfo(getContext(), 0);
+                return patientHelper.getPersonalInfo(getContext(), SharedPrefManager.getInstance(getContext()).getPatient(true).getPatient_number());
             }
         }
         PersonalInfo pinfo = new PersonalInfo();
